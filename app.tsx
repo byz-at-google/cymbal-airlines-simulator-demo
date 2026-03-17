@@ -596,7 +596,7 @@ const App = () => {
       content: (
         <div>
           <p>Your objective is to deploy an airport operations agent to 5 major airports: <strong>ATL, DXB, DFW, LHR, and HND</strong>.</p>
-          <p>Each airport requires its own set of unique <strong>instructions</strong> and safety protocols.</p>
+          <p>Each airport requires its own set of <strong>instructions</strong> for local specificities like weather and noise ordinances.</p>
           <p>First, we'll go through this experience <strong>without profiles</strong> by manually copying the base agent for each location.</p>
         </div>
       )
@@ -605,9 +605,9 @@ const App = () => {
       title: "Task 1: Setup ATL",
       content: (
         <div>
-          <p>Locate the <strong>'Airport Operations Agent'</strong> in the list below. Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>Name the new agent <strong>'ATL Airport Ops'</strong> and select <strong>Create</strong>.</p>
-          <p>Then, select the <strong>Edit</strong> icon for your new agent and add this to the <strong>Instructions</strong>: <em>"Prioritize runway de-icing procedures during winter months."</em></p>
+          <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
+          <p>In the creation dialog, name it <strong>'ATL Airport Ops'</strong> and add this to the <strong>Instructions</strong>: <em>"Prioritize local safety protocols and weather-specific procedures."</em></p>
+          <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
     },
@@ -615,9 +615,9 @@ const App = () => {
       title: "Task 2: Setup DXB",
       content: (
         <div>
-          <p>Go to the <strong>Actions</strong> menu of the original agent and select <strong>Copy</strong> again.</p>
-          <p>Name it <strong>'DXB Airport Ops'</strong> and select <strong>Create</strong>.</p>
-          <p>In the <strong>Instructions</strong> field for this agent, add: <em>"Include sandstorm visibility protocols in all safety checks."</em></p>
+          <p>From the original <strong>'Airport Operations Agent'</strong>, select <strong>Copy</strong> again.</p>
+          <p>Name it <strong>'DXB Airport Ops'</strong> and set the <strong>Instructions</strong> to: <em>"Prioritize local safety protocols and weather-specific procedures."</em></p>
+          <p>Select <strong>Create</strong>.</p>
         </div>
       )
     },
@@ -625,9 +625,8 @@ const App = () => {
       title: "Task 3: Setup DFW",
       content: (
         <div>
-          <p>Select <strong>Copy</strong> from the <strong>Actions</strong> menu for the original base agent.</p>
-          <p>Name it <strong>'DFW Airport Ops'</strong> and select <strong>Create</strong>.</p>
-          <p>Update the <strong>Instructions</strong> with: <em>"Monitor for thunderstorm-related wind shear reports."</em></p>
+          <p>Copy the original <strong>'Airport Operations Agent'</strong> once more.</p>
+          <p>Name it <strong>'DFW Airport Ops'</strong>, use the same <em>"weather-specific procedures"</em> instruction, and select <strong>Create</strong>.</p>
         </div>
       )
     },
@@ -635,9 +634,8 @@ const App = () => {
       title: "Task 4: Setup LHR",
       content: (
         <div>
-          <p>From the original agent's <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>Name it <strong>'LHR Airport Ops'</strong> and select <strong>Create</strong>.</p>
-          <p>Edit the <strong>Instructions</strong> to include: <em>"Enforce strict nighttime noise abatement procedures."</em></p>
+          <p>Select <strong>Copy</strong> for the <strong>'Airport Operations Agent'</strong>.</p>
+          <p>Name it <strong>'LHR Airport Ops'</strong>, add the standard safety instructions, and select <strong>Create</strong>.</p>
         </div>
       )
     },
@@ -645,9 +643,8 @@ const App = () => {
       title: "Task 5: Setup HND",
       content: (
         <div>
-          <p>One last time, select <strong>Copy</strong> from the <strong>Actions</strong> menu of the base agent.</p>
-          <p>Name it <strong>'HND Airport Ops'</strong> and select <strong>Create</strong>.</p>
-          <p>Add the following to its <strong>Instructions</strong>: <em>"Adhere to JTSB regional safety reporting formats."</em></p>
+          <p>Final copy: Select <strong>Copy</strong> for the <strong>'Airport Operations Agent'</strong>.</p>
+          <p>Name it <strong>'HND Airport Ops'</strong>, add the instructions, and select <strong>Create</strong>.</p>
         </div>
       )
     },
@@ -656,14 +653,14 @@ const App = () => {
       content: (
         <div>
           <p>A new global safety directive has been issued: <strong>All Boeing 737s are grounded.</strong></p>
-          <p>You must now manually select <strong>Edit</strong> for <strong>each</strong> of the 5 individual airport agents and add this line to their <strong>Instructions</strong>:</p>
+          <p>Currently, because these agents were created via <strong>duplication</strong>, they are entirely separate entities. Even though they do similar things, you must now manually select <strong>Edit</strong> for <strong>each</strong> of the 5 individual airport agents to include:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Do not deploy any Boeing 737 aircraft."</code>
         </div>
       )
     },
     {
       title: "Transition to Profiles",
-      content: "As you can see, manual updates for every agent take significant effort. Let's reset the simulation and try using Agent Profiles instead.",
+      content: "This approach is difficult to maintain at scale. Let's reset the simulation and try the same objective using the <strong>Agent Profiles</strong> architecture.",
       onNext: () => {
         // Reset to initial tutorial state for Part 2
         setAgents([
@@ -686,9 +683,9 @@ const App = () => {
       title: "Strategy: Using Profiles",
       content: (
         <div>
-          <p>Select the <strong>Governance</strong> tab in the sidebar, then select <strong>Create Profile</strong>.</p>
-          <p>Create 5 <strong>Agent Profiles</strong> (one for each airport) all referencing the same <strong>'Airport Operations Agent'</strong>.</p>
-          <p>You can still add airport-specific <strong>Instructions</strong> (noise, weather, etc.) directly when creating each Profile.</p>
+          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Create 5 <strong>Agent Profiles</strong> (ATL, DXB, DFW, LHR, HND), all referencing the single <strong>'Airport Operations Agent'</strong>.</p>
+          <p>Remember to add the same <em>"weather-specific procedures"</em> instructions for each profile during creation.</p>
         </div>
       )
     },
@@ -696,8 +693,8 @@ const App = () => {
       title: "Centralized Management",
       content: (
         <div>
-          <p>Now, when the <strong>737 Grounding</strong> directive is issued, you only need to select <strong>Edit</strong> for the single <strong>'Airport Operations Agent'</strong>.</p>
-          <p>Add the grounding rule once, and all your airport profiles will immediately reflect this change.</p>
+          <p>When the <strong>737 Grounding</strong> directive is issued, you only need to select <strong>Edit</strong> for the single <strong>'Airport Operations Agent'</strong>.</p>
+          <p>By updating the base agent once, you ensure consistency across all deployments. Profiles enable reusing a single base agent instead of duplicating it, offering significantly ease of update and maintenance.</p>
         </div>
       ),
       onNext: () => setActiveTab('Agents')
@@ -706,14 +703,23 @@ const App = () => {
       title: "Local Flexibility",
       content: (
         <div>
-          <p>Finally, suppose Dubai (DXB) grounds Airbus A380s. You can simply update the <strong>DXB Profile</strong> specifically without affecting other airports.</p>
-          <p>This gives you both global control and local flexibility.</p>
+          <p>If Dubai (DXB) needs a specific grounding (e.g., Airbus A380), you can still update that <strong>DXB Profile</strong> instructions specifically.</p>
+          <p>You keep global control through the base agent, with surgical local flexibility through Profiles.</p>
         </div>
-      )
+      ),
+      onNext: () => {
+        setActiveTab('Governance');
+        setGovernanceSubTab('Agent');
+      }
     },
     {
-      title: "Experience Complete",
-      content: "You've successfully demonstrated the power of the Profile system. You can now end the experience to restore your original simulation data.",
+      title: "The Profile Advantage",
+      content: (
+        <div>
+          <p>Experience Complete! You've successfully navigated the simulation with and without Profiles.</p>
+          <p><strong>The Profile Advantage:</strong> By decoupling the agent logic from its regional deployment, you eliminate redundancy, reduce the risk of missed updates, and scale your operations without linear effort.</p>
+        </div>
+      ),
       hideNext: true
     }
   ];
