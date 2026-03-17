@@ -1050,7 +1050,7 @@ const App = () => {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(45deg)" }}>
             <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.7 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
           </svg>
-          <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500 }}>Cymbal Airlines Simulation</h1>
+          <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500 }}>Cymbal Airlines Simulation v1.0.3</h1>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <label htmlFor="persona-select" style={{ fontSize: '0.9rem', fontWeight: 400, color: '#5f6368' }}>Persona: </label>
