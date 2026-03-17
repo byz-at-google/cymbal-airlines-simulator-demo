@@ -34,12 +34,14 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/bundle.js", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 		http.ServeFile(w, r, runfiles.Path("google3/devtools/ai/agents/airline_customer_sim/web/bundle.js"))
 	})
 
 	// Serve static files.
 	fileServer := http.FileServer(http.Dir(resolvedPath))
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 		path := filepath.Join(resolvedPath, r.URL.Path)
 		info, err := os.Stat(path)
 		if os.IsNotExist(err) || info.IsDir() {
