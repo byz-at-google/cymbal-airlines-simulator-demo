@@ -78,6 +78,20 @@ export interface GuidedExperienceState {
   backupState: AdminData | null;
 }
 
+export interface PersonaViewState {
+  activeTab: 'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance';
+  distributionSubTab: 'Home' | 'Product' | 'Channels' | 'Consumer App Approval' | 'Test Bench';
+  governanceSubTab: 'Agent' | 'Tool';
+}
+
+export type PersonaViewStates = Record<string, PersonaViewState>;
+
+const DEFAULT_VIEW_STATE: PersonaViewState = { 
+  activeTab: 'Dashboard', 
+  distributionSubTab: 'Home', 
+  governanceSubTab: 'Agent' 
+};
+
 const INITIAL_CONSUMER_APPS: ConsumerApp[] = [
   {
     id: 'ca1',
@@ -501,6 +515,32 @@ const App = () => {
   const [activeTab, setActiveTab] = React.useState<'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance'>('Dashboard');
   const [distributionSubTab, setDistributionSubTab] = React.useState<'Home' | 'Product' | 'Channels' | 'Consumer App Approval' | 'Test Bench'>('Home');
   const [governanceSubTab, setGovernanceSubTab] = React.useState<'Agent' | 'Tool'>('Agent');
+
+  const [personaViewStates, setPersonaViewStates] = React.useState<PersonaViewStates>({
+    'Governance Administrator': { ...DEFAULT_VIEW_STATE },
+    'Product Owner': { ...DEFAULT_VIEW_STATE },
+    'C-Suite Executive': { ...DEFAULT_VIEW_STATE },
+    'Storefront Manager': { ...DEFAULT_VIEW_STATE },
+    'End Consumer': { ...DEFAULT_VIEW_STATE },
+    'Admin': { ...DEFAULT_VIEW_STATE },
+  });
+
+  const handlePersonaChange = (newPersona: Persona) => {
+    // Save current state for old persona
+    setPersonaViewStates(prev => ({
+      ...prev,
+      [persona]: { activeTab, distributionSubTab, governanceSubTab }
+    }));
+
+    // Switch to new persona
+    setPersona(newPersona);
+
+    // Restore state for new persona
+    const newState = personaViewStates[newPersona] || DEFAULT_VIEW_STATE;
+    setActiveTab(newState.activeTab);
+    setDistributionSubTab(newState.distributionSubTab);
+    setGovernanceSubTab(newState.governanceSubTab);
+  };
 
   const isSaaSPersona = ['Governance Administrator', 'Product Owner', 'C-Suite Executive'].includes(persona);
 
@@ -1034,6 +1074,28 @@ const App = () => {
     }
   };
 
+  const tutorialStepsWithCompletion = React.useMemo(() => {
+    return airportOpsTutorial.map((step, index) => {
+      let isCompleted = true;
+      if (index === 1) isCompleted = agents.some(a => a.name === 'ATL Airport Ops');
+      if (index === 2) isCompleted = agents.some(a => a.name === 'DXB Airport Ops');
+      if (index === 3) isCompleted = agents.some(a => a.name === 'DFW Airport Ops');
+      if (index === 4) isCompleted = agents.some(a => a.name === 'LHR Airport Ops');
+      if (index === 5) isCompleted = agents.some(a => a.name === 'HND Airport Ops');
+      if (index === 6) {
+        const airportAgents = agents.filter(a => a.name.includes('Airport Ops') && a.name !== 'Airport Operations Agent');
+        isCompleted = airportAgents.length >= 5 && airportAgents.every(a => a.instructions.includes("Do not deploy any Boeing 737 aircraft"));
+      }
+      if (index === 8) isCompleted = agentProfiles.some(p => p.name === 'ATL Profile');
+      if (index === 9) isCompleted = agentProfiles.some(p => p.name === 'DXB Profile');
+      if (index === 10) isCompleted = agentProfiles.some(p => p.name === 'DFW Profile');
+      if (index === 11) isCompleted = agentProfiles.some(p => p.name === 'LHR Profile');
+      if (index === 12) isCompleted = agentProfiles.some(p => p.name === 'HND Profile');
+      
+      return { ...step, isCompleted };
+    });
+  }, [agents, agentProfiles, guidedExpState.isActive]);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: '#f8f9fa', width: '100vw', overflow: 'hidden', fontFamily: "'Google Sans', Roboto, Arial, sans-serif" }}>
       <header style={{ 
@@ -1061,8 +1123,7 @@ const App = () => {
             id="persona-select" 
             value={persona} 
             onChange={(e) => {
-              setPersona(e.target.value as Persona);
-              setActiveTab('Dashboard');
+              handlePersonaChange(e.target.value as Persona);
             }}
             style={{ 
               padding: '0.5rem 1rem', 
@@ -1239,10 +1300,14 @@ const App = () => {
 
       {guidedExpState.isActive && (
         <GuidedExperienceOverlay 
-          steps={airportOpsTutorial} 
+          steps={tutorialStepsWithCompletion} 
           currentStep={guidedExpState.currentStep} 
           onClose={endGuidedExperience} 
-          onNext={nextTutorialStep} 
+          onNext={() => {
+            const step = tutorialStepsWithCompletion[guidedExpState.currentStep];
+            if (step.onNext) step.onNext();
+            nextTutorialStep();
+          }} 
           onPrev={prevTutorialStep}
         />
       )}

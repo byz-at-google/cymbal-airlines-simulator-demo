@@ -11,6 +11,7 @@ export interface TutorialStep {
   targetSelector?: string;
   onNext?: () => void;
   hideNext?: boolean;
+  isCompleted?: boolean;
 }
 
 interface GuidedExperienceProps {
@@ -105,22 +106,22 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
             
             {currentStep < steps.length - 1 && !step.hideNext && (
               <button 
+                disabled={step.isCompleted === false}
                 onClick={() => {
-                  if (step.onNext) step.onNext();
                   onNext();
                 }}
                 style={{
-                  backgroundColor: '#1a73e8',
+                  backgroundColor: step.isCompleted === false ? '#dadce0' : '#1a73e8',
                   color: 'white',
                   border: 'none',
                   padding: '0.6rem 2rem',
                   borderRadius: '6px',
                   fontWeight: 600,
-                  cursor: 'pointer',
-                  boxShadow: '0 2px 4px rgba(26,115,232,0.3)'
+                  cursor: step.isCompleted === false ? 'not-allowed' : 'pointer',
+                  boxShadow: step.isCompleted === false ? 'none' : '0 2px 4px rgba(26,115,232,0.3)'
                 }}
               >
-                Next Step
+                {step.isCompleted === false ? 'Action Required' : 'Next Step'}
               </button>
             )}
           </div>
