@@ -672,7 +672,9 @@ const App = () => {
     },
     {
       title: "Transition to Profiles",
-      content: "This duplication approach is difficult to maintain! Let's reset and try the same objective using the <strong>Agent Profiles</strong> architecture.",
+      content: (
+        <span>This duplication approach is difficult to maintain! Let's reset and try the same objective using the <strong>Agent Profiles</strong> architecture.</span>
+      ),
       onNext: () => {
         // Reset to initial tutorial state for Part 2
         setAgents([
@@ -705,7 +707,8 @@ const App = () => {
       title: "Profile 2: Setup DXB",
       content: (
         <div>
-          <p>Select <strong>Create Profile</strong> again. Name it <strong>'DXB Profile'</strong>, link it to the base agent, and add:</p>
+          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Name it <strong>'DXB Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Include sandstorm visibility protocols in all safety checks."</code>
         </div>
       )
@@ -714,7 +717,8 @@ const App = () => {
       title: "Profile 3: Setup DFW",
       content: (
         <div>
-          <p>Create a <strong>'DFW Profile'</strong> referencing the same base agent with these constraints:</p>
+          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Name it <strong>'DFW Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Monitor for thunderstorm-related wind shear reports."</code>
         </div>
       )
@@ -723,7 +727,8 @@ const App = () => {
       title: "Profile 4: Setup LHR",
       content: (
         <div>
-          <p>Setup the <strong>'LHR Profile'</strong> for the <strong>'Airport Operations Agent'</strong> with:</p>
+          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Name it <strong>'LHR Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Enforce strict nighttime noise abatement procedures."</code>
         </div>
       )
@@ -732,10 +737,12 @@ const App = () => {
       title: "Profile 5: Setup HND",
       content: (
         <div>
-          <p>Final Profile: Create the <strong>'HND Profile'</strong> and add its specific constraints:</p>
+          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Name it <strong>'HND Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Adhere to JTSB regional safety reporting formats."</code>
         </div>
-      )
+      ),
+      onNext: () => setActiveTab('Agents')
     },
     {
       title: "Centralized Management",
@@ -752,7 +759,7 @@ const App = () => {
       content: (
         <div>
           <p><strong>ALERT:</strong> DXB has just issued an emergency grounding of all Airbus A380s! 🛫❌</p>
-          <p>Because you are using Profiles, you don't need to rebuild the agent—just update the <strong>DXB Profile's Natural Language Constraints</strong> specifically.</p>
+          <p>Because you are using Profiles, you don't need to specify it in the base agent's constraints—just update the <strong>DXB Profile's Natural Language Constraints</strong> specifically.</p>
           <p>You keep global control through the base agent, with surgical local precision through Profiles.</p>
         </div>
       ),
