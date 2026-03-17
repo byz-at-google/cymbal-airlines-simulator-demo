@@ -1,0 +1,69 @@
+/**
+ * @jsx createElement
+ * @jsxFrag Fragment
+ */
+import {createElement, Fragment} from 'react';
+import * as React from 'react';
+import {AgentManager} from './AgentManager';
+import {Agent} from '../app';
+
+interface ProductOwnerProps {
+  agents: Agent[];
+  setAgents: React.Dispatch<React.SetStateAction<Agent[]>>;
+  isGuidedExperienceEnabled: boolean;
+  isGuidedExperienceActive: boolean;
+  startGuidedExperience: () => void;
+}
+
+export const ProductOwner: React.FC<ProductOwnerProps> = ({
+  agents, 
+  setAgents,
+  isGuidedExperienceEnabled,
+  isGuidedExperienceActive,
+  startGuidedExperience
+}) => {
+  const themeColor = '#4338ca';
+  return (
+    <div>
+      <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div>
+          <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 800, color: themeColor }}>Product Owner Workspace</h2>
+          <p style={{ margin: '0.75rem 0 0', color: '#4b5563', fontSize: '1.1rem' }}>Manage and optimize agents for enterprise solutions.</p>
+          <div style={{ marginTop: '1rem', padding: '1rem', background: '#eef2ff', borderLeft: `4px solid ${themeColor}`, borderRadius: '0 8px 8px 0', fontSize: '0.9rem', color: '#374151' }}>
+            <strong>Product Authority:</strong> Catalog distribution and channel management. 
+            <span style={{ marginLeft: '1rem', color: '#991b1b', fontWeight: 600 }}>NO ACCESS:</span> Core governance policy or low-level agent/tool base profile management.
+          </div>
+        </div>
+        {isGuidedExperienceEnabled && !isGuidedExperienceActive && (
+          <button 
+            onClick={startGuidedExperience}
+            style={{
+              padding: '0.75rem 1.5rem',
+              backgroundColor: '#1a73e8',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              boxShadow: '0 2px 4px rgba(26,115,232,0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+            </svg>
+            Start Profile Guided Experience
+          </button>
+        )}
+      </header>
+      {/* 
+        Note: AgentManager is rendered here, but if app.tsx handles it now, 
+        we should be careful about double rendering. 
+        Actually, app.tsx uses switch(persona) to return ONLY this component.
+      */}
+      <AgentManager agents={agents} setAgents={setAgents} canEdit={true} />
+    </div>
+  );
+};
