@@ -27,14 +27,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
   onNext
 }) => {
   const step = steps[currentStep];
-  const [bubbleStyle, setBubbleStyle] = useState<React.CSSProperties>({
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    zIndex: 2000
-  });
-  const [highlightStyle, setHighlightStyle] = useState<React.CSSProperties>({
+  const [indicatorStyle, setIndicatorStyle] = useState<React.CSSProperties>({
     display: 'none'
   });
 
@@ -43,123 +36,123 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
       const target = document.querySelector(step.targetSelector);
       if (target) {
         const rect = target.getBoundingClientRect();
-        setBubbleStyle({
+        setIndicatorStyle({
           position: 'fixed',
-          top: `${rect.bottom + 20}px`,
+          top: `${rect.top - 15}px`,
           left: `${rect.left + rect.width / 2}px`,
           transform: 'translateX(-50%)',
-          zIndex: 2000
-        });
-        setHighlightStyle({
-          position: 'fixed',
-          top: `${rect.top - 5}px`,
-          left: `${rect.left - 5}px`,
-          width: `${rect.width + 10}px`,
-          height: `${rect.height + 10}px`,
-          boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.5)',
-          borderRadius: '4px',
-          zIndex: 1999,
+          zIndex: 2000,
+          display: 'block',
           pointerEvents: 'none'
         });
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
     }
-    
-    // Default to center if no target or target not found
-    setBubbleStyle({
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      zIndex: 2000
-    });
-    setHighlightStyle({
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.3)',
-      zIndex: 1999
-    });
+    setIndicatorStyle({ display: 'none' });
   }, [step]);
 
   if (!step) return null;
 
   return (
     <Fragment>
-      <div style={highlightStyle} />
+      {/* Floating Indicator Bubble (Non-blocking) */}
       <div style={{
-        ...bubbleStyle,
-        backgroundColor: 'white',
-        padding: '1.5rem',
-        borderRadius: '12px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
-        width: '350px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1rem',
-        borderTop: '5px solid #1a73e8'
+        ...indicatorStyle,
+        backgroundColor: '#1a73e8',
+        color: 'white',
+        padding: '4px 8px',
+        borderRadius: '4px',
+        fontSize: '0.75rem',
+        fontWeight: 'bold',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+        whiteSpace: 'nowrap'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 500, color: '#1a73e8' }}>{step.title}</h4>
-          <button 
-            onClick={onClose}
-            style={{ 
-              background: 'none', 
-              border: 'none', 
-              fontSize: '1.25rem', 
-              cursor: 'pointer',
-              color: '#5f6368',
-              lineHeight: 1
-            }}
-          >&times;</button>
+        HERE
+        <div style={{
+          position: 'absolute',
+          bottom: '-6px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 0,
+          height: 0,
+          borderLeft: '6px solid transparent',
+          borderRight: '6px solid transparent',
+          borderTop: '6px solid #1a73e8'
+        }} />
+      </div>
+
+      {/* Bottom Bar Navigation */}
+      <div style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '100px',
+        backgroundColor: 'white',
+        borderTop: '1px solid #dadce0',
+        boxShadow: '0 -4px 10px rgba(0,0,0,0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 2rem',
+        zIndex: 2001,
+        gap: '2rem'
+      }}>
+        <div style={{ flexShrink: 0 }}>
+          <div style={{ fontSize: '0.8rem', color: '#1a73e8', fontWeight: 'bold', marginBottom: '4px' }}>
+            GUIDED EXPERIENCE: STEP {currentStep + 1} OF {steps.length}
+          </div>
+          <h4 style={{ margin: 0, fontSize: '1.2rem', color: '#1a73e8' }}>{step.title}</h4>
         </div>
-        <div style={{ fontSize: '0.95rem', color: '#3c4043', lineHeight: '1.5' }}>
+        
+        <div style={{ 
+          flexGrow: 1, 
+          fontSize: '1rem', 
+          color: '#3c4043', 
+          lineHeight: '1.4',
+          maxHeight: '80px',
+          overflowY: 'auto',
+          padding: '4px 0'
+        }}>
           {step.content}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
-          <div style={{ fontSize: '0.8rem', color: '#5f6368' }}>
-            Step {currentStep + 1} of {steps.length}
-          </div>
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
-            {!step.hideNext && (
-              <button 
-                onClick={() => {
-                  if (step.onNext) step.onNext();
-                  onNext();
-                }}
-                style={{
-                  backgroundColor: '#1a73e8',
-                  color: 'white',
-                  border: 'none',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '4px',
-                  fontWeight: 500,
-                  cursor: 'pointer'
-                }}
-              >
-                {currentStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </button>
-            )}
-          </div>
-        </div>
 
-        {/* Arrow pointer */}
-        {step.targetSelector && (
-          <div style={{
-            position: 'absolute',
-            top: '-10px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: 0,
-            height: 0,
-            borderLeft: '10px solid transparent',
-            borderRight: '10px solid transparent',
-            borderBottom: '10px solid white'
-          }} />
-        )}
+        <div style={{ display: 'flex', gap: '1rem', flexShrink: 0 }}>
+          <button 
+            onClick={onClose}
+            style={{
+              backgroundColor: 'white',
+              color: '#5f6368',
+              border: '1px solid #dadce0',
+              padding: '0.6rem 1.2rem',
+              borderRadius: '6px',
+              fontWeight: 500,
+              cursor: 'pointer'
+            }}
+          >
+            Exit Tutorial
+          </button>
+          {!step.hideNext && (
+            <button 
+              onClick={() => {
+                if (step.onNext) step.onNext();
+                onNext();
+              }}
+              style={{
+                backgroundColor: '#1a73e8',
+                color: 'white',
+                border: 'none',
+                padding: '0.6rem 2rem',
+                borderRadius: '6px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                boxShadow: '0 2px 4px rgba(26,115,232,0.3)'
+              }}
+            >
+              {currentStep === steps.length - 1 ? 'Finish' : 'Next Step'}
+            </button>
+          )}
+        </div>
       </div>
     </Fragment>
   );
