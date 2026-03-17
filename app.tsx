@@ -1074,27 +1074,6 @@ const App = () => {
     }
   };
 
-  const tutorialStepsWithCompletion = React.useMemo(() => {
-    return airportOpsTutorial.map((step, index) => {
-      let isCompleted = true;
-      if (index === 1) isCompleted = agents.some(a => a.name === 'ATL Airport Ops');
-      if (index === 2) isCompleted = agents.some(a => a.name === 'DXB Airport Ops');
-      if (index === 3) isCompleted = agents.some(a => a.name === 'DFW Airport Ops');
-      if (index === 4) isCompleted = agents.some(a => a.name === 'LHR Airport Ops');
-      if (index === 5) isCompleted = agents.some(a => a.name === 'HND Airport Ops');
-      if (index === 6) {
-        const airportAgents = agents.filter(a => a.name.includes('Airport Ops') && a.name !== 'Airport Operations Agent');
-        isCompleted = airportAgents.length >= 5 && airportAgents.every(a => a.instructions.includes("Do not deploy any Boeing 737 aircraft"));
-      }
-      if (index === 8) isCompleted = agentProfiles.some(p => p.name === 'ATL Profile');
-      if (index === 9) isCompleted = agentProfiles.some(p => p.name === 'DXB Profile');
-      if (index === 10) isCompleted = agentProfiles.some(p => p.name === 'DFW Profile');
-      if (index === 11) isCompleted = agentProfiles.some(p => p.name === 'LHR Profile');
-      if (index === 12) isCompleted = agentProfiles.some(p => p.name === 'HND Profile');
-      
-      return { ...step, isCompleted };
-    });
-  }, [agents, agentProfiles, guidedExpState.isActive]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: '#f8f9fa', width: '100vw', overflow: 'hidden', fontFamily: "'Google Sans', Roboto, Arial, sans-serif" }}>
@@ -1300,14 +1279,10 @@ const App = () => {
 
       {guidedExpState.isActive && (
         <GuidedExperienceOverlay 
-          steps={tutorialStepsWithCompletion} 
+          steps={airportOpsTutorial} 
           currentStep={guidedExpState.currentStep} 
           onClose={endGuidedExperience} 
-          onNext={() => {
-            const step = tutorialStepsWithCompletion[guidedExpState.currentStep];
-            if (step.onNext) step.onNext();
-            nextTutorialStep();
-          }} 
+          onNext={nextTutorialStep} 
           onPrev={prevTutorialStep}
         />
       )}
