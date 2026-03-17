@@ -30,7 +30,7 @@ export interface ConsumerApp {
   submitterEmail: string;
   status: 'Pending' | 'Approved' | 'Denied';
   createdDate: string;
-  constraints?: string;
+  semanticPolicy?: string;
 }
 
 export type {Tool, AgentProfile, ToolProfile, Product, Channel};
@@ -98,7 +98,7 @@ const INITIAL_CONSUMER_APPS: ConsumerApp[] = [
     submitterName: 'John Doe',
     submitterEmail: 'john.doe@cymbal.com',
     createdDate: '2026-03-16',
-    constraints: "Only allow flight lookups and baggage tracking for routes originating in or destined for European airports."
+    semanticPolicy: "Only allow flight lookups and baggage tracking for routes originating in or destined for European airports."
   }
 ];
 
@@ -241,8 +241,8 @@ const INITIAL_AGENT_PROFILES: AgentProfile[] = [
     description: 'Standard professional tone for international markets.',
     createdDate: '2026-03-01',
     modifiedDate: '2026-03-01',
-    globalConstraints: '[FORMAL_TONE] [APPEND_SLOGAN] Use formal language. Always include the Cymbal Airlines slogan in sign-off.',
-    toolConstraints: {},
+    globalSemanticPolicy: '[FORMAL_TONE] [APPEND_SLOGAN] Use formal language. Always include the Cymbal Airlines slogan in sign-off.',
+    toolSemanticPolicies: {},
     status: 'Active'
   },
   {
@@ -251,8 +251,8 @@ const INITIAL_AGENT_PROFILES: AgentProfile[] = [
     description: 'Strict privacy controls for the European region.',
     createdDate: '2026-03-12',
     modifiedDate: '2026-03-12',
-    globalConstraints: '[ENFORCE_GDPR] Strict adherence to GDPR. Do not store PII beyond session duration.',
-    toolConstraints: {
+    globalSemanticPolicy: '[ENFORCE_GDPR] Strict adherence to GDPR. Do not store PII beyond session duration.',
+    toolSemanticPolicies: {
       't1': 'Anonymize customer ID before lookup unless explicit consent granted.'
     },
     status: 'Active'
@@ -263,8 +263,8 @@ const INITIAL_AGENT_PROFILES: AgentProfile[] = [
     description: 'Personalized high-touch service for elite passengers.',
     createdDate: '2026-03-12',
     modifiedDate: '2026-03-12',
-    globalConstraints: '[CASUAL_TONE] Maintain personal and friendly connection. Prioritize comfort.',
-    toolConstraints: {},
+    globalSemanticPolicy: '[CASUAL_TONE] Maintain personal and friendly connection. Prioritize comfort.',
+    toolSemanticPolicies: {},
     status: 'Active'
   },
   {
@@ -273,8 +273,8 @@ const INITIAL_AGENT_PROFILES: AgentProfile[] = [
     description: 'Internal audit and safety reporting standards.',
     createdDate: '2026-03-13',
     modifiedDate: '2026-03-13',
-    globalConstraints: '[INJECT_SAFETY] [STRICT_JSON_OUTPUT] Ensure all responses meet safety reporting standards.',
-    toolConstraints: {},
+    globalSemanticPolicy: '[INJECT_SAFETY] [STRICT_JSON_OUTPUT] Ensure all responses meet safety reporting standards.',
+    toolSemanticPolicies: {},
     status: 'Active'
   },
   {
@@ -283,8 +283,8 @@ const INITIAL_AGENT_PROFILES: AgentProfile[] = [
     description: 'Standard security controls for North America.',
     createdDate: '2026-03-13',
     modifiedDate: '2026-03-13',
-    globalConstraints: '[FORMAL_TONE] Ensure all data handling meets US/Canada standards.',
-    toolConstraints: {},
+    globalSemanticPolicy: '[FORMAL_TONE] Ensure all data handling meets US/Canada standards.',
+    toolSemanticPolicies: {},
     status: 'Active'
   },
   {
@@ -293,8 +293,8 @@ const INITIAL_AGENT_PROFILES: AgentProfile[] = [
     description: 'High-strictness GDPR enforcement for EU support.',
     createdDate: '2026-03-13',
     modifiedDate: '2026-03-13',
-    globalConstraints: '[ENFORCE_GDPR] [APPEND_SLOGAN] Complete PII redaction mandatory.',
-    toolConstraints: {},
+    globalSemanticPolicy: '[ENFORCE_GDPR] [APPEND_SLOGAN] Complete PII redaction mandatory.',
+    toolSemanticPolicies: {},
     status: 'Active'
   },
   {
@@ -303,8 +303,8 @@ const INITIAL_AGENT_PROFILES: AgentProfile[] = [
     description: 'Cross-border data compliance for APAC operations.',
     createdDate: '2026-03-13',
     modifiedDate: '2026-03-13',
-    globalConstraints: '[INJECT_SAFETY] [STRICT_JSON_OUTPUT] Focus on safe cross-border data transfer.',
-    toolConstraints: {},
+    globalSemanticPolicy: '[INJECT_SAFETY] [STRICT_JSON_OUTPUT] Focus on safe cross-border data transfer.',
+    toolSemanticPolicies: {},
     status: 'Active'
   }
 ];
@@ -316,7 +316,7 @@ const INITIAL_TOOL_PROFILES: ToolProfile[] = [
     description: 'Safe access for general support queries.',
     createdDate: '2026-03-12',
     modifiedDate: '2026-03-12',
-    constraints: 'Method must be GET. Mutations are strictly prohibited.',
+    semanticPolicy: 'Method must be GET. Mutations are strictly prohibited.',
     status: 'Active'
   },
   {
@@ -325,7 +325,7 @@ const INITIAL_TOOL_PROFILES: ToolProfile[] = [
     description: 'Elevated access for booking and modifications.',
     createdDate: '2026-03-12',
     modifiedDate: '2026-03-12',
-    constraints: 'Requires multi-factor token. All write operations must be logged.',
+    semanticPolicy: 'Requires multi-factor token. All write operations must be logged.',
     status: 'Active'
   },
   {
@@ -334,7 +334,7 @@ const INITIAL_TOOL_PROFILES: ToolProfile[] = [
     description: 'Restricted access to geo-specific data centers.',
     createdDate: '2026-03-13',
     modifiedDate: '2026-03-13',
-    constraints: 'Only allows access to regional data shards based on user geo-header.',
+    semanticPolicy: 'Only allows access to regional data shards based on user geo-header.',
     status: 'Active'
   },
   {
@@ -343,7 +343,7 @@ const INITIAL_TOOL_PROFILES: ToolProfile[] = [
     description: 'Restricted view-only access for regional agents.',
     createdDate: '2026-03-13',
     modifiedDate: '2026-03-13',
-    constraints: 'Read-only access enabled. No write permissions allowed.',
+    semanticPolicy: 'Read-only access enabled. No write permissions allowed.',
     status: 'Active'
   },
   {
@@ -352,7 +352,7 @@ const INITIAL_TOOL_PROFILES: ToolProfile[] = [
     description: 'Full access with continuous auditing and logging.',
     createdDate: '2026-03-13',
     modifiedDate: '2026-03-13',
-    constraints: 'Every request is logged and compared against regional security policies.',
+    semanticPolicy: 'Every request is logged and compared against regional security policies.',
     status: 'Active'
   }
 ];
@@ -587,6 +587,10 @@ const App = () => {
   };
 
   const nextTutorialStep = () => {
+    if (guidedExpState.currentStep === airportOpsTutorial.length - 1) {
+      endGuidedExperience();
+      return;
+    }
     setGuidedExpState(prev => ({ ...prev, currentStep: prev.currentStep + 1 }));
   };
 
@@ -673,7 +677,7 @@ const App = () => {
     {
       title: "Transition to Profiles",
       content: (
-        <span>This duplication approach is difficult to maintain! Let's reset and try the same objective using the <strong>Agent Profiles</strong> architecture.</span>
+        <span>This duplication approach is difficult to maintain! Let's reset and try the same objective using the <strong>Agent Profiles</strong> architecture with <strong>Semantic Governance Policies</strong>.</span>
       ),
       onNext: () => {
         // Reset to initial tutorial state for Part 2
@@ -698,7 +702,7 @@ const App = () => {
       content: (
         <div>
           <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
-          <p>Name it <strong>'ATL Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>Name it <strong>'ATL Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize runway de-icing procedures during winter months."</code>
         </div>
       )
@@ -708,7 +712,7 @@ const App = () => {
       content: (
         <div>
           <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
-          <p>Name it <strong>'DXB Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>Name it <strong>'DXB Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Include sandstorm visibility protocols in all safety checks."</code>
         </div>
       )
@@ -718,7 +722,7 @@ const App = () => {
       content: (
         <div>
           <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
-          <p>Name it <strong>'DFW Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>Name it <strong>'DFW Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Monitor for thunderstorm-related wind shear reports."</code>
         </div>
       )
@@ -728,7 +732,7 @@ const App = () => {
       content: (
         <div>
           <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
-          <p>Name it <strong>'LHR Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>Name it <strong>'LHR Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Enforce strict nighttime noise abatement procedures."</code>
         </div>
       )
@@ -738,7 +742,7 @@ const App = () => {
       content: (
         <div>
           <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
-          <p>Name it <strong>'HND Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>Name it <strong>'HND Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Adhere to JTSB regional safety reporting formats."</code>
         </div>
       ),
@@ -759,7 +763,7 @@ const App = () => {
       content: (
         <div>
           <p><strong>ALERT:</strong> DXB has just issued an emergency grounding of all Airbus A380s! 🛫❌</p>
-          <p>Because you are using Profiles, you don't need to specify it in the base agent's constraints—just update the <strong>DXB Profile's Natural Language Constraints</strong> specifically.</p>
+          <p>Because you are using Profiles, you don't need to specify it in the base agent's instructions—just update the <strong>DXB Profile's Semantic Governance Policy</strong> specifically.</p>
           <p>You keep global control through the base agent, with surgical local precision through Profiles.</p>
         </div>
       ),
@@ -802,13 +806,13 @@ const App = () => {
         <AgentManager 
           agents={agents} 
           setAgents={setAgents} 
-          canEdit={persona === 'Governance Administrator' || (guidedExpState.isActive && persona === 'Product Owner')} 
+          canEdit={persona === 'Governance Administrator' || persona === 'Product Owner'} 
         />
       );
     }
 
     if (isSaaSPersona && activeTab === 'Tools') {
-      return <ToolManager tools={tools} setTools={setTools} canEdit={persona === 'Governance Administrator'} />;
+      return <ToolManager tools={tools} setTools={setTools} canEdit={persona === 'Governance Administrator' || persona === 'Product Owner'} />;
     }
 
     if (isSaaSPersona && activeTab === 'Governance') {
@@ -845,11 +849,11 @@ const App = () => {
               profiles={agentProfiles} 
               setProfiles={setAgentProfiles} 
               tools={tools} 
-              canEdit={persona === 'Governance Administrator' || (guidedExpState.isActive && persona === 'Product Owner')} 
+              canEdit={persona === 'Governance Administrator' || persona === 'Product Owner'} 
             />
           )}
           {governanceSubTab === 'Tool' && (
-            <ToolProfileManager profiles={toolProfiles} setProfiles={setToolProfiles} canEdit={persona === 'Governance Administrator'} />
+            <ToolProfileManager profiles={toolProfiles} setProfiles={setToolProfiles} canEdit={persona === 'Governance Administrator' || persona === 'Product Owner'} />
           )}
         </div>
       );

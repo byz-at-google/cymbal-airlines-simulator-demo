@@ -387,10 +387,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           title="Product Catalog & Distribution Authority"
           description={
             <Fragment>
-              As a Product Owner, you have full authority over the bundling of simulation assets into marketable Products and their publication to regional Channels. You are responsible for regional go-to-market strategy while utilizing the compliance frameworks established by Governance.
-              <div style={{ marginTop: '0.75rem', fontWeight: 700 }}>
-                <span style={{ color: '#991b1b' }}>NOTE:</span> You do not have access to define core governance policies or low-level agent and tool base profiles, which are managed by the Governance team.
-              </div>
+              As a Product Owner, you have full authority over the bundling of simulation assets into marketable Products and their publication to regional Channels. You are responsible for regional go-to-market strategy.
             </Fragment>
           }
           color={themeColor}

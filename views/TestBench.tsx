@@ -55,9 +55,9 @@ export const TestBench: React.FC<TestBenchProps> = ({
       
       productProfiles.forEach(p => {
         if (!p) return;
-        const constraints = p.globalConstraints;
+        const semanticPolicy = p.globalSemanticPolicy;
 
-        if (constraints.includes('[ENFORCE_GDPR]')) {
+        if (semanticPolicy.includes('[ENFORCE_GDPR]')) {
           if (!profilesApplied.includes('GDPR Compliance')) {
             profilesApplied.push('GDPR Compliance');
             const original = governedContent;
@@ -69,7 +69,7 @@ export const TestBench: React.FC<TestBenchProps> = ({
           }
         }
 
-        if (constraints.includes('[INJECT_SAFETY]')) {
+        if (semanticPolicy.includes('[INJECT_SAFETY]')) {
           if (!profilesApplied.includes('Safety Operations')) {
             profilesApplied.push('Safety Operations');
             governedContent += '\n\n[Safety Notice: All systems nominal. Operation authorized.]';
@@ -77,7 +77,7 @@ export const TestBench: React.FC<TestBenchProps> = ({
           }
         }
 
-        if (constraints.includes('[FORMAL_TONE]')) {
+        if (semanticPolicy.includes('[FORMAL_TONE]')) {
           if (!profilesApplied.includes('Formal Tone Enforcement')) {
             profilesApplied.push('Formal Tone Enforcement');
             governedContent = governedContent.replace('Hello!', 'Greetings, valued passenger.');
@@ -85,7 +85,7 @@ export const TestBench: React.FC<TestBenchProps> = ({
           }
         }
 
-        if (constraints.includes('[CASUAL_TONE]')) {
+        if (semanticPolicy.includes('[CASUAL_TONE]')) {
           if (!profilesApplied.includes('Casual Tone Alignment')) {
             profilesApplied.push('Casual Tone Alignment');
             governedContent = governedContent.replace('Hello!', 'Hey there! 👋');
@@ -93,7 +93,7 @@ export const TestBench: React.FC<TestBenchProps> = ({
           }
         }
 
-        if (constraints.includes('[APPEND_SLOGAN]')) {
+        if (semanticPolicy.includes('[APPEND_SLOGAN]')) {
           if (!profilesApplied.includes('Branding Enforcement')) {
             profilesApplied.push('Branding Enforcement');
             governedContent += '\n\nCymbal Airlines - Your journey, our passion.';
@@ -101,7 +101,7 @@ export const TestBench: React.FC<TestBenchProps> = ({
           }
         }
 
-        if (constraints.includes('[STRICT_JSON_OUTPUT]')) {
+        if (semanticPolicy.includes('[STRICT_JSON_OUTPUT]')) {
           if (!profilesApplied.includes('Data Format Enforcement')) {
             profilesApplied.push('Data Format Enforcement');
             governedContent = JSON.stringify({
@@ -164,7 +164,7 @@ export const TestBench: React.FC<TestBenchProps> = ({
       {selectedProduct && (
         <div style={{ background: '#e8f0fe', padding: '1rem 1.5rem', borderRadius: '8px', border: '1px solid #1a73e8', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1a73e8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Product Manifest & Governance Constraints
+            Product Manifest & Semantic Governance Policy
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
             <div>

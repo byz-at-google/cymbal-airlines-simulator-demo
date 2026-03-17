@@ -30,8 +30,7 @@ export const ProductOwner: React.FC<ProductOwnerProps> = ({
           <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 800, color: themeColor }}>Product Owner Workspace</h2>
           <p style={{ margin: '0.75rem 0 0', color: '#4b5563', fontSize: '1.1rem' }}>Manage and optimize agents for enterprise solutions.</p>
           <div style={{ marginTop: '1rem', padding: '1rem', background: '#eef2ff', borderLeft: `4px solid ${themeColor}`, borderRadius: '0 8px 8px 0', fontSize: '0.9rem', color: '#374151' }}>
-            <strong>Product Authority:</strong> Catalog distribution and channel management. 
-            <span style={{ marginLeft: '1rem', color: '#991b1b', fontWeight: 600 }}>NO ACCESS:</span> Core governance policy or low-level agent/tool base profile management.
+            <strong>Product Catalog & Distribution Authority:</strong> Full control over catalog distribution and channel management for all agent and tool profiles.
           </div>
         </div>
         {isGuidedExperienceEnabled && !isGuidedExperienceActive && (

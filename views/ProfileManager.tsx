@@ -12,8 +12,8 @@ export interface AgentProfile {
   description: string;
   createdDate: string;
   modifiedDate: string;
-  globalConstraints: string;
-  toolConstraints: {[toolId: string]: string};
+  globalSemanticPolicy: string;
+  toolSemanticPolicies: {[toolId: string]: string};
   status: 'Draft' | 'Active' | 'Deprecated';
 }
 
@@ -23,7 +23,7 @@ export interface ToolProfile {
   description: string;
   createdDate: string;
   modifiedDate: string;
-  constraints: string;
+  semanticPolicy: string;
   status: 'Draft' | 'Active' | 'Deprecated';
 }
 
@@ -38,20 +38,20 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
   const [view, setView] = React.useState<'list' | 'create' | 'edit'>('list');
   const [currentProfile, setCurrentProfile] = React.useState<AgentProfile | null>(null);
 
-  const [formData, setFormData] = React.useState<Omit<AgentProfile, 'id' | 'createdDate' | 'modifiedDate' | 'toolConstraints'>>({
+  const [formData, setFormData] = React.useState<Omit<AgentProfile, 'id' | 'createdDate' | 'modifiedDate' | 'toolSemanticPolicies'>>({
     name: '',
     description: '',
-    globalConstraints: '',
+    globalSemanticPolicy: '',
     status: 'Draft'
   });
 
-  const [formRows, setFormRows] = React.useState<Array<{toolId: string, constraint: string}>>([]);
+  const [formRows, setFormRows] = React.useState<Array<{toolId: string, policy: string}>>([]);
   const [toolSearchQuery, setToolSearchQuery] = React.useState<{[key: number]: string}>({});
   const [showDropdown, setShowDropdown] = React.useState<number | null>(null);
 
   const handleCreate = () => {
     setView('create');
-    setFormData({name: '', description: '', globalConstraints: '', status: 'Draft'});
+    setFormData({name: '', description: '', globalSemanticPolicy: '', status: 'Draft'});
     setFormRows([]);
   };
 
@@ -60,10 +60,10 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
     setFormData({
       name: profile.name,
       description: profile.description,
-      globalConstraints: profile.globalConstraints,
+      globalSemanticPolicy: profile.globalSemanticPolicy,
       status: profile.status
     });
-    setFormRows(Object.entries(profile.toolConstraints).map(([toolId, constraint]) => ({toolId, constraint})));
+    setFormRows(Object.entries(profile.toolSemanticPolicies).map(([toolId, policy]) => ({toolId, policy})));
     setView('edit');
   };
 
@@ -77,16 +77,16 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
     e.preventDefault();
     const now = new Date().toISOString().split('T')[0];
 
-    const toolConstraints: {[toolId: string]: string} = {};
+    const toolSemanticPolicies: {[toolId: string]: string} = {};
     formRows.forEach(row => {
       if (row.toolId) {
-        toolConstraints[row.toolId] = row.constraint;
+        toolSemanticPolicies[row.toolId] = row.policy;
       }
     });
 
     const profileData = {
       ...formData,
-      toolConstraints
+      toolSemanticPolicies
     };
 
     if (view === 'create') {
@@ -108,7 +108,7 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
   };
 
   const addRow = () => {
-    setFormRows([...formRows, {toolId: '', constraint: ''}]);
+    setFormRows([...formRows, {toolId: '', policy: ''}]);
   };
 
   const removeRow = (index: number) => {
@@ -117,7 +117,7 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
     setFormRows(newRows);
   };
 
-  const updateRow = (index: number, updates: Partial<{toolId: string, constraint: string}>) => {
+  const updateRow = (index: number, updates: Partial<{toolId: string, policy: string}>) => {
     const newRows = [...formRows];
     newRows[index] = {...newRows[index], ...updates};
     setFormRows(newRows);
@@ -252,11 +252,11 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
             </div>
           </div>
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Global Agent Natural Language Constraints</label>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Global Agent Semantic Governance Policy</label>
             <textarea 
               rows={5}
-              value={formData.globalConstraints} 
-              onChange={e => setFormData({...formData, globalConstraints: e.target.value})}
+              value={formData.globalSemanticPolicy} 
+              onChange={e => setFormData({...formData, globalSemanticPolicy: e.target.value})}
               disabled={!canEdit}
               placeholder="e.g. Always include disclaimer. Never use offensive language."
               style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box', resize: 'vertical', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
@@ -266,14 +266,14 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
 
         <div style={{ marginBottom: '2rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid #eee', paddingBottom: '0.5rem' }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: 500, margin: 0 }}>Tool-Specific Constraints</h3>
+            <h3 style={{ fontSize: '1rem', fontWeight: 500, margin: 0 }}>Tool-Specific Semantic Governance Policies</h3>
             {canEdit && (
               <button 
                 type="button" 
                 onClick={addRow}
                 style={{ padding: '0.4rem 0.8rem', backgroundColor: '#f8f9fa', border: '1px solid #dadce0', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 500 }}
               >
-                + Add Tool Constraint
+                + Add Tool-Specific Policy
               </button>
             )}
           </div>
@@ -283,7 +283,7 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
               <thead>
                 <tr style={{ textAlign: 'left', borderBottom: '2px solid #eee' }}>
                   <th style={{ padding: '0.5rem', width: '30%' }}>Tool</th>
-                  <th style={{ padding: '0.5rem' }}>Constraint</th>
+                  <th style={{ padding: '0.5rem' }}>Semantic Governance Policy</th>
                   {canEdit && <th style={{ padding: '0.5rem', width: '50px' }}></th>}
                 </tr>
               </thead>
@@ -332,10 +332,10 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
                       <td style={{ padding: '0.5rem' }}>
                         <input 
                           type="text"
-                          value={row.constraint}
-                          onChange={e => updateRow(index, {constraint: e.target.value})}
+                          value={row.policy}
+                          onChange={e => updateRow(index, {policy: e.target.value})}
                           disabled={!canEdit}
-                          placeholder={selectedTool ? `Constraint for ${selectedTool.name}...` : "Select a tool first"}
+                          placeholder={selectedTool ? `Governance policy for ${selectedTool.name}...` : "Select a tool first"}
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
                         />
                       </td>
@@ -354,7 +354,7 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
                 {formRows.length === 0 && (
                   <tr>
                     <td colSpan={canEdit ? 3 : 2} style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>
-                      No tool constraints defined. Click "+ Add Tool Constraint" to specify one.
+                      No tool-specific policies defined. Click "+ Add Tool-Specific Policy" to specify one.
                     </td>
                   </tr>
                 )}
@@ -401,13 +401,13 @@ export const ToolProfileManager: React.FC<ToolProfileManagerProps> = ({profiles,
   const [formData, setFormData] = React.useState<Omit<ToolProfile, 'id' | 'createdDate' | 'modifiedDate'>>({
     name: '',
     description: '',
-    constraints: '',
+    semanticPolicy: '',
     status: 'Draft'
   });
 
   const handleCreate = () => {
     setView('create');
-    setFormData({name: '', description: '', constraints: '', status: 'Draft'});
+    setFormData({name: '', description: '', semanticPolicy: '', status: 'Draft'});
   };
 
   const handleEdit = (profile: ToolProfile) => {
@@ -415,7 +415,7 @@ export const ToolProfileManager: React.FC<ToolProfileManagerProps> = ({profiles,
     setFormData({
       name: profile.name,
       description: profile.description,
-      constraints: profile.constraints,
+      semanticPolicy: profile.semanticPolicy,
       status: profile.status
     });
     setView('edit');
@@ -577,11 +577,11 @@ export const ToolProfileManager: React.FC<ToolProfileManagerProps> = ({profiles,
             </div>
           </div>
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Tool Natural Language Constraints</label>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Tool Semantic Governance Policy</label>
             <textarea 
               rows={5}
-              value={formData.constraints} 
-              onChange={e => setFormData({...formData, constraints: e.target.value})}
+              value={formData.semanticPolicy} 
+              onChange={e => setFormData({...formData, semanticPolicy: e.target.value})}
               disabled={!canEdit}
               placeholder="e.g. Always include usage limit disclaimer."
               style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box', resize: 'vertical', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}

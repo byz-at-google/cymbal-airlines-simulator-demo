@@ -25,7 +25,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
   const [appFormData, setAppFormData] = useState({
     name: '',
     description: '',
-    constraints: '',
+    semanticPolicy: '',
     submitterName: 'John Doe',
     submitterEmail: 'john.doe@cymbal.com',
     productIds: [] as string[]
@@ -59,7 +59,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
     setAppFormData({
       name: app.name,
       description: app.description,
-      constraints: app.constraints || '',
+      semanticPolicy: app.semanticPolicy || '',
       submitterName: app.submitterName,
       submitterEmail: app.submitterEmail,
       productIds: app.productIds
@@ -155,10 +155,10 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                   <div>
                     <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>{app.name}</h3>
                     <p style={{ color: '#64748b', margin: '0 0 1rem' }}>{app.description}</p>
-                    {app.constraints && (
+                    {app.semanticPolicy && (
                       <div style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 1rem', padding: '0.75rem', background: '#f8fafc', borderRadius: '8px', borderLeft: `3px solid ${themeIndigo}` }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>NLC Constraint</span>
-                        {app.constraints}
+                        <span style={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>Semantic Governance Policy</span>
+                        {app.semanticPolicy}
                       </div>
                     )}
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', fontSize: '0.85rem' }}>
@@ -336,7 +336,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                 if (editingAppId) {
                   setConsumerApps(prev => prev.map(app => 
                     app.id === editingAppId 
-                      ? { ...app, name: appFormData.name, description: appFormData.description, constraints: appFormData.constraints, productIds: appFormData.productIds, status: 'Pending' }
+                      ? { ...app, name: appFormData.name, description: appFormData.description, semanticPolicy: appFormData.semanticPolicy, productIds: appFormData.productIds, status: 'Pending' }
                       : app
                   ));
                 } else {
@@ -344,7 +344,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                     id: Math.random().toString(36).substr(2, 9),
                     name: appFormData.name,
                     description: appFormData.description,
-                    constraints: appFormData.constraints,
+                    semanticPolicy: appFormData.semanticPolicy,
                     productIds: appFormData.productIds,
                     submitterName: appFormData.submitterName,
                     submitterEmail: appFormData.submitterEmail,
@@ -372,8 +372,8 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                     <textarea required value={appFormData.description} onChange={e => setAppFormData({...appFormData, description: e.target.value})} style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid #e2e8f0', outline: 'none', background: '#f8fafc', fontSize: '1rem', minHeight: '80px', resize: 'vertical' }} placeholder="Explain how you plan to use this agent..." />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.75rem', color: '#1e293b' }}>Usage Constraints (NLC)</label>
-                    <textarea value={appFormData.constraints} onChange={e => setAppFormData({...appFormData, constraints: e.target.value})} style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid #e2e8f0', outline: 'none', background: '#f8fafc', fontSize: '1rem', minHeight: '80px', resize: 'vertical' }} placeholder="Specify any natural language constraints for agent usage (e.g. 'Only allow flight lookups for US domestic routes')..." />
+                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.75rem', color: '#1e293b' }}>Usage Semantic Governance Policy</label>
+                    <textarea value={appFormData.semanticPolicy} onChange={e => setAppFormData({...appFormData, semanticPolicy: e.target.value})} style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid #e2e8f0', outline: 'none', background: '#f8fafc', fontSize: '1rem', minHeight: '80px', resize: 'vertical' }} placeholder="Specify the semantic governance policy for agent usage (e.g. 'Only allow flight lookups for US domestic routes')..." />
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div>

@@ -116,9 +116,9 @@ export const ConsumerAppManager: React.FC<ConsumerAppManagerProps> = ({
             </div>
           </div>
           <div style={{ padding: '1.5rem', background: '#f8f9fa', borderRadius: '8px' }}>
-            <h4 style={{ margin: '0 0 1rem', fontSize: '0.9rem', color: '#5f6368', textTransform: 'uppercase', fontWeight: 400 }}>Usage Constraints (NLC)</h4>
+            <h4 style={{ margin: '0 0 1rem', fontSize: '0.9rem', color: '#5f6368', textTransform: 'uppercase', fontWeight: 400 }}>Usage Semantic Governance Policy</h4>
             <div style={{ background: 'white', padding: '1.25rem', borderRadius: '8px', border: '1px solid #dadce0', fontSize: '1rem', color: '#202124', lineHeight: 1.6, minHeight: '100px' }}>
-              {selectedApp.constraints ? selectedApp.constraints : <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>No specific constraints provided.</span>}
+              {selectedApp.semanticPolicy ? selectedApp.semanticPolicy : <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>No specific policy provided.</span>}
             </div>
           </div>
         </div>
