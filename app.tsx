@@ -1227,7 +1227,7 @@ const App = () => {
           flex: 1, 
           padding: isSaaSPersona ? '2rem' : '0', 
           overflowY: 'auto',
-          paddingBottom: guidedExpState.isActive ? '120px' : (isSaaSPersona ? '2rem' : '0')
+          paddingBottom: guidedExpState.isActive ? '32vh' : (isSaaSPersona ? '2.5rem' : '0')
         }}>
           <div style={{ maxWidth: isSaaSPersona ? '1000px' : 'none', width: '100%', margin: isSaaSPersona ? '0 auto' : '0' }}>
             {renderView()}
