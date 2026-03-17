@@ -313,7 +313,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
       {/* Integration Request Modal */}
       {showAppForm && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-          <div style={{ background: 'white', padding: '3.5rem', borderRadius: '32px', width: '500px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', position: 'relative' }}>
+          <div style={{ background: 'white', padding: '3.5rem', borderRadius: '32px', width: '500px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', position: 'relative', maxHeight: '90vh', overflowY: 'auto' }}>
             {submissionSuccess ? (
               <div style={{ textAlign: 'center' }}>
                 <div style={{ width: '80px', height: '80px', background: '#ecfdf5', color: '#059669', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2rem' }}>
@@ -482,7 +482,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
       {/* Login Modal */}
       {showLogin && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-          <div style={{ background: 'white', padding: '3.5rem', borderRadius: '32px', width: '450px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
+          <div style={{ background: 'white', padding: '3.5rem', borderRadius: '32px', width: '450px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', maxHeight: '90vh', overflowY: 'auto' }}>
             <h3 style={{ fontSize: '2rem', fontWeight: 400, marginBottom: '1rem', letterSpacing: '-0.02em' }}>Join the Ecosystem</h3>
             <p style={{ color: '#64748b', marginBottom: '2.5rem', fontSize: '1.1rem', lineHeight: 1.6 }}>Start building with our elite suite of airline agents.</p>
             <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
