@@ -38,31 +38,31 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
         bottom: 0,
         left: 0,
         right: 0,
-        height: '100px',
+        minHeight: '120px',
+        maxHeight: '30vh',
         backgroundColor: 'white',
         borderTop: '1px solid #dadce0',
         boxShadow: '0 -4px 10px rgba(0,0,0,0.1)',
         display: 'flex',
         alignItems: 'center',
-        padding: '0 2rem',
+        padding: '1rem 2rem',
         zIndex: 2001,
-        gap: '2rem'
+        gap: '2rem',
+        overflowY: 'auto'
       }}>
-        <div style={{ flexShrink: 0 }}>
-          <div style={{ fontSize: '0.8rem', color: '#1a73e8', fontWeight: 'bold', marginBottom: '4px' }}>
-            GUIDED EXPERIENCE: STEP {currentStep + 1} OF {steps.length}
+        <div style={{ flexShrink: 0, maxWidth: '300px' }}>
+          <div style={{ fontSize: '0.75rem', color: '#1a73e8', fontWeight: 'bold', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Progress: {currentStep + 1} of {steps.length}
           </div>
-          <h4 style={{ margin: 0, fontSize: '1.2rem', color: '#1a73e8' }}>{step.title}</h4>
+          <h4 style={{ margin: 0, fontSize: '1.25rem', color: '#202124', fontWeight: 500 }}>{step.title}</h4>
         </div>
         
         <div style={{ 
           flexGrow: 1, 
-          fontSize: '1rem', 
+          fontSize: '1.1rem', 
           color: '#3c4043', 
-          lineHeight: '1.4',
-          maxHeight: '80px',
-          overflowY: 'auto',
-          padding: '4px 0'
+          lineHeight: '1.5',
+          padding: '8px 0'
         }}>
           {step.content}
         </div>
