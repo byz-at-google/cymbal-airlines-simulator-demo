@@ -620,10 +620,10 @@ const App = () => {
       title: "Task 2: Setup DXB",
       content: (
         <div>
-          <p>From the original <strong>'Airport Operations Agent'</strong>, select <strong>Copy</strong> again.</p>
-          <p>Name it <strong>'DXB Airport Ops'</strong> and set the <strong>Instructions</strong> to:</p>
+          <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
+          <p>In the creation dialog, name it <strong>'DXB Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
-          <p>Select <strong>Create</strong>.</p>
+          <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
     },
@@ -631,10 +631,10 @@ const App = () => {
       title: "Task 3: Setup DFW",
       content: (
         <div>
-          <p>Copy the original <strong>'Airport Operations Agent'</strong> once more.</p>
-          <p>Name it <strong>'DFW Airport Ops'</strong> and add this to its <strong>Instructions</strong>:</p>
+          <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
+          <p>In the creation dialog, name it <strong>'DFW Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
-          <p>Select <strong>Create</strong>.</p>
+          <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
     },
@@ -642,10 +642,10 @@ const App = () => {
       title: "Task 4: Setup LHR",
       content: (
         <div>
-          <p>Select <strong>Copy</strong> for the <strong>'Airport Operations Agent'</strong>.</p>
-          <p>Name it <strong>'LHR Airport Ops'</strong> and add these <strong>Instructions</strong>:</p>
+          <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
+          <p>In the creation dialog, name it <strong>'LHR Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
-          <p>Select <strong>Create</strong>.</p>
+          <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
     },
@@ -653,10 +653,10 @@ const App = () => {
       title: "Task 5: Setup HND",
       content: (
         <div>
-          <p>Final copy: Select <strong>Copy</strong> for the <strong>'Airport Operations Agent'</strong>.</p>
-          <p>Name it <strong>'HND Airport Ops'</strong> and use the <strong>Instructions</strong>:</p>
+          <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
+          <p>In the creation dialog, name it <strong>'HND Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
-          <p>Select <strong>Create</strong>.</p>
+          <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
     },
@@ -697,7 +697,7 @@ const App = () => {
         <div>
           <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
           <p>Create 5 <strong>Agent Profiles</strong> (ATL, DXB, DFW, LHR, HND), all referencing the single <strong>'Airport Operations Agent'</strong>.</p>
-          <p>For each profile, add the appropriate local specificity to the <strong>Instructions</strong> field during creation:</p>
+          <p>For each profile, add this exact line to the <strong>Instructions</strong> field during creation:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
         </div>
       )
