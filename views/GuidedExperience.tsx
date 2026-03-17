@@ -18,13 +18,15 @@ interface GuidedExperienceProps {
   currentStep: number;
   onClose: () => void;
   onNext: () => void;
+  onPrev: () => void;
 }
 
 export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
   steps,
   currentStep,
   onClose,
-  onNext
+  onNext,
+  onPrev
 }) => {
   const step = steps[currentStep];
 
@@ -82,26 +84,46 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
           >
             Exit Tutorial
           </button>
-          {!step.hideNext && (
-            <button 
-              onClick={() => {
-                if (step.onNext) step.onNext();
-                onNext();
-              }}
-              style={{
-                backgroundColor: '#1a73e8',
-                color: 'white',
-                border: 'none',
-                padding: '0.6rem 2rem',
-                borderRadius: '6px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                boxShadow: '0 2px 4px rgba(26,115,232,0.3)'
-              }}
-            >
-              {currentStep === steps.length - 1 ? 'Finish' : 'Next Step'}
-            </button>
-          )}
+          
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            {currentStep > 0 && (
+              <button 
+                onClick={onPrev}
+                style={{
+                  backgroundColor: 'white',
+                  color: '#1a73e8',
+                  border: '1px solid #1a73e8',
+                  padding: '0.6rem 1.2rem',
+                  borderRadius: '6px',
+                  fontWeight: 500,
+                  cursor: 'pointer'
+                }}
+              >
+                Previous
+              </button>
+            )}
+            
+            {!step.hideNext && (
+              <button 
+                onClick={() => {
+                  if (step.onNext) step.onNext();
+                  onNext();
+                }}
+                style={{
+                  backgroundColor: '#1a73e8',
+                  color: 'white',
+                  border: 'none',
+                  padding: '0.6rem 2rem',
+                  borderRadius: '6px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 4px rgba(26,115,232,0.3)'
+                }}
+              >
+                {currentStep === steps.length - 1 ? 'Finish' : 'Next Step'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </Fragment>

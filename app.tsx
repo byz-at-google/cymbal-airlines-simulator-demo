@@ -590,6 +590,10 @@ const App = () => {
     setGuidedExpState(prev => ({ ...prev, currentStep: prev.currentStep + 1 }));
   };
 
+  const prevTutorialStep = () => {
+    setGuidedExpState(prev => ({ ...prev, currentStep: Math.max(0, prev.currentStep - 1) }));
+  };
+
   const airportOpsTutorial: TutorialStep[] = [
     {
       title: "Goal: Deploy to 5 Airports",
@@ -606,7 +610,8 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'ATL Airport Ops'</strong> and add this to the <strong>Instructions</strong>: <em>"Prioritize local safety protocols and weather-specific procedures."</em></p>
+          <p>In the creation dialog, name it <strong>'ATL Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
@@ -616,7 +621,8 @@ const App = () => {
       content: (
         <div>
           <p>From the original <strong>'Airport Operations Agent'</strong>, select <strong>Copy</strong> again.</p>
-          <p>Name it <strong>'DXB Airport Ops'</strong> and set the <strong>Instructions</strong> to: <em>"Prioritize local safety protocols and weather-specific procedures."</em></p>
+          <p>Name it <strong>'DXB Airport Ops'</strong> and set the <strong>Instructions</strong> to:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
           <p>Select <strong>Create</strong>.</p>
         </div>
       )
@@ -626,7 +632,9 @@ const App = () => {
       content: (
         <div>
           <p>Copy the original <strong>'Airport Operations Agent'</strong> once more.</p>
-          <p>Name it <strong>'DFW Airport Ops'</strong>, use the same <em>"weather-specific procedures"</em> instruction, and select <strong>Create</strong>.</p>
+          <p>Name it <strong>'DFW Airport Ops'</strong> and add this to its <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
+          <p>Select <strong>Create</strong>.</p>
         </div>
       )
     },
@@ -635,7 +643,9 @@ const App = () => {
       content: (
         <div>
           <p>Select <strong>Copy</strong> for the <strong>'Airport Operations Agent'</strong>.</p>
-          <p>Name it <strong>'LHR Airport Ops'</strong>, add the standard safety instructions, and select <strong>Create</strong>.</p>
+          <p>Name it <strong>'LHR Airport Ops'</strong> and add these <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
+          <p>Select <strong>Create</strong>.</p>
         </div>
       )
     },
@@ -644,7 +654,9 @@ const App = () => {
       content: (
         <div>
           <p>Final copy: Select <strong>Copy</strong> for the <strong>'Airport Operations Agent'</strong>.</p>
-          <p>Name it <strong>'HND Airport Ops'</strong>, add the instructions, and select <strong>Create</strong>.</p>
+          <p>Name it <strong>'HND Airport Ops'</strong> and use the <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
+          <p>Select <strong>Create</strong>.</p>
         </div>
       )
     },
@@ -685,7 +697,8 @@ const App = () => {
         <div>
           <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
           <p>Create 5 <strong>Agent Profiles</strong> (ATL, DXB, DFW, LHR, HND), all referencing the single <strong>'Airport Operations Agent'</strong>.</p>
-          <p>Remember to add the same <em>"weather-specific procedures"</em> instructions for each profile during creation.</p>
+          <p>For each profile, add the appropriate local specificity to the <strong>Instructions</strong> field during creation:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
         </div>
       )
     },
@@ -717,7 +730,7 @@ const App = () => {
       content: (
         <div>
           <p>Experience Complete! You've successfully navigated the simulation with and without Profiles.</p>
-          <p><strong>The Profile Advantage:</strong> By decoupling the agent logic from its regional deployment, you eliminate redundancy, reduce the risk of missed updates, and scale your operations without linear effort.</p>
+          <p><strong>The Profile Advantage:</strong> Agent Profiles allow you to define a single source of truth for your agents while providing specialized instructions for different contexts. This eliminates the need for error-prone duplication and drastically simplifies global fleet management.</p>
         </div>
       ),
       hideNext: true
@@ -1181,6 +1194,7 @@ const App = () => {
           currentStep={guidedExpState.currentStep} 
           onClose={endGuidedExperience} 
           onNext={nextTutorialStep} 
+          onPrev={prevTutorialStep}
         />
       )}
     </div>
