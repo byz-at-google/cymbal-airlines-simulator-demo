@@ -701,7 +701,7 @@ const App = () => {
       title: "Profile 1: Setup ATL",
       content: (
         <div>
-          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Go to the <strong>Governance</strong> tab, ensure you are on the <strong>Agent Profiles</strong> sub-tab, and select <strong>Create Agent Profile</strong>.</p>
           <p>Name it <strong>'ATL Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize runway de-icing procedures during winter months."</code>
         </div>
@@ -711,7 +711,7 @@ const App = () => {
       title: "Profile 2: Setup DXB",
       content: (
         <div>
-          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Select <strong>Create Agent Profile</strong> again.</p>
           <p>Name it <strong>'DXB Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Include sandstorm visibility protocols in all safety checks."</code>
         </div>
@@ -721,7 +721,7 @@ const App = () => {
       title: "Profile 3: Setup DFW",
       content: (
         <div>
-          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Select <strong>Create Agent Profile</strong> again.</p>
           <p>Name it <strong>'DFW Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Monitor for thunderstorm-related wind shear reports."</code>
         </div>
@@ -731,7 +731,7 @@ const App = () => {
       title: "Profile 4: Setup LHR",
       content: (
         <div>
-          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Select <strong>Create Agent Profile</strong> again.</p>
           <p>Name it <strong>'LHR Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Enforce strict nighttime noise abatement procedures."</code>
         </div>
@@ -741,7 +741,7 @@ const App = () => {
       title: "Profile 5: Setup HND",
       content: (
         <div>
-          <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
+          <p>Select <strong>Create Agent Profile</strong> again.</p>
           <p>Name it <strong>'HND Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Adhere to JTSB regional safety reporting formats."</code>
         </div>
@@ -756,7 +756,10 @@ const App = () => {
           <p>By updating the base agent once, you ensure consistency across all deployments. Profiles enable reusing a single base agent instead of duplicating it, offering significantly ease of update and maintenance.</p>
         </div>
       ),
-      onNext: () => setActiveTab('Agents')
+      onNext: () => {
+        setActiveTab('Governance');
+        setGovernanceSubTab('Agent');
+      }
     },
     {
       title: "Emergency at DXB!",
@@ -766,11 +769,7 @@ const App = () => {
           <p>Because you are using Profiles, you don't need to specify it in the base agent's instructions—just update the <strong>DXB Profile's Semantic Governance Policy</strong> specifically.</p>
           <p>You keep global control through the base agent, with surgical local precision through Profiles.</p>
         </div>
-      ),
-      onNext: () => {
-        setActiveTab('Governance');
-        setGovernanceSubTab('Agent');
-      }
+      )
     },
     {
       title: "The Profile Advantage",
