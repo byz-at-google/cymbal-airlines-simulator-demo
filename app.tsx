@@ -592,52 +592,73 @@ const App = () => {
 
   const airportOpsTutorial: TutorialStep[] = [
     {
-      title: "Goal: Global Deployment",
+      title: "Goal: Deploy to 5 Airports",
       content: (
         <div>
-          <p>Welcome, Product Owner! Your goal is to deploy an <strong>Airport Operations</strong> tool for 5 major airports: ATL, DXB, DFW, LHR, and HND.</p>
-          <p>First, we'll demonstrate the inefficient "Copy & Paste" approach.</p>
+          <p>Your objective is to deploy an airport operations agent to 5 major airports: <strong>ATL, DXB, DFW, LHR, and HND</strong>.</p>
+          <p>Each airport requires its own set of local constraints and safety protocols.</p>
+          <p>First, we'll go through this experience <strong>without profiles</strong> by duplicating the agent for each location.</p>
         </div>
       )
     },
     {
-      title: "Step 1: Duplicate for ATL",
-      content: "Use the 'Actions' menu to Copy the Airport Operations Agent and name it 'ATL Airport Ops'.",
-      targetSelector: "#agent-actions-tut-a1"
-    },
-    {
-      title: "Step 2: Duplicate for DXB",
-      content: "Repeat the process for 'DXB Airport Ops'.",
-      targetSelector: "#agent-actions-tut-a1"
-    },
-    {
-      title: "Step 3: Duplicate for DFW",
-      content: "Repeat for 'DFW Airport Ops'.",
-      targetSelector: "#agent-actions-tut-a1"
-    },
-    {
-      title: "Step 4: Duplicate for LHR",
-      content: "Repeat for 'LHR Airport Ops'.",
-      targetSelector: "#agent-actions-tut-a1"
-    },
-    {
-      title: "Step 5: Duplicate for HND",
-      content: "Repeat for 'HND Airport Ops'.",
-      targetSelector: "#agent-actions-tut-a1"
-    },
-    {
-      title: "Governance Crisis: 737 Grounding",
+      title: "Step 1: Setup ATL",
       content: (
         <div>
-          <p>Boeing 737s have been grounded globally. You must manually update the <strong>instructions</strong> for all 5 existing airport agents to include:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Do not deploy any Boeing 737 aircraft."</code>
+          <p>Duplicate the 'Airport Operations Agent' and name it <strong>'ATL Airport Ops'</strong>.</p>
+          <p>Then, edit the instructions to add an ATL-specific constraint: <em>"Prioritize runway de-icing procedures during winter months."</em></p>
         </div>
-      ),
-      targetSelector: "table"
+      )
     },
     {
-      title: "The Scalability Wall",
-      content: "Notice how difficult this is for just 5 airports. Imagine doing this for hundreds. It's error-prone and slow.",
+      title: "Step 2: Setup DXB",
+      content: (
+        <div>
+          <p>Duplicate for <strong>'DXB Airport Ops'</strong>.</p>
+          <p>Add a DXB-specific constraint: <em>"Include sandstorm visibility protocols in all safety checks."</em></p>
+        </div>
+      )
+    },
+    {
+      title: "Step 3: Setup DFW",
+      content: (
+        <div>
+          <p>Duplicate for <strong>'DFW Airport Ops'</strong>.</p>
+          <p>Add a DFW-specific constraint: <em>"Monitor for thunderstorm-related wind shear reports."</em></p>
+        </div>
+      )
+    },
+    {
+      title: "Step 4: Setup LHR",
+      content: (
+        <div>
+          <p>Duplicate for <strong>'LHR Airport Ops'</strong>.</p>
+          <p>Add an LHR-specific constraint: <em>"Enforce strict nighttime noise abatement procedures."</em></p>
+        </div>
+      )
+    },
+    {
+      title: "Step 5: Setup HND",
+      content: (
+        <div>
+          <p>Duplicate for <strong>'HND Airport Ops'</strong>.</p>
+          <p>Add an HND-specific constraint: <em>"Adhere to JTSB regional safety reporting formats."</em></p>
+        </div>
+      )
+    },
+    {
+      title: "Global Update: 737 Grounding",
+      content: (
+        <div>
+          <p>A new global safety directive has been issued: <strong>All Boeing 737s are grounded.</strong></p>
+          <p>You must now manually update the instructions for <strong>all 5</strong> individual airport agents to include:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Do not deploy any Boeing 737 aircraft."</code>
+        </div>
+      )
+    },
+    {
+      title: "Transition to Profiles",
+      content: "This approach requires manual updates for every agent. Let's reset and try the same scenario using Agent Profiles.",
       onNext: () => {
         // Reset to initial tutorial state for Part 2
         setAgents([
@@ -657,21 +678,20 @@ const App = () => {
       }
     },
     {
-      title: "A Better Way: Profiles",
+      title: "Strategy: Using Profiles",
       content: (
         <div>
-          <p>Let's use <strong>Agent Profiles</strong> instead. We've reset the simulation.</p>
-          <p>Go to the <strong>Governance</strong> tab and create 5 Profiles (one for each airport) referencing the single base agent.</p>
+          <p>Now, create 5 <strong>Agent Profiles</strong> (one for each airport) all referencing the same single base agent.</p>
+          <p>You can still add your airport-specific constraints (noise, weather, etc.) directly in the Profile's instructions.</p>
         </div>
-      ),
-      targetSelector: "#create-agent-profile"
+      )
     },
     {
-      title: "Efficient Governance",
+      title: "Centralized Management",
       content: (
         <div>
-          <p>Now, instead of 5 manual updates, simply update the <strong>instructions</strong> of the single <strong>Airport Operations Agent</strong> with the 737 grounding rule.</p>
-          <p>All your airport profiles will immediately inherit this policy!</p>
+          <p>Now, when the <strong>737 Grounding</strong> directive is issued, you only need to update the single <strong>Airport Operations Agent</strong>.</p>
+          <p>All your airport profiles will immediately inherit this global policy without further manual edits.</p>
         </div>
       ),
       onNext: () => setActiveTab('Agents')
@@ -683,8 +703,7 @@ const App = () => {
           <p>Finally, suppose Dubai (DXB) grounds Airbus A380s. You can simply update the <strong>DXB Profile</strong> specifically without affecting other airports.</p>
           <p>This gives you both global control and local flexibility.</p>
         </div>
-      ),
-      targetSelector: "table"
+      )
     },
     {
       title: "Experience Complete",

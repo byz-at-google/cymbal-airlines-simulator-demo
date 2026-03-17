@@ -27,61 +27,11 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
   onNext
 }) => {
   const step = steps[currentStep];
-  const [indicatorStyle, setIndicatorStyle] = useState<React.CSSProperties>({
-    display: 'none'
-  });
-
-  useEffect(() => {
-    if (step?.targetSelector) {
-      const target = document.querySelector(step.targetSelector);
-      if (target) {
-        const rect = target.getBoundingClientRect();
-        setIndicatorStyle({
-          position: 'fixed',
-          top: `${rect.top - 15}px`,
-          left: `${rect.left + rect.width / 2}px`,
-          transform: 'translateX(-50%)',
-          zIndex: 2000,
-          display: 'block',
-          pointerEvents: 'none'
-        });
-        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-    }
-    setIndicatorStyle({ display: 'none' });
-  }, [step]);
 
   if (!step) return null;
 
   return (
     <Fragment>
-      {/* Floating Indicator Bubble (Non-blocking) */}
-      <div style={{
-        ...indicatorStyle,
-        backgroundColor: '#1a73e8',
-        color: 'white',
-        padding: '4px 8px',
-        borderRadius: '4px',
-        fontSize: '0.75rem',
-        fontWeight: 'bold',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-        whiteSpace: 'nowrap'
-      }}>
-        HERE
-        <div style={{
-          position: 'absolute',
-          bottom: '-6px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 0,
-          height: 0,
-          borderLeft: '6px solid transparent',
-          borderRight: '6px solid transparent',
-          borderTop: '6px solid #1a73e8'
-        }} />
-      </div>
-
       {/* Bottom Bar Navigation */}
       <div style={{
         position: 'fixed',
