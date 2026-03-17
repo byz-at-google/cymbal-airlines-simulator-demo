@@ -320,7 +320,9 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <h3 style={{ fontSize: '2rem', fontWeight: 400, marginBottom: '1rem' }}>Request Submitted</h3>
-                <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '2.5rem' }}>Your integration request for <strong>{products.find(p => p.id === selectedProductId)?.name}</strong> has been sent to the Product Owner for approval.</p>
+                <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '2.5rem' }}>
+                  Your integration request for <strong>{appFormData.productIds.length > 1 ? `${appFormData.productIds.length} products` : products.find(p => p.id === appFormData.productIds[0])?.name}</strong> has been sent to the Product Owner for approval.
+                </p>
                 <button 
                   onClick={() => { setShowAppForm(false); setSubmissionSuccess(false); setShowMyIntegrations(true); setSelectedProductId(null); setEditingAppId(null); }}
                   style={{ width: '100%', padding: '1rem', background: themeIndigo, color: 'white', border: 'none', borderRadius: '12px', fontWeight: 700, fontSize: '1.1rem', cursor: 'pointer' }}
@@ -370,6 +372,27 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                   <div>
                     <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.75rem', color: '#1e293b' }}>Use Case Description</label>
                     <textarea required value={appFormData.description} onChange={e => setAppFormData({...appFormData, description: e.target.value})} style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid #e2e8f0', outline: 'none', background: '#f8fafc', fontSize: '1rem', minHeight: '80px', resize: 'vertical' }} placeholder="Explain how you plan to use this agent..." />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.75rem', color: '#1e293b' }}>Requested Agentic Products (Select at least one)</label>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', padding: '1rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0', maxHeight: '150px', overflowY: 'auto' }}>
+                      {visibleProducts.map(p => (
+                        <label key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem' }}>
+                          <input 
+                            type="checkbox" 
+                            checked={appFormData.productIds.includes(p.id)} 
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setAppFormData({...appFormData, productIds: [...appFormData.productIds, p.id]});
+                              } else {
+                                setAppFormData({...appFormData, productIds: appFormData.productIds.filter(id => id !== p.id)});
+                              }
+                            }}
+                          />
+                          {p.name}
+                        </label>
+                      ))}
+                    </div>
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.75rem', color: '#1e293b' }}>Usage Semantic Governance Policy</label>

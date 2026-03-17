@@ -146,10 +146,13 @@ export const ConsumerAppManager: React.FC<ConsumerAppManagerProps> = ({
                 <td style={{ padding: '1rem 2rem' }}>
                   <button 
                     onClick={() => setSelectedAppId(app.id)}
-                    style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 400, fontSize: 'inherit', textAlign: 'left', fontFamily: 'inherit' }}
+                    style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 400, fontSize: 'inherit', textAlign: 'left', fontFamily: 'inherit', display: 'block' }}
                   >
                     {app.name}
                   </button>
+                  <div style={{ fontSize: '0.75rem', color: '#5f6368', marginTop: '0.25rem', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {app.description}
+                  </div>
                 </td>
                 <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>{app.submitterName}</td>
                 <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>
