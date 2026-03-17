@@ -121,7 +121,7 @@ const INITIAL_AGENTS: Agent[] = [
     id: 'a1',
     name: 'Customer Support Assistant',
     description: 'General customer support and query resolution.',
-    instructions: 'Always be helpful and polite. Use customer lookup to personalize responses.',
+    instructions: 'Always be helpful and polite. Use customer lookup to personalize responses. [GENERIC_SUPPORT_GUIDELINES]',
     createdDate: '2026-03-01',
     modifiedDate: '2026-03-01',
     status: 'Active'
@@ -152,33 +152,6 @@ const INITIAL_AGENTS: Agent[] = [
     createdDate: '2026-03-13',
     modifiedDate: '2026-03-13',
     status: 'Draft'
-  },
-  {
-    id: 'a5',
-    name: 'NA Customer Support Agent',
-    description: 'Regional support for North America.',
-    instructions: 'Follow NA privacy standards. Use [FORMAL_TONE] for business queries.',
-    createdDate: '2026-03-13',
-    modifiedDate: '2026-03-13',
-    status: 'Active'
-  },
-  {
-    id: 'a6',
-    name: 'EU Customer Support Agent',
-    description: 'Regional support for European Union.',
-    instructions: 'Strictly follow GDPR. Use [CASUAL_TONE] for consumer queries.',
-    createdDate: '2026-03-13',
-    modifiedDate: '2026-03-13',
-    status: 'Active'
-  },
-  {
-    id: 'a7',
-    name: 'APAC Customer Support Agent',
-    description: 'Regional support for Asia-Pacific.',
-    instructions: 'Multi-lingual support focus. Use [INJECT_SAFETY] for all operational queries.',
-    createdDate: '2026-03-13',
-    modifiedDate: '2026-03-13',
-    status: 'Active'
   }
 ];
 
@@ -438,7 +411,7 @@ const App = () => {
       description: 'Regional support bundle for NA operations.',
       createdDate: '2026-03-13',
       modifiedDate: '2026-03-13',
-      agents: [{agentId: 'a5', profileId: 'p5'}],
+      agents: [{agentId: 'a1', profileId: 'p5'}],
       tools: [{toolId: 't5', profileId: 'tp4'}],
       gtmCharacteristics: 'Standard support package for the US and Canadian markets.',
       technicalSpec: '',
@@ -451,7 +424,7 @@ const App = () => {
       description: 'GDPR-first support bundle for EU operations.',
       createdDate: '2026-03-13',
       modifiedDate: '2026-03-13',
-      agents: [{agentId: 'a6', profileId: 'p6'}],
+      agents: [{agentId: 'a1', profileId: 'p6'}],
       tools: [{toolId: 't6', profileId: 'tp5'}],
       gtmCharacteristics: 'High-compliance package designed for the EEA.',
       technicalSpec: '',
@@ -464,7 +437,7 @@ const App = () => {
       description: 'Multi-lingual support bundle for Asia-Pacific.',
       createdDate: '2026-03-13',
       modifiedDate: '2026-03-13',
-      agents: [{agentId: 'a7', profileId: 'p7'}],
+      agents: [{agentId: 'a1', profileId: 'p7'}],
       tools: [{toolId: 't7', profileId: 'tp4'}],
       gtmCharacteristics: 'Agile support package for diverse APAC economies.',
       technicalSpec: '',
