@@ -610,7 +610,7 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'ATL Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>In the creation dialog, name it <strong>'ATL Airport Ops'</strong> and add this to the <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize runway de-icing procedures during winter months."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
@@ -621,7 +621,7 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'DXB Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>In the creation dialog, name it <strong>'DXB Airport Ops'</strong> and add this to the <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Include sandstorm visibility protocols in all safety checks."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
@@ -632,7 +632,7 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'DFW Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>In the creation dialog, name it <strong>'DFW Airport Ops'</strong> and add this to the <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Monitor for thunderstorm-related wind shear reports."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
@@ -643,7 +643,7 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'LHR Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>In the creation dialog, name it <strong>'LHR Airport Ops'</strong> and add this to the <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Enforce strict nighttime noise abatement procedures."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
@@ -654,7 +654,7 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'HND Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <p>In the creation dialog, name it <strong>'HND Airport Ops'</strong> and add this to the <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Adhere to JTSB regional safety reporting formats."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
@@ -665,7 +665,7 @@ const App = () => {
       content: (
         <div>
           <p>A new global safety directive has been issued: <strong>All Boeing 737s are grounded.</strong></p>
-          <p>Currently, because these agents were created via <strong>duplication</strong>, they are entirely separate entities. You must now manually select <strong>Edit</strong> for <strong>each</strong> of the 5 individual airport agents to add this to their <strong>Natural Language Constraints</strong>:</p>
+          <p>Currently, because these agents were created via <strong>duplication</strong>, they are entirely separate entities. You must now manually select <strong>Edit</strong> for <strong>each</strong> of the 5 individual airport agents to add this to their <strong>Instructions</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Do not deploy any Boeing 737 aircraft."</code>
         </div>
       )
