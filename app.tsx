@@ -610,8 +610,8 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'ATL Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
+          <p>In the creation dialog, name it <strong>'ATL Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize runway de-icing procedures during winter months."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
@@ -621,8 +621,8 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'DXB Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
+          <p>In the creation dialog, name it <strong>'DXB Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Include sandstorm visibility protocols in all safety checks."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
@@ -632,8 +632,8 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'DFW Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
+          <p>In the creation dialog, name it <strong>'DFW Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Monitor for thunderstorm-related wind shear reports."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
@@ -643,8 +643,8 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'LHR Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
+          <p>In the creation dialog, name it <strong>'LHR Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Enforce strict nighttime noise abatement procedures."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
@@ -654,8 +654,8 @@ const App = () => {
       content: (
         <div>
           <p>Locate the <strong>'Airport Operations Agent'</strong> (the base agent). Under the <strong>Actions</strong> menu, select <strong>Copy</strong>.</p>
-          <p>In the creation dialog, name it <strong>'HND Airport Ops'</strong> and add this exact line to the <strong>Instructions</strong>:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
+          <p>In the creation dialog, name it <strong>'HND Airport Ops'</strong> and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Adhere to JTSB regional safety reporting formats."</code>
           <p>Select <strong>Create</strong> to finish.</p>
         </div>
       )
@@ -665,14 +665,14 @@ const App = () => {
       content: (
         <div>
           <p>A new global safety directive has been issued: <strong>All Boeing 737s are grounded.</strong></p>
-          <p>Currently, because these agents were created via <strong>duplication</strong>, they are entirely separate entities. Even though they do similar things, you must now manually select <strong>Edit</strong> for <strong>each</strong> of the 5 individual airport agents to include:</p>
+          <p>Currently, because these agents were created via <strong>duplication</strong>, they are entirely separate entities. You must now manually select <strong>Edit</strong> for <strong>each</strong> of the 5 individual airport agents to add this to their <strong>Natural Language Constraints</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Do not deploy any Boeing 737 aircraft."</code>
         </div>
       )
     },
     {
       title: "Transition to Profiles",
-      content: "This approach is difficult to maintain at scale. Let's reset the simulation and try the same objective using the <strong>Agent Profiles</strong> architecture.",
+      content: "This duplication approach is difficult to maintain! Let's reset and try the same objective using the <strong>Agent Profiles</strong> architecture.",
       onNext: () => {
         // Reset to initial tutorial state for Part 2
         setAgents([
@@ -692,13 +692,48 @@ const App = () => {
       }
     },
     {
-      title: "Strategy: Using Profiles",
+      title: "Profile 1: Setup ATL",
       content: (
         <div>
           <p>Go to the <strong>Governance</strong> tab and select <strong>Create Profile</strong>.</p>
-          <p>Create 5 <strong>Agent Profiles</strong> (ATL, DXB, DFW, LHR, HND), all referencing the single <strong>'Airport Operations Agent'</strong>.</p>
-          <p>For each profile, add this exact line to the <strong>Instructions</strong> field during creation:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize local safety protocols and weather-specific procedures."</code>
+          <p>Name it <strong>'ATL Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Natural Language Constraints</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize runway de-icing procedures during winter months."</code>
+        </div>
+      )
+    },
+    {
+      title: "Profile 2: Setup DXB",
+      content: (
+        <div>
+          <p>Select <strong>Create Profile</strong> again. Name it <strong>'DXB Profile'</strong>, link it to the base agent, and add:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Include sandstorm visibility protocols in all safety checks."</code>
+        </div>
+      )
+    },
+    {
+      title: "Profile 3: Setup DFW",
+      content: (
+        <div>
+          <p>Create a <strong>'DFW Profile'</strong> referencing the same base agent with these constraints:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Monitor for thunderstorm-related wind shear reports."</code>
+        </div>
+      )
+    },
+    {
+      title: "Profile 4: Setup LHR",
+      content: (
+        <div>
+          <p>Setup the <strong>'LHR Profile'</strong> for the <strong>'Airport Operations Agent'</strong> with:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Enforce strict nighttime noise abatement procedures."</code>
+        </div>
+      )
+    },
+    {
+      title: "Profile 5: Setup HND",
+      content: (
+        <div>
+          <p>Final Profile: Create the <strong>'HND Profile'</strong> and add its specific constraints:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Adhere to JTSB regional safety reporting formats."</code>
         </div>
       )
     },
@@ -713,11 +748,12 @@ const App = () => {
       onNext: () => setActiveTab('Agents')
     },
     {
-      title: "Local Flexibility",
+      title: "Emergency at DXB!",
       content: (
         <div>
-          <p>If Dubai (DXB) needs a specific grounding (e.g., Airbus A380), you can still update that <strong>DXB Profile</strong> instructions specifically.</p>
-          <p>You keep global control through the base agent, with surgical local flexibility through Profiles.</p>
+          <p><strong>ALERT:</strong> DXB has just issued an emergency grounding of all Airbus A380s! 🛫❌</p>
+          <p>Because you are using Profiles, you don't need to rebuild the agent—just update the <strong>DXB Profile's Natural Language Constraints</strong> specifically.</p>
+          <p>You keep global control through the base agent, with surgical local precision through Profiles.</p>
         </div>
       ),
       onNext: () => {
