@@ -40,8 +40,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
         bottom: 0,
         left: 0,
         right: 0,
-        minHeight: '120px',
-        maxHeight: '30vh',
+        height: '200px',
         backgroundColor: 'white',
         borderTop: '1px solid #dadce0',
         boxShadow: '0 -4px 10px rgba(0,0,0,0.1)',
@@ -49,8 +48,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
         alignItems: 'center',
         padding: '1rem 2rem',
         zIndex: 2001,
-        gap: '2rem',
-        overflowY: 'auto'
+        gap: '2rem'
       }}>
         <div style={{ flexShrink: 0, maxWidth: '300px' }}>
           <div style={{ fontSize: '0.75rem', color: '#1a73e8', fontWeight: 'bold', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -64,7 +62,9 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
           fontSize: '1.1rem', 
           color: '#3c4043', 
           lineHeight: '1.5',
-          padding: '8px 0'
+          padding: '8px 0',
+          maxHeight: '160px',
+          overflowY: 'auto'
         }}>
           {step.content}
         </div>
@@ -85,7 +85,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
             Exit Tutorial
           </button>
           
-          <div style={{ display: 'flex', gap: currentStep === steps.length - 1 ? '1.5rem' : '0.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
             {currentStep > 0 && (
               <button 
                 onClick={onPrev}
@@ -103,7 +103,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
               </button>
             )}
             
-            {!step.hideNext && (
+            {currentStep < steps.length - 1 && !step.hideNext && (
               <button 
                 onClick={() => {
                   if (step.onNext) step.onNext();
@@ -120,7 +120,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
                   boxShadow: '0 2px 4px rgba(26,115,232,0.3)'
                 }}
               >
-                {currentStep === steps.length - 1 ? 'End Tutorial' : 'Next Step'}
+                Next Step
               </button>
             )}
           </div>
