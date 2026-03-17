@@ -50,7 +50,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
         zIndex: 2001,
         gap: '2rem'
       }}>
-        <div style={{ position: 'absolute', top: '4px', right: '8px', fontSize: '10px', color: '#dadce0' }}>v1.0.1</div>
+        <div style={{ position: 'absolute', top: '8px', right: '12px', fontSize: '12px', color: '#1a73e8', fontWeight: 'bold', border: '1px solid #1a73e8', padding: '2px 4px', borderRadius: '4px' }}>v1.0.2</div>
         <div style={{ flexShrink: 0, maxWidth: '300px' }}>
           <div style={{ fontSize: '0.75rem', color: '#1a73e8', fontWeight: 'bold', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             Progress: {currentStep + 1} of {steps.length}
