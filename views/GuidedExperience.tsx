@@ -87,7 +87,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
             </button>
           )}
           
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', gap: currentStep === steps.length - 1 ? '1.5rem' : '0.5rem' }}>
             {currentStep > 0 && (
               <button 
                 onClick={onPrev}
