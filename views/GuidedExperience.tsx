@@ -70,20 +70,22 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
         </div>
 
         <div style={{ display: 'flex', gap: '1rem', flexShrink: 0 }}>
-          <button 
-            onClick={onClose}
-            style={{
-              backgroundColor: 'white',
-              color: '#5f6368',
-              border: '1px solid #dadce0',
-              padding: '0.6rem 1.2rem',
-              borderRadius: '6px',
-              fontWeight: 500,
-              cursor: 'pointer'
-            }}
-          >
-            Exit Tutorial
-          </button>
+          {currentStep < steps.length - 1 && (
+            <button 
+              onClick={onClose}
+              style={{
+                backgroundColor: 'white',
+                color: '#5f6368',
+                border: '1px solid #dadce0',
+                padding: '0.6rem 1.2rem',
+                borderRadius: '6px',
+                fontWeight: 500,
+                cursor: 'pointer'
+              }}
+            >
+              Exit Tutorial
+            </button>
+          )}
           
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             {currentStep > 0 && (
@@ -120,7 +122,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
                   boxShadow: '0 2px 4px rgba(26,115,232,0.3)'
                 }}
               >
-                {currentStep === steps.length - 1 ? 'Finish' : 'Next Step'}
+                {currentStep === steps.length - 1 ? 'End Tutorial' : 'Next Step'}
               </button>
             )}
           </div>
