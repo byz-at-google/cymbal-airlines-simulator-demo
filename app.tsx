@@ -21,6 +21,9 @@ import {ChannelManager, Channel} from './views/ChannelManager';
 import {TestBench} from './views/TestBench';
 import {GuidedExperienceOverlay, TutorialStep} from './views/GuidedExperience';
 
+import {setAnchorHref} from 'safevalues/dom';
+import {objectUrlFromSafeSource, unwrapUrl} from 'safevalues';
+
 export interface ConsumerApp {
   id: string;
   productIds: string[];
@@ -345,7 +348,68 @@ const INITIAL_TOOL_PROFILES: ToolProfile[] = [
   }
 ];
 
+interface ControlPanelProps {
+  persona: Persona;
+  handlePersonaChange: (p: Persona) => void;
+  isGuidedExperienceActive: boolean;
+  startGuidedExperience: (type: 'ops' | 'products') => void;
+  handleExport: () => void;
+  handleImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  fileInputRef: React.RefObject<HTMLInputElement>;
+}
+
+const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
+  persona,
+  handlePersonaChange,
+  isGuidedExperienceActive,
+  startGuidedExperience,
+  handleExport,
+  handleImport,
+  fileInputRef
+}) => {
+  return (
+    <div style={{ background: '#1e293b', color: '#f8fafc', padding: '0.75rem 2rem', borderBottom: '1px solid #334155', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 1100 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+          <h3 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 600, color: '#38bdf8', letterSpacing: '0.05em' }}>SIMULATOR CONTROL PANEL</h3>
+        </div>
+        {!isGuidedExperienceActive && (
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <button onClick={() => startGuidedExperience('ops')} style={{ padding: '0.4rem 0.8rem', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Scenario 1</button>
+            <button onClick={() => startGuidedExperience('products')} style={{ padding: '0.4rem 0.8rem', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Scenario 2</button>
+          </div>
+        )}
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button onClick={handleExport} style={{ padding: '0.4rem 0.8rem', background: 'transparent', color: '#f8fafc', border: '1px solid #475569', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer' }}>Export</button>
+          <button onClick={() => fileInputRef.current?.click()} style={{ padding: '0.4rem 0.8rem', background: 'transparent', color: '#f8fafc', border: '1px solid #475569', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer' }}>Import</button>
+          <input type="file" ref={fileInputRef} style={{ display: 'none' }} accept=".json,.txt" onChange={handleImport} />
+        </div>
+        <div style={{ height: '20px', width: '1px', background: '#334155' }}></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <label style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Persona View:</label>
+          <select 
+            value={persona} 
+            onChange={e => handlePersonaChange(e.target.value as Persona)} 
+            style={{ background: '#0f172a', color: '#f8fafc', border: '1px solid #334155', borderRadius: '4px', padding: '0.4rem 0.75rem', fontSize: '0.85rem', cursor: 'pointer' }}
+          >
+            {['Governance Administrator', 'Product Owner', 'C-Suite Executive', 'Storefront Manager', 'End Consumer'].map(p => (
+              <option key={p} value={p}>{p}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [persona, setPersona] = React.useState<Persona>(() => {
     const params = new URLSearchParams(window.location.search);
     const p = params.get('persona');
@@ -517,6 +581,44 @@ const App = () => {
   };
 
   const isSaaSPersona = ['Governance Administrator', 'Product Owner', 'C-Suite Executive'].includes(persona);
+
+  const handleExport = () => {
+    const dataStr = JSON.stringify({
+      agents, tools, agentProfiles, toolProfiles, products, channels, storefrontConfig, consumerApps
+    }, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/octet-stream' });
+    const safeUrl = objectUrlFromSafeSource(blob);
+    const link = document.createElement('a');
+    setAnchorHref(link, safeUrl);
+    link.download = `simulator_state_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(unwrapUrl(safeUrl));
+  };
+
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const importedData = JSON.parse(event.target?.result as string) as any;
+        if (importedData.agents) setAgents(importedData.agents);
+        if (importedData.tools) setTools(importedData.tools);
+        if (importedData.agentProfiles) setAgentProfiles(importedData.agentProfiles);
+        if (importedData.toolProfiles) setToolProfiles(importedData.toolProfiles);
+        if (importedData.products) setProducts(importedData.products);
+        if (importedData.channels) setChannels(importedData.channels);
+        if (importedData.storefrontConfig) setStorefrontConfig(importedData.storefrontConfig);
+        if (importedData.consumerApps) setConsumerApps(importedData.consumerApps);
+        alert('Simulator state imported successfully!');
+      } catch (err) {
+        alert('Error parsing state file.');
+      }
+    };
+    reader.readAsText(file);
+  };
 
   const startGuidedExperience = (type: 'ops' | 'products' = 'ops') => {
     // Backup current state
@@ -1317,6 +1419,17 @@ const App = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: '#f8f9fa', width: '100vw', overflow: 'hidden', fontFamily: "'Google Sans', Roboto, Arial, sans-serif" }}>
+      {isGuidedExperienceEnabled && (
+        <SimulatorControlPanel 
+          persona={persona}
+          handlePersonaChange={handlePersonaChange}
+          isGuidedExperienceActive={guidedExpState.isActive}
+          startGuidedExperience={startGuidedExperience}
+          handleExport={handleExport}
+          handleImport={handleImport}
+          fileInputRef={fileInputRef}
+        />
+      )}
       <header style={{ 
         padding: '0.75rem 2rem', 
         background: '#ffffff', 
@@ -1333,34 +1446,11 @@ const App = () => {
           </svg>
           <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             Cymbal Airlines Simulation
-            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.11</span>
+            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.12</span>
           </h1>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <label htmlFor="persona-select" style={{ fontSize: '0.9rem', fontWeight: 400, color: '#5f6368' }}>Persona: </label>
-          <select 
-            id="persona-select" 
-            value={persona} 
-            onChange={(e) => {
-              handlePersonaChange(e.target.value as Persona);
-            }}
-            style={{ 
-              padding: '0.5rem 1rem', 
-              borderRadius: '8px', 
-              border: '1px solid #dadce0',
-              backgroundColor: '#f1f3f4',
-              fontSize: '0.9rem',
-              outline: 'none',
-              cursor: 'pointer'
-            }}
-          >
-            <option value="Product Owner">Product Owner</option>
-            <option value="Governance Administrator">Governance Administrator</option>
-            <option value="C-Suite Executive">C-Suite Executive</option>
-            <option value="Storefront Manager">Storefront Manager</option>
-            <option value="End Consumer">End Consumer</option>
-            <option value="Admin">Simulator Admin</option>
-          </select>
+          {/* Persona select moved to Control Panel */}
         </div>
       </header>
 
