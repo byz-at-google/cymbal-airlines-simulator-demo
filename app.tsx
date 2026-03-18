@@ -367,6 +367,8 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
   handleImport,
   fileInputRef
 }) => {
+  const [showLearningModal, setShowLearningModal] = useState(false);
+
   return (
     <div style={{ background: '#1e293b', color: '#f8fafc', padding: '0.75rem 2rem', borderBottom: '1px solid #334155', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 1100 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
@@ -379,8 +381,13 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
         </div>
         {!isGuidedExperienceActive && (
           <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <button onClick={() => startGuidedExperience('ops')} style={{ padding: '0.4rem 0.8rem', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Profile Governance</button>
-            <button onClick={() => startGuidedExperience('products')} style={{ padding: '0.4rem 0.8rem', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Products & Channels</button>
+            <button onClick={() => setShowLearningModal(true)} style={{ padding: '0.4rem 0.8rem', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              Learning Scenarios
+            </button>
           </div>
         )}
       </div>
@@ -404,6 +411,50 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
           </select>
         </div>
       </div>
+      {showLearningModal && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2000 }}>
+          <div style={{ background: '#1e293b', padding: '2rem', borderRadius: '12px', color: '#f8fafc', width: '640px', maxWidth: '95%', border: '1px solid #334155', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid #334155', paddingBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 600, color: '#38bdf8', letterSpacing: '0.05em' }}>SIMULATOR LEARNING SCENARIOS</h3>
+              </div>
+              <button onClick={() => setShowLearningModal(false)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1.5rem', padding: '0.25rem', display: 'flex' }}>&times;</button>
+            </div>
+            
+            <div style={{ display: 'grid', gap: '1.25rem' }}>
+              <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                  <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Profile Governance Syncing</h4>
+                  <span style={{ fontSize: '0.75rem', background: '#38bdf820', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 1</span>
+                </div>
+                <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
+                  Master balancing localized Agent Profiles with Governance Policies semantic rules updates. Set up region sync loops securely.
+                </p>
+                <button onClick={() => { startGuidedExperience('ops'); setShowLearningModal(false); }} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  Launch Tutorial
+                </button>
+              </div>
+
+              <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                  <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Product Distribution Strategy</h4>
+                  <span style={{ fontSize: '0.75rem', background: '#10b98120', color: '#10b981', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 2</span>
+                </div>
+                <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
+                  Coordinate bundle publications across multiple global branches (SEA, JFK, DXB). Manage release targeting into Channels smoothly.
+                </p>
+                <button onClick={() => { startGuidedExperience('products'); setShowLearningModal(false); }} style={{ background: '#10b981', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  Launch Tutorial
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -1446,7 +1497,7 @@ const App = () => {
           </svg>
           <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             Cymbal Airlines Simulation
-            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.12</span>
+            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.13</span>
           </h1>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>

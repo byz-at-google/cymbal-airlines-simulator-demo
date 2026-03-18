@@ -378,38 +378,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           }
         />
 
-        {isGuidedExperienceEnabled && !isGuidedExperienceActive && startGuidedExperience && (
-          <div style={{ marginBottom: '2rem', background: '#1e293b', padding: '1.5rem', borderRadius: '12px', color: '#f8f9fa', border: '1px solid #334155', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.2)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-              </svg>
-              <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, color: '#38bdf8', letterSpacing: '0.05em' }}>SIMULATOR LEARNING SCENARIOS</h3>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem' }}>
-              <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', border: '1px solid #1e293b' }}>
-                <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.95rem', fontWeight: 600, color: '#f8fafc' }}>Profile Governance Syncing</h4>
-                <p style={{ margin: '0 0 1.25rem 0', fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.5 }}>
-                  Master balancing localized Agent Profiles with Governance Policies semantic rules updates. Set up region sync loops securely.
-                </p>
-                <button onClick={() => startGuidedExperience('ops')} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.5rem 1rem', borderRadius: '6px', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                  Launch Tutorial
-                </button>
-              </div>
 
-              <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', border: '1px solid #1e293b' }}>
-                <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.95rem', fontWeight: 600, color: '#f8fafc' }}>Product Distribution Strategy</h4>
-                <p style={{ margin: '0 0 1.25rem 0', fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.5 }}>
-                  Coordinate bundle publications across multiple global branches (SEA, JFK, DXB). Manage release targeting into Channels smoothly.
-                </p>
-                <button onClick={() => startGuidedExperience('products')} style={{ background: '#10b981', color: '#0f172a', border: 'none', padding: '0.5rem 1rem', borderRadius: '6px', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                  Launch Tutorial
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           <MetricCard title="Product Revenue ROI" value="$24.8k" mock color={themeColor} />
