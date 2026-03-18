@@ -834,43 +834,43 @@ const App = () => {
       )
     },
     {
-      title: "Task 1: Setup YVR Orchestration",
+      title: "Task 1: Setup YVR Pilot Scheduling",
       content: (
         <div>
           <p>Click <strong>Create Agent</strong> on the Agents screen.</p>
-          <p>Name it <strong>'YVR Operations Orchestrator'</strong> and add this to the <strong>Instructions</strong>:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Refer to 'Airport Operations Agent' and 'Pilot Scheduling Agent' for all YVR operations."</code>
+          <p>Name it <strong>'YVR Pilot Scheduling Orchestrator'</strong> and add this to the <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Leverage the Airport Operations Agent and Pilot Scheduling Agent to schedule operations for YVR"</code>
           <p>Add the following to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0', whiteSpace: 'pre-wrap' }}>
-            {"[CANADA_LABOR_LAW] Pilots are limited to 14 hours of continuous duty.\n[YVR_SPECIFIC] All aircraft must adhere to Vancouver noise ordinances."}
+            {"[CANADA_LABOR_LAW] Pilots are limited to 14 hours of continuous duty.\n[YVR_SPECIFIC] Account for travel time to off-site crew hotels during peak Vancouver traffic."}
           </code>
         </div>
       )
     },
     {
-      title: "Task 2: Setup EWR Orchestration",
+      title: "Task 2: Setup EWR Pilot Scheduling",
       content: (
         <div>
           <p>Click <strong>Create Agent</strong> again.</p>
-          <p>Name it <strong>'EWR Operations Orchestrator'</strong> and add this to the <strong>Instructions</strong>:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Refer to 'Airport Operations Agent' and 'Pilot Scheduling Agent' for all EWR operations."</code>
+          <p>Name it <strong>'EWR Pilot Scheduling Orchestrator'</strong> and add this to the <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Leverage the Airport Operations Agent and Pilot Scheduling Agent to schedule operations for EWR"</code>
           <p>Add the following to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0', whiteSpace: 'pre-wrap' }}>
-            {"[US_LABOR_LAW] Pilots are limited to 12 hours of continuous duty.\n[EWR_SPECIFIC] Prioritize Newark runway de-icing protocols."}
+            {"[US_LABOR_LAW] Pilots are limited to 12 hours of continuous duty.\n[EWR_SPECIFIC] Coordinate deadheading crews with Atlantic Coast shuttle timetables."}
           </code>
         </div>
       )
     },
     {
-      title: "Task 3: Setup JFK Orchestration",
+      title: "Task 3: Setup JFK Pilot Scheduling",
       content: (
         <div>
           <p>Click <strong>Create Agent</strong> again.</p>
-          <p>Name it <strong>'JFK Operations Orchestrator'</strong> and add this to the <strong>Instructions</strong>:</p>
-          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Refer to 'Airport Operations Agent' and 'Pilot Scheduling Agent' for all JFK operations."</code>
+          <p>Name it <strong>'JFK Pilot Scheduling Orchestrator'</strong> and add this to the <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Leverage the Airport Operations Agent and Pilot Scheduling Agent to schedule operations for JFK"</code>
           <p>Add the following to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0', whiteSpace: 'pre-wrap' }}>
-            {"[US_LABOR_LAW] Pilots are limited to 12 hours of continuous duty.\n[JFK_SPECIFIC] Coordinate closely with JFK Terminal 4 logistics."}
+            {"[US_LABOR_LAW] Pilots are limited to 12 hours of continuous duty.\n[JFK_SPECIFIC] Factor in JFK runway taxi times when calculating continuous duty start times."}
           </code>
         </div>
       )
@@ -949,7 +949,7 @@ const App = () => {
             <li><strong>JFK, EWR, YVR Profiles</strong> (Airport Specific)</li>
             <li><strong>US & Canada Labor Law</strong> (Country Specific)</li>
           </ul>
-          <p>Profiles need a <strong>Product</strong> to take effect. A product is a bundle of capabilities for a specific use-case.</p>
+          <p>Products are the way that capabilities like agents are distributed to address a specific use-case. Profiles help tailor governance and functionality for each product to ensure its customized for that exact use case.</p>
         </div>
       ),
       onNext: () => {
@@ -1020,7 +1020,12 @@ const App = () => {
       title: "Scaling to SEA",
       content: (
         <div>
-          <p>To support <strong>SEA</strong>, create a new Product, reuse the <strong>Pilot Scheduling Agent</strong> + <strong>US Labor Law Profile</strong>, and create a new <strong>SEA Profile</strong>.</p>
+          <p>To support <strong>SEA</strong> (Seattle), we first need to define its specific governance.</p>
+          <p>Go to <strong>Governance</strong> &rarr; <strong>Agent Profiles</strong> and select <strong>Create Agent Profile</strong>.</p>
+          <p>Name: <strong>'SEA Profile'</strong></p>
+          <p>Global Semantic Policy:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"[SEA_SPECIFIC] Account for Seattle-Tacoma low-visibility approach delays in pilot rest calculations."</code>
+          <p>Then, create a new <strong>Product</strong> for SEA and bundle it up!</p>
         </div>
       )
     },
@@ -1042,7 +1047,7 @@ const App = () => {
           <p>Products are published to Channels. Let's group our US solutions.</p>
           <p>Go to <strong>Distribution</strong> &rarr; <strong>Channels</strong> and select <strong>Create Channel</strong>.</p>
           <p>Name: <strong>'US Regional Operations Channel'</strong></p>
-          <p>Select available US Products (JFK, EWR).</p>
+          <p>Select available US Products (JFK, EWR, SEA).</p>
         </div>
       )
     },
@@ -1328,7 +1333,7 @@ const App = () => {
           </svg>
           <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             Cymbal Airlines Simulation
-            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.10</span>
+            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.11</span>
           </h1>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
