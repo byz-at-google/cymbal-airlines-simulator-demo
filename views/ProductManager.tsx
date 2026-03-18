@@ -264,12 +264,15 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                   const agentQuery = agentSearchQuery[idx] || '';
                   const profileQuery = agentProfileSearchQuery[idx] || '';
                   
-                  const filteredAgents = agents.filter(a => a.name.toLowerCase().includes(agentQuery.toLowerCase())).slice(0, 50);
+                  const filteredAgents = agents.filter(a => 
+                    a.name.toLowerCase().includes(agentQuery.toLowerCase()) &&
+                    !formData.agents.some((ag, i) => i !== idx && ag.agentId === a.id)
+                  ).slice(0, 50);
                   const filteredProfiles = agentProfiles.filter(p => p.name.toLowerCase().includes(profileQuery.toLowerCase())).slice(0, 50);
 
                   return (
                     <tr key={idx}>
-                      <td style={{ padding: '0.5rem', border: '1px solid #dadce0', position: 'relative' }}>
+                      <td style={{ padding: '0.5rem', border: '1px solid #dadce0', position: 'relative', zIndex: showDropdown?.type === 'agent' && showDropdown?.index === idx ? 10 : 1 }}>
                         <input 
                           type="text"
                           placeholder={selectedAgent ? selectedAgent.name : "Search agent..."}
@@ -283,7 +286,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
                         {showDropdown?.type === 'agent' && showDropdown?.index === idx && agentQuery && (
-                          <div style={{ position: 'absolute', bottom: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 -4px 6px rgba(0,0,0,0.1)' }}>
+                          <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredAgents.map(a => (
                               <div 
                                 key={a.id}
@@ -302,7 +305,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           </div>
                         )}
                       </td>
-                      <td style={{ padding: '0.5rem', border: '1px solid #dadce0', position: 'relative' }}>
+                      <td style={{ padding: '0.5rem', border: '1px solid #dadce0', position: 'relative', zIndex: showDropdown?.type === 'agentProfile' && showDropdown?.index === idx ? 10 : 1 }}>
                         <input 
                           type="text"
                           placeholder={selectedProfile ? selectedProfile.name : "Search profile..."}
@@ -316,7 +319,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
                         {showDropdown?.type === 'agentProfile' && showDropdown?.index === idx && profileQuery && (
-                          <div style={{ position: 'absolute', bottom: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 -4px 6px rgba(0,0,0,0.1)' }}>
+                          <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredProfiles.map(p => (
                               <div 
                                 key={p.id}
@@ -366,12 +369,15 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                   const toolQuery = toolSearchQuery[idx] || '';
                   const profileQuery = toolProfileSearchQuery[idx] || '';
 
-                  const filteredTools = tools.filter(t => t.name.toLowerCase().includes(toolQuery.toLowerCase())).slice(0, 50);
+                  const filteredTools = tools.filter(t => 
+                    t.name.toLowerCase().includes(toolQuery.toLowerCase()) &&
+                    !formData.tools.some((to, i) => i !== idx && to.toolId === t.id)
+                  ).slice(0, 50);
                   const filteredProfiles = toolProfiles.filter(p => p.name.toLowerCase().includes(profileQuery.toLowerCase())).slice(0, 50);
 
                   return (
                     <tr key={idx}>
-                      <td style={{ padding: '0.5rem', border: '1px solid #dadce0', position: 'relative' }}>
+                      <td style={{ padding: '0.5rem', border: '1px solid #dadce0', position: 'relative', zIndex: showDropdown?.type === 'tool' && showDropdown?.index === idx ? 10 : 1 }}>
                         <input 
                           type="text"
                           placeholder={selectedTool ? selectedTool.name : "Search tool..."}
@@ -385,7 +391,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
                         {showDropdown?.type === 'tool' && showDropdown?.index === idx && toolQuery && (
-                          <div style={{ position: 'absolute', bottom: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 -4px 6px rgba(0,0,0,0.1)' }}>
+                          <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredTools.map(t => (
                               <div 
                                 key={t.id}
@@ -404,7 +410,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           </div>
                         )}
                       </td>
-                      <td style={{ padding: '0.5rem', border: '1px solid #dadce0', position: 'relative' }}>
+                      <td style={{ padding: '0.5rem', border: '1px solid #dadce0', position: 'relative', zIndex: showDropdown?.type === 'toolProfile' && showDropdown?.index === idx ? 10 : 1 }}>
                         <input 
                           type="text"
                           placeholder={selectedProfile ? selectedProfile.name : "Search profile..."}
@@ -418,7 +424,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
                         {showDropdown?.type === 'toolProfile' && showDropdown?.index === idx && profileQuery && (
-                          <div style={{ position: 'absolute', bottom: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 -4px 6px rgba(0,0,0,0.1)' }}>
+                          <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredProfiles.map(p => (
                               <div 
                                 key={p.id}
