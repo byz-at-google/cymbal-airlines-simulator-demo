@@ -248,7 +248,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
 
         <div style={{ marginBottom: '1.5rem' }}>
           <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Agents & Profiles</label>
-          <div style={{ overflowX: 'auto', paddingBottom: formData.agents.length > 0 ? '160px' : '0' }}>
+          <div style={{ overflowX: 'auto', paddingBottom: '80px' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '0.5rem', minWidth: '600px' }}>
               <thead>
                 <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
@@ -354,7 +354,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
 
         <div style={{ marginBottom: '1.5rem' }}>
           <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Tools & Profiles</label>
-          <div style={{ overflowX: 'auto', paddingBottom: formData.tools.length > 0 ? '160px' : '0' }}>
+          <div style={{ overflowX: 'auto', paddingBottom: '80px' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '0.5rem', minWidth: '600px' }}>
               <thead>
                 <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
