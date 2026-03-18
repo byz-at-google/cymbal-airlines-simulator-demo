@@ -715,7 +715,7 @@ const App = () => {
       content: (
         <div>
           <p>Go to the <strong>Governance</strong> tab, ensure you are on the <strong>Agent Profiles</strong> sub-tab, and select <strong>Create Agent Profile</strong>.</p>
-          <p>Name it <strong>'ATL Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
+          <p>Name it <strong>'ATL Profile'</strong> and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Prioritize runway de-icing procedures during winter months."</code>
         </div>
       )
@@ -725,7 +725,7 @@ const App = () => {
       content: (
         <div>
           <p>Select <strong>Create Agent Profile</strong> again.</p>
-          <p>Name it <strong>'DXB Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
+          <p>Name it <strong>'DXB Profile'</strong> and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Include sandstorm visibility protocols in all safety checks."</code>
         </div>
       )
@@ -735,7 +735,7 @@ const App = () => {
       content: (
         <div>
           <p>Select <strong>Create Agent Profile</strong> again.</p>
-          <p>Name it <strong>'DFW Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
+          <p>Name it <strong>'DFW Profile'</strong> and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Monitor for thunderstorm-related wind shear reports."</code>
         </div>
       )
@@ -745,7 +745,7 @@ const App = () => {
       content: (
         <div>
           <p>Select <strong>Create Agent Profile</strong> again.</p>
-          <p>Name it <strong>'LHR Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
+          <p>Name it <strong>'LHR Profile'</strong> and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Enforce strict nighttime noise abatement procedures."</code>
         </div>
       )
@@ -755,7 +755,7 @@ const App = () => {
       content: (
         <div>
           <p>Select <strong>Create Agent Profile</strong> again.</p>
-          <p>Name it <strong>'HND Profile'</strong>, select the <strong>'Airport Operations Agent'</strong>, and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
+          <p>Name it <strong>'HND Profile'</strong> and add this to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Adhere to JTSB regional safety reporting formats."</code>
         </div>
       ),
