@@ -278,7 +278,7 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
             )}
           </div>
           
-          <div style={{ overflowX: 'auto' }}>
+          <div style={{ overflowX: 'auto', paddingBottom: formRows.length > 0 ? '160px' : '0' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
               <thead>
                 <tr style={{ textAlign: 'left', borderBottom: '2px solid #eee' }}>
