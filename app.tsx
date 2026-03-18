@@ -75,6 +75,7 @@ export interface AdminData {
 export interface GuidedExperienceState {
   isActive: boolean;
   currentStep: number;
+  type?: 'ops' | 'products';
   backupState: AdminData | null;
 }
 
@@ -517,7 +518,7 @@ const App = () => {
 
   const isSaaSPersona = ['Governance Administrator', 'Product Owner', 'C-Suite Executive'].includes(persona);
 
-  const startGuidedExperience = () => {
+  const startGuidedExperience = (type: 'ops' | 'products' = 'ops') => {
     // Backup current state
     const backup: AdminData = {
       agents,
@@ -533,42 +534,68 @@ const App = () => {
     setGuidedExpState({
       isActive: true,
       currentStep: 0,
+      type: type,
       backupState: backup
     });
 
-    // Clear and Setup Initial Tutorial Data
-    setAgents([
-      {
-        id: 'tut-a1',
-        name: 'Airport Operations Agent',
-        description: 'Quality assurance and safety reporting assistant for airport grounds.',
-        instructions: 'Focus on precision and regulatory compliance. Flag any anomalies immediately.',
-        createdDate: new Date().toISOString().split('T')[0],
-        modifiedDate: new Date().toISOString().split('T')[0],
-        status: 'Active'
-      }
-    ]);
+    if (type === 'ops') {
+      // Clear and Setup Initial Tutorial Data
+      setAgents([
+        {
+          id: 'tut-a1',
+          name: 'Airport Operations Agent',
+          description: 'Quality assurance and safety reporting assistant for airport grounds.',
+          instructions: 'Focus on precision and regulatory compliance. Flag any anomalies immediately.',
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          status: 'Active'
+        }
+      ]);
 
-    setTools([
-      {
-        id: 'tut-t1',
-        name: 'Runway Status API',
-        description: 'Real-time runway occupancy and safety status.',
-        endpoint: 'https://api.cymbal.com/v1/ops/runway',
-        createdDate: new Date().toISOString().split('T')[0],
-        modifiedDate: new Date().toISOString().split('T')[0],
-        status: 'Active'
-      },
-      {
-        id: 'tut-t2',
-        name: 'Gate Management System',
-        description: 'Real-time aircraft-to-gate assignment tracking.',
-        endpoint: 'https://api.cymbal.com/v1/ops/gates',
-        createdDate: new Date().toISOString().split('T')[0],
-        modifiedDate: new Date().toISOString().split('T')[0],
-        status: 'Active'
-      }
-    ]);
+      setTools([
+        {
+          id: 'tut-t1',
+          name: 'Runway Status API',
+          description: 'Real-time runway occupancy and safety status.',
+          endpoint: 'https://api.cymbal.com/v1/ops/runway',
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          status: 'Active'
+        },
+        {
+          id: 'tut-t2',
+          name: 'Gate Management System',
+          description: 'Real-time aircraft-to-gate assignment tracking.',
+          endpoint: 'https://api.cymbal.com/v1/ops/gates',
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          status: 'Active'
+        }
+      ]);
+    } else if (type === 'products') {
+      setAgents([
+        {
+          id: 'tut-a1',
+          name: 'Airport Operations Agent',
+          description: 'Quality assurance and safety reporting assistant for airport grounds.',
+          instructions: 'Focus on precision and regulatory compliance. Flag any anomalies immediately.',
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          status: 'Active'
+        },
+        {
+          id: 'tut-a2',
+          name: 'Pilot Scheduling Agent',
+          description: 'Optimizes pilot rotations, rest periods, and flight assignments.',
+          instructions: 'Ensure full adherence to flight time limitations and rest mandates.',
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          status: 'Active'
+        }
+      ]);
+      setTools([]);
+    }
+
 
     setAgentProfiles([]);
     setToolProfiles([]);
@@ -790,6 +817,241 @@ const App = () => {
         <div>
           <p>Experience Complete! You've successfully navigated the simulation with and without Profiles.</p>
           <p><strong>The Profile Advantage:</strong> Agent Profiles allow you to define a single source of truth for your agents while providing specialized instructions for different contexts. This eliminates the need for error-prone duplication and drastically simplifies global fleet management.</p>
+        </div>
+      ),
+      hideNext: true
+    }
+  ];
+
+  const productsAndChannelsTutorial: TutorialStep[] = [
+    {
+      title: "Goal: Global Pilot Scheduling",
+      content: (
+        <div>
+          <p>Your objective is to provide pilot scheduling capability to three major airports: <strong>JFK, EWR, and YVR</strong>.</p>
+          <p>We will start <strong>without</strong> Profiles to demonstrate the maintenance and management overhead of traditional duplication.</p>
+        </div>
+      )
+    },
+    {
+      title: "Task 1: Setup YVR Orchestration",
+      content: (
+        <div>
+          <p>Click <strong>Create Agent</strong> on the Agents screen.</p>
+          <p>Name it <strong>'YVR Operations Orchestrator'</strong> and add this to the <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Refer to 'Airport Operations Agent' and 'Pilot Scheduling Agent' for all YVR operations."</code>
+          <p>Add the following to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0', whiteSpace: 'pre-wrap' }}>
+            {"[CANADA_LABOR_LAW] Pilots are limited to 14 hours of continuous duty.\n[YVR_SPECIFIC] All aircraft must adhere to Vancouver noise ordinances."}
+          </code>
+        </div>
+      )
+    },
+    {
+      title: "Task 2: Setup EWR Orchestration",
+      content: (
+        <div>
+          <p>Click <strong>Create Agent</strong> again.</p>
+          <p>Name it <strong>'EWR Operations Orchestrator'</strong> and add this to the <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Refer to 'Airport Operations Agent' and 'Pilot Scheduling Agent' for all EWR operations."</code>
+          <p>Add the following to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0', whiteSpace: 'pre-wrap' }}>
+            {"[US_LABOR_LAW] Pilots are limited to 12 hours of continuous duty.\n[EWR_SPECIFIC] Prioritize Newark runway de-icing protocols."}
+          </code>
+        </div>
+      )
+    },
+    {
+      title: "Task 3: Setup JFK Orchestration",
+      content: (
+        <div>
+          <p>Click <strong>Create Agent</strong> again.</p>
+          <p>Name it <strong>'JFK Operations Orchestrator'</strong> and add this to the <strong>Instructions</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"Refer to 'Airport Operations Agent' and 'Pilot Scheduling Agent' for all JFK operations."</code>
+          <p>Add the following to the <strong>Global Agent Semantic Governance Policy</strong>:</p>
+          <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0', whiteSpace: 'pre-wrap' }}>
+            {"[US_LABOR_LAW] Pilots are limited to 12 hours of continuous duty.\n[JFK_SPECIFIC] Coordinate closely with JFK Terminal 4 logistics."}
+          </code>
+        </div>
+      )
+    },
+    {
+      title: "The Maintenance Trap",
+      content: (
+        <div>
+          <p>What happens if <strong>US Labor Laws change</strong>? You would have to manually edit <strong>both</strong> the JFK and EWR agents separately.</p>
+          <p>Furthermore, how do you track how much usage the base `Pilot Scheduling Agent` gets specifically from EWR? It's complex to reverse-engineer from logs.</p>
+        </div>
+      ),
+      onNext: () => {
+        setAgentProfiles([
+          {
+            id: 'tut-p-jfk',
+            name: 'JFK Profile',
+            description: 'JFK Specific Governance',
+            createdDate: new Date().toISOString().split('T')[0],
+            modifiedDate: new Date().toISOString().split('T')[0],
+            globalSemanticPolicy: '[JFK_SPECIFIC] Coordinate closely with JFK Terminal 4 logistics.',
+            toolSemanticPolicies: {},
+            status: 'Active'
+          },
+          {
+            id: 'tut-p-ewr',
+            name: 'EWR Profile',
+            description: 'EWR Specific Governance',
+            createdDate: new Date().toISOString().split('T')[0],
+            modifiedDate: new Date().toISOString().split('T')[0],
+            globalSemanticPolicy: '[EWR_SPECIFIC] Prioritize Newark runway de-icing protocols.',
+            toolSemanticPolicies: {},
+            status: 'Active'
+          },
+          {
+            id: 'tut-p-yvr',
+            name: 'YVR Profile',
+            description: 'YVR Specific Governance',
+            createdDate: new Date().toISOString().split('T')[0],
+            modifiedDate: new Date().toISOString().split('T')[0],
+            globalSemanticPolicy: '[YVR_SPECIFIC] All aircraft must adhere to Vancouver noise ordinances.',
+            toolSemanticPolicies: {},
+            status: 'Active'
+          },
+          {
+            id: 'tut-p-us-labor',
+            name: 'US Pilot Labor Law',
+            description: 'US Labor Law Governance',
+            createdDate: new Date().toISOString().split('T')[0],
+            modifiedDate: new Date().toISOString().split('T')[0],
+            globalSemanticPolicy: '[US_LABOR_LAW] Pilots are limited to 12 hours of continuous duty.',
+            toolSemanticPolicies: {},
+            status: 'Active'
+          },
+          {
+            id: 'tut-p-ca-labor',
+            name: 'Canada Pilot Labor Law',
+            description: 'Canada Labor Law Governance',
+            createdDate: new Date().toISOString().split('T')[0],
+            modifiedDate: new Date().toISOString().split('T')[0],
+            globalSemanticPolicy: '[CANADA_LABOR_LAW] Pilots are limited to 14 hours of continuous duty.',
+            toolSemanticPolicies: {},
+            status: 'Active'
+          }
+        ]);
+        setActiveTab('Governance');
+        setGovernanceSubTab('Agent');
+      }
+    },
+    {
+      title: "Profiles Generated",
+      content: (
+        <div>
+          <p>We've generated 5 profiles for you to use:</p>
+          <ul>
+            <li><strong>JFK, EWR, YVR Profiles</strong> (Airport Specific)</li>
+            <li><strong>US & Canada Labor Law</strong> (Country Specific)</li>
+          </ul>
+          <p>Profiles need a <strong>Product</strong> to take effect. A product is a bundle of capabilities for a specific use-case.</p>
+        </div>
+      ),
+      onNext: () => {
+        setActiveTab('Distribution');
+        setDistributionSubTab('Product');
+      }
+    },
+    {
+      title: "Product 1: YVR Pilot Scheduling",
+      content: (
+        <div>
+          <p>Select <strong>Create Product</strong>.</p>
+          <p>Name: <strong>'YVR Pilot Scheduling Solution'</strong></p>
+          <p>Add Agents:</p>
+          <ul>
+            <li><strong>Pilot Scheduling Agent</strong> with <strong>Canada Pilot Labor Law Profile</strong></li>
+            <li><strong>Airport Operations Agent</strong> with <strong>YVR Profile</strong></li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      title: "Product 2: JFK Pilot Scheduling",
+      content: (
+        <div>
+          <p>Select <strong>Create Product</strong>.</p>
+          <p>Name: <strong>'JFK Pilot Scheduling Solution'</strong></p>
+          <p>Add Agents:</p>
+          <ul>
+            <li><strong>Pilot Scheduling Agent</strong> with <strong>US Pilot Labor Law Profile</strong></li>
+            <li><strong>Airport Operations Agent</strong> with <strong>JFK Profile</strong></li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      title: "Product 3: EWR Pilot Scheduling",
+      content: (
+        <div>
+          <p>Select <strong>Create Product</strong>.</p>
+          <p>Name: <strong>'EWR Pilot Scheduling Solution'</strong></p>
+          <p>Add Agents:</p>
+          <ul>
+            <li><strong>Pilot Scheduling Agent</strong> with <strong>US Pilot Labor Law Profile</strong> (See the Reuse!)</li>
+            <li><strong>Airport Operations Agent</strong> with <strong>EWR Profile</strong></li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      title: "The Power of Reuse",
+      content: (
+        <div>
+          <p>Notice how clean that is! The <strong>US Pilot Labor Law Profile</strong> is shared across both JFK and EWR products.</p>
+        </div>
+      )
+    },
+    {
+      title: "Dynamic Update",
+      content: (
+        <div>
+          <p>If <strong>US Labor Laws change</strong> (e.g., pilots only work 3 days/week), you don't edit every agent.</p>
+          <p>Simply edit the single <strong>US Pilot Labor Law Profile</strong>. All referencing products update instantly.</p>
+        </div>
+      )
+    },
+    {
+      title: "Scaling to SEA",
+      content: (
+        <div>
+          <p>To support <strong>SEA</strong>, create a new Product, reuse the <strong>Pilot Scheduling Agent</strong> + <strong>US Labor Law Profile</strong>, and create a new <strong>SEA Profile</strong>.</p>
+        </div>
+      )
+    },
+    {
+      title: "Observability & ROI",
+      content: (
+        <div>
+          <p>Metrics and ROI are now tied to <strong>Products</strong>. You can easily track usage for the EWR product independently.</p>
+        </div>
+      ),
+      onNext: () => {
+        setDistributionSubTab('Channels');
+      }
+    },
+    {
+      title: "Publish to Channels",
+      content: (
+        <div>
+          <p>Products are published to Channels. Let's group our US solutions.</p>
+          <p>Go to <strong>Distribution</strong> &rarr; <strong>Channels</strong> and select <strong>Create Channel</strong>.</p>
+          <p>Name: <strong>'US Regional Operations Channel'</strong></p>
+          <p>Select available US Products (JFK, EWR).</p>
+        </div>
+      )
+    },
+    {
+      title: "Experience Complete",
+      content: (
+        <div>
+          <p>You've successfully bundled capabilities into Products, reused Profiles for governance, and published to Channels.</p>
+          <p>This architecture provides modularity, scalability, and enhanced observability.</p>
         </div>
       ),
       hideNext: true
@@ -1066,7 +1328,7 @@ const App = () => {
           </svg>
           <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             Cymbal Airlines Simulation
-            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.4</span>
+            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.5</span>
           </h1>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -1252,7 +1514,7 @@ const App = () => {
 
       {guidedExpState.isActive && (
         <GuidedExperienceOverlay 
-          steps={airportOpsTutorial} 
+          steps={guidedExpState.type === 'products' ? productsAndChannelsTutorial : airportOpsTutorial} 
           currentStep={guidedExpState.currentStep} 
           onClose={endGuidedExperience} 
           onNext={nextTutorialStep} 
