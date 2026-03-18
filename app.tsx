@@ -379,8 +379,8 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
         </div>
         {!isGuidedExperienceActive && (
           <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <button onClick={() => startGuidedExperience('ops')} style={{ padding: '0.4rem 0.8rem', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Scenario 1</button>
-            <button onClick={() => startGuidedExperience('products')} style={{ padding: '0.4rem 0.8rem', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Scenario 2</button>
+            <button onClick={() => startGuidedExperience('ops')} style={{ padding: '0.4rem 0.8rem', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Profile Governance</button>
+            <button onClick={() => startGuidedExperience('products')} style={{ padding: '0.4rem 0.8rem', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Products & Channels</button>
           </div>
         )}
       </div>
