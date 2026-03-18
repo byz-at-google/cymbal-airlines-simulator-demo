@@ -285,7 +285,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           disabled={!canEdit}
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
-                        {showDropdown?.type === 'agent' && showDropdown?.index === idx && agentQuery && (
+                        {showDropdown?.type === 'agent' && showDropdown?.index === idx && (
                           <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredAgents.map(a => (
                               <div 
@@ -318,7 +318,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           disabled={!canEdit}
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
-                        {showDropdown?.type === 'agentProfile' && showDropdown?.index === idx && profileQuery && (
+                        {showDropdown?.type === 'agentProfile' && showDropdown?.index === idx && (
                           <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredProfiles.map(p => (
                               <div 
@@ -390,7 +390,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           disabled={!canEdit}
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
-                        {showDropdown?.type === 'tool' && showDropdown?.index === idx && toolQuery && (
+                        {showDropdown?.type === 'tool' && showDropdown?.index === idx && (
                           <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredTools.map(t => (
                               <div 
@@ -423,7 +423,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           disabled={!canEdit}
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
-                        {showDropdown?.type === 'toolProfile' && showDropdown?.index === idx && profileQuery && (
+                        {showDropdown?.type === 'toolProfile' && showDropdown?.index === idx && (
                           <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredProfiles.map(p => (
                               <div 

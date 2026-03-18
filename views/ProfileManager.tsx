@@ -291,11 +291,14 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
                 {formRows.map((row, index) => {
                   const selectedTool = tools.find(t => t.id === row.toolId);
                   const query = toolSearchQuery[index] || '';
-                  const filteredTools = tools.filter(t => t.name.toLowerCase().includes(query.toLowerCase())).slice(0, 50);
+                  const filteredTools = tools.filter(t => 
+                    t.name.toLowerCase().includes(query.toLowerCase()) &&
+                    !formRows.some((r, i) => i !== index && r.toolId === t.id)
+                  ).slice(0, 50);
 
                   return (
                     <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
-                      <td style={{ padding: '0.5rem', position: 'relative' }}>
+                      <td style={{ padding: '0.5rem', position: 'relative', zIndex: showDropdown === index ? 10 : 1 }}>
                         <input 
                           type="text"
                           placeholder={selectedTool ? selectedTool.name : "Search tool..."}
@@ -308,7 +311,7 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
                           disabled={!canEdit}
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
                         />
-                        {showDropdown === index && query && (
+                        {showDropdown === index && (
                           <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 10, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredTools.map(t => (
                               <div 
