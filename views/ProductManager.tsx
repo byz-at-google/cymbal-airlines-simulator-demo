@@ -283,7 +283,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
                         {showDropdown?.type === 'agent' && showDropdown?.index === idx && agentQuery && (
-                          <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 10, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                          <div style={{ position: 'absolute', bottom: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 -4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredAgents.map(a => (
                               <div 
                                 key={a.id}
@@ -316,7 +316,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
                         {showDropdown?.type === 'agentProfile' && showDropdown?.index === idx && profileQuery && (
-                          <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 10, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                          <div style={{ position: 'absolute', bottom: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 -4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredProfiles.map(p => (
                               <div 
                                 key={p.id}
@@ -385,7 +385,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
                         {showDropdown?.type === 'tool' && showDropdown?.index === idx && toolQuery && (
-                          <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 10, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                          <div style={{ position: 'absolute', bottom: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 -4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredTools.map(t => (
                               <div 
                                 key={t.id}
@@ -418,7 +418,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                         />
                         {showDropdown?.type === 'toolProfile' && showDropdown?.index === idx && profileQuery && (
-                          <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 10, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                          <div style={{ position: 'absolute', bottom: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 -4px 6px rgba(0,0,0,0.1)' }}>
                             {filteredProfiles.map(p => (
                               <div 
                                 key={p.id}
