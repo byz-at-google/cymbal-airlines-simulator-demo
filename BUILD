@@ -14,6 +14,8 @@ ts_library(
     name = "lib",
     srcs = [
         "app.tsx",
+        "components/Modal.tsx",
+        "context/SimulatorContext.tsx",
         "views/AdminState.tsx",
         "views/AgentManager.tsx",
         "views/CSuiteExecutive.tsx",

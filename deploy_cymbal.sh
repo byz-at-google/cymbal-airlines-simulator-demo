@@ -7,6 +7,8 @@ PROJECT="apigee-ux-standard-testing"
 REGION="us-central1"
 IMAGE="us-central1-docker.pkg.dev/apigee-ux-standard-testing/cr-images/default-svc:latest"
 SERVICE="cymbal-airline-sim"
+echo "Building and Pushing new image..."
+blaze run //devtools/ai/agents/airline_customer_sim/web:push || exit 1
 
 echo "Deploying $SERVICE to Cloud Run..."
 gcloud run deploy "$SERVICE" \
