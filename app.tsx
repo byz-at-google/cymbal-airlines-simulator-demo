@@ -378,7 +378,6 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             <polyline points="4 17 10 11 4 5"></polyline>
             <line x1="12" y1="19" x2="20" y2="19"></line>
           </svg>
-          <a href="http://go/apm-simulator" target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600, fontSize: '0.85rem', marginRight: '0.25rem' }}>go/apm-simulator</a>
           <h3 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 600, color: '#38bdf8', letterSpacing: '0.05em' }}>SIMULATOR CONTROL PANEL</h3>
         </div>
         {!isGuidedExperienceActive && (
@@ -1090,6 +1089,7 @@ const App = () => {
           <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             Cymbal Airlines Simulation
             <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.14</span>
+            <a href="http://go/apm-simulator" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator</a>
           </h1>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
