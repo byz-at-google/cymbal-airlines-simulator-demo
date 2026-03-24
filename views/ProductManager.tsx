@@ -161,18 +161,18 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
           <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '1000px' }}>
             <thead>
               <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
-                <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0' }}>Product Name</th>
+                <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Product Name</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0' }}>Description</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Status</th>
-                <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0' }}>Created</th>
-                <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0' }}>Modified</th>
+                <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', whiteSpace: 'nowrap' }}>Created</th>
+                <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', whiteSpace: 'nowrap' }}>Modified</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {products.map(product => (
                 <tr key={product.id} style={{ borderBottom: '1px solid #dadce0' }}>
-                  <td style={{ padding: '1rem 2rem' }}>
+                  <td style={{ padding: '1rem 2rem', textAlign: 'center' }}>
                     <button 
                       onClick={() => handleEdit(product)}
                       style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 500 }}
@@ -193,8 +193,8 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                       {product.status}
                     </span>
                   </td>
-                  <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>{product.createdDate}</td>
-                  <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>{product.modifiedDate}</td>
+                  <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{product.createdDate}</td>
+                  <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{product.modifiedDate}</td>
                   <td style={{ padding: '1rem 2rem', textAlign: 'center' }}>
                     <select 
                       defaultValue=""

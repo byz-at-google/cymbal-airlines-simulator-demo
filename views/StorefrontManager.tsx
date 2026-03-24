@@ -192,7 +192,7 @@ export const StorefrontManager: React.FC<StorefrontManagerProps> = ({
 
             <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e0e6ed', overflow: 'hidden' }}>
               <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #e0e6ed', background: '#ffffff', fontWeight: 700, color: '#1e293b', fontSize: '1.1rem' }}>
-                Available Agentic Products ({channelProducts.length})
+                Available Agentic {channelProducts.length === 1 ? 'Product' : 'Products'} ({channelProducts.length})
               </div>
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '800px' }}>

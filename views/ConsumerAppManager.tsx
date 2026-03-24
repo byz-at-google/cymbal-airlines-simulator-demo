@@ -77,7 +77,7 @@ export const ConsumerAppManager: React.FC<ConsumerAppManagerProps> = ({
               <div style={{ fontSize: '1rem', color: '#202124' }}>{selectedApp.description}</div>
             </div>
             <div>
-              <div style={{ fontSize: '0.8rem', color: '#5f6368', marginBottom: '0.5rem' }}>Requested Products ({selectedProducts.length})</div>
+              <div style={{ fontSize: '0.8rem', color: '#5f6368', marginBottom: '0.5rem' }}>Requested {selectedProducts.length === 1 ? 'Product' : 'Products'} ({selectedProducts.length})</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {selectedProducts.map(p => (
                   <div key={p.id} style={{ 

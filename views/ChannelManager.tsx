@@ -153,7 +153,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
                     </span>
                   </td>
                   <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap', fontSize: '0.9rem', textAlign: 'center' }}>
-                    {channel.products.length} Products
+                    {channel.products.length} {channel.products.length === 1 ? 'Product' : 'Products'}
                   </td>
                   <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{channel.modifiedDate}</td>
                   <td style={{ padding: '1rem 2rem', textAlign: 'center' }}>
