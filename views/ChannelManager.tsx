@@ -120,10 +120,10 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
           <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '1000px' }}>
             <thead>
               <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
-                <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0' }}>Channel Name</th>
+                <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Channel Name</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0' }}>Description</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Status</th>
-                <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0' }}>Products</th>
+                <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Products</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0' }}>Modified</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Actions</th>
               </tr>
@@ -131,10 +131,10 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
             <tbody>
               {channels.map(channel => (
                 <tr key={channel.id} style={{ borderBottom: '1px solid #dadce0' }}>
-                  <td style={{ padding: '1rem 2rem', textAlign: 'left' }}>
+                  <td style={{ padding: '1rem 2rem', textAlign: 'center' }}>
                     <button 
                       onClick={() => handleEdit(channel)}
-                      style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 500, textAlign: 'left', display: 'block' }}
+                      style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 500, textAlign: 'center', display: 'block', width: '100%' }}
                     >
                       {channel.name}
                     </button>
@@ -152,7 +152,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
                       {channel.status}
                     </span>
                   </td>
-                  <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>
+                  <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap', fontSize: '0.9rem', textAlign: 'center' }}>
                     {channel.products.length} Products
                   </td>
                   <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{channel.modifiedDate}</td>
