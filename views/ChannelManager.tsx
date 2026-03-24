@@ -134,7 +134,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
                   <td style={{ padding: '1rem 2rem' }}>
                     <button 
                       onClick={() => handleEdit(channel)}
-                      style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 500 }}
+                      style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 500, textAlign: 'left' }}
                     >
                       {channel.name}
                     </button>
@@ -155,7 +155,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
                   <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>
                     {channel.products.length} Products
                   </td>
-                  <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>{channel.modifiedDate}</td>
+                  <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{channel.modifiedDate}</td>
                   <td style={{ padding: '1rem 2rem', textAlign: 'center' }}>
                     <select 
                       defaultValue=""
