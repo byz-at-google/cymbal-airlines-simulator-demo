@@ -131,10 +131,10 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
             <tbody>
               {channels.map(channel => (
                 <tr key={channel.id} style={{ borderBottom: '1px solid #dadce0' }}>
-                  <td style={{ padding: '1rem 2rem' }}>
+                  <td style={{ padding: '1rem 2rem', textAlign: 'left' }}>
                     <button 
                       onClick={() => handleEdit(channel)}
-                      style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 500, textAlign: 'left' }}
+                      style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 500, textAlign: 'left', display: 'block' }}
                     >
                       {channel.name}
                     </button>
