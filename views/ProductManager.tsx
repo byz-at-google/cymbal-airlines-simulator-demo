@@ -231,7 +231,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
             onChange={e => setFormData({...formData, name: e.target.value})}
             disabled={!canEdit}
             required
-            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0' }}
+            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
           />
         </div>
         <div style={{ marginBottom: '1.5rem' }}>
@@ -242,7 +242,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
             onChange={e => setFormData({...formData, description: e.target.value})}
             disabled={!canEdit}
             required
-            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0' }}
+            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
           />
         </div>
 
@@ -283,7 +283,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           }}
                           onFocus={() => setShowDropdown({type: 'agent', index: idx})}
                           disabled={!canEdit}
-                          style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                          style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
                         />
                         {showDropdown?.type === 'agent' && showDropdown?.index === idx && (
                           <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
@@ -316,7 +316,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           }}
                           onFocus={() => setShowDropdown({type: 'agentProfile', index: idx})}
                           disabled={!canEdit}
-                          style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                          style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
                         />
                         {showDropdown?.type === 'agentProfile' && showDropdown?.index === idx && (
                           <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
@@ -388,7 +388,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           }}
                           onFocus={() => setShowDropdown({type: 'tool', index: idx})}
                           disabled={!canEdit}
-                          style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                          style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
                         />
                         {showDropdown?.type === 'tool' && showDropdown?.index === idx && (
                           <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
@@ -421,7 +421,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
                           }}
                           onFocus={() => setShowDropdown({type: 'toolProfile', index: idx})}
                           disabled={!canEdit}
-                          style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                          style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
                         />
                         {showDropdown?.type === 'toolProfile' && showDropdown?.index === idx && (
                           <div style={{ position: 'absolute', top: '100%', left: '0.5rem', right: '0.5rem', backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
@@ -465,7 +465,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
             onChange={e => setFormData({...formData, gtmCharacteristics: e.target.value})}
             disabled={!canEdit}
             placeholder="Describe marketing and positioning..."
-            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', resize: 'vertical' }}
+            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', resize: 'vertical', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
           />
         </div>
 
@@ -477,7 +477,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
             onChange={e => setFormData({...formData, technicalSpec: e.target.value})}
             disabled={!canEdit}
             placeholder="Detailed technical capabilities, latency, data structures..."
-            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', resize: 'vertical' }}
+            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', resize: 'vertical', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
           />
         </div>
 
@@ -489,7 +489,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
             onChange={e => setFormData({...formData, useCases: e.target.value})}
             disabled={!canEdit}
             placeholder="Example business scenarios and value propositions..."
-            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', resize: 'vertical' }}
+            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', resize: 'vertical', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
           />
         </div>
 

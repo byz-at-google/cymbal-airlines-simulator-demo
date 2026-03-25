@@ -193,7 +193,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
             disabled={!canEdit}
             required
             placeholder="e.g. North America Retail Channel"
-            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0' }}
+            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
           />
         </div>
         <div style={{ marginBottom: '1.5rem' }}>
@@ -205,7 +205,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
             disabled={!canEdit}
             required
             placeholder="Describe the target storefronts and market..."
-            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0' }}
+            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
           />
         </div>
 
@@ -292,7 +292,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
             onChange={e => setFormData({...formData, gtmInfo: e.target.value})}
             disabled={!canEdit}
             placeholder="Special positioning or launch strategy..."
-            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', resize: 'vertical' }}
+            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', resize: 'vertical', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
           />
         </div>
 
@@ -302,7 +302,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
             value={formData.status} 
             onChange={e => setFormData({...formData, status: e.target.value as any})}
             disabled={!canEdit}
-            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0' }}
+            style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', backgroundColor: canEdit ? '#ffffff' : '#f1f3f4' }}
           >
             <option value="Draft">Draft</option>
             <option value="Published">Published</option>
