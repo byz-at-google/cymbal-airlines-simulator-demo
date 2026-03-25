@@ -580,14 +580,12 @@ export const getPublishAndConsumeTutorial = (
       )
     },
     {
-      title: "Step 1: Publish a Channel (Product Owner)",
+      title: "Step 1: Open Edit Channel (Product Owner)",
       content: (
         <div>
           <p>As a <strong>Product Owner</strong>, you need to publish a channel to make its products available to storefronts.</p>
           <p>Go to the <strong>Distribution</strong> tab, then the <strong>Channels</strong> sub-tab.</p>
-          <p>Find the channel <strong>'Cymbal Partner Rewards Network'</strong> (created for you) and click on its name or select <strong>Edit</strong> from the Actions menu.</p>
-          <p>In the edit form, change the <strong>Status</strong> to <strong>Published</strong> and click <strong>Save Changes</strong>.</p>
-          <p><em>Note: It is expected that a real endpoint is not generated in this simulation.</em></p>
+          <p>Find the channel <strong>'Cymbal Partner Rewards Network'</strong> (created for you) and click on its name or select <strong>Edit</strong> from the Actions menu to open the edit form.</p>
         </div>
       ),
       onNext: () => {
@@ -614,7 +612,21 @@ export const getPublishAndConsumeTutorial = (
       }
     },
     {
-      title: "Step 2: Switch to Storefront Owner",
+      title: "Step 2: Publish the Channel (Product Owner)",
+      content: (
+        <div>
+          <p>In the edit form, change the <strong>Status</strong> to <strong>Published</strong> and click <strong>Save Changes</strong>.</p>
+          <p><em>Note: It is expected that a real endpoint is not generated in this simulation.</em></p>
+        </div>
+      ),
+      onNext: () => {
+         setChannels((prevChannels: any[]) => {
+              return prevChannels.map((c: any) => c.name === 'Cymbal Partner Rewards Network' ? {...c, status: 'Published', publishedUrl: 'https://api.cymbal.com/v1/channels/cymbal-partner-rewards'} : c);
+         });
+      }
+    },
+    {
+      title: "Step 3: Switch to Storefront Owner",
       content: (
         <div>
           <p>Now we need to switch to the <strong>Storefront Manager</strong> persona to subscribe to the channel.</p>
@@ -626,7 +638,7 @@ export const getPublishAndConsumeTutorial = (
       }
     },
     {
-      title: "Step 3: Subscribe to Channel (Storefront Owner)",
+      title: "Step 4: Subscribe to Channel (Storefront Owner)",
       content: (
         <div>
           <p>Select <strong>'Cymbal Partner Rewards Network'</strong> from the <strong>Active Endpoint</strong> dropdown in Catalog Settings.</p>
@@ -644,7 +656,7 @@ export const getPublishAndConsumeTutorial = (
       }
     },
     {
-      title: "Step 4: Manage Product Visibility (Storefront Owner)",
+      title: "Step 5: Manage Product Visibility (Storefront Owner)",
       content: (
         <div>
           <p>Try unpublishing a product (e.g., 'North America Customer Support Package') by clicking the <strong>Unpublish Agent</strong> button in the table.</p>
@@ -653,7 +665,7 @@ export const getPublishAndConsumeTutorial = (
       )
     },
     {
-      title: "Step 5: Switch to End Consumer",
+      title: "Step 6: Switch to End Consumer",
       content: (
         <div>
           <p>Now we need to switch to the <strong>End Consumer</strong> persona to browse the catalog.</p>
@@ -665,7 +677,7 @@ export const getPublishAndConsumeTutorial = (
       }
     },
     {
-      title: "Step 6: Submit Consumer App (End Consumer)",
+      title: "Step 7: Submit Consumer App (End Consumer)",
       content: (
         <div>
           <p>Browse the catalog. Notice that any products you unpublished are hidden.</p>
@@ -675,7 +687,7 @@ export const getPublishAndConsumeTutorial = (
       )
     },
     {
-      title: "Step 7: Switch to Product Owner",
+      title: "Step 8: Switch to Product Owner",
       content: (
         <div>
           <p>Now we need to switch back to the <strong>Product Owner</strong> persona to review the application.</p>
@@ -687,7 +699,7 @@ export const getPublishAndConsumeTutorial = (
       }
     },
     {
-      title: "Step 8: Approve Consumer App (Product Owner)",
+      title: "Step 9: Approve Consumer App (Product Owner)",
       content: (
         <div>
           <p>Go to the <strong>Distribution</strong> tab, then the <strong>Consumer App Approval</strong> sub-tab.</p>
@@ -701,7 +713,7 @@ export const getPublishAndConsumeTutorial = (
       }
     },
     {
-      title: "Step 9: Switch to End Consumer",
+      title: "Step 10: Switch to End Consumer",
       content: (
         <div>
           <p>Now we need to switch back to the <strong>End Consumer</strong> persona to verify the approval.</p>
@@ -713,7 +725,7 @@ export const getPublishAndConsumeTutorial = (
       }
     },
     {
-      title: "Step 10: Verify Approval (End Consumer)",
+      title: "Step 11: Verify Approval (End Consumer)",
       content: (
         <div>
           <p>Click on <strong>My Profile</strong> in the top navigation.</p>
