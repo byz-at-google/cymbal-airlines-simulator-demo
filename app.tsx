@@ -1120,6 +1120,7 @@ const App = () => {
           products={products}
           consumerApps={consumerApps}
           setConsumerApps={setConsumerApps}
+          isGuidedExperienceActive={guidedExpState.isActive}
         />;
       case 'Admin':
         return <AdminState 

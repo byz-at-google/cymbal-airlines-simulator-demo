@@ -12,10 +12,11 @@ interface EndConsumerProps {
   products: Product[];
   consumerApps: ConsumerApp[];
   setConsumerApps: React.Dispatch<React.SetStateAction<ConsumerApp[]>>;
+  isGuidedExperienceActive?: boolean;
 }
 
 export const EndConsumer: React.FC<EndConsumerProps> = ({
-  config, channels, products, consumerApps, setConsumerApps
+  config, channels, products, consumerApps, setConsumerApps, isGuidedExperienceActive
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
@@ -357,7 +358,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                 }
                 setSubmissionSuccess(true);
               }}
-              style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingBottom: isGuidedExperienceActive ? '200px' : '0' }}
             >
               <h3 style={{ fontSize: '2rem', fontWeight: 400, marginBottom: '1rem', letterSpacing: '-0.02em' }}>
                 {editingAppId ? 'Edit Consumer App' : 'Create Consumer App'}
