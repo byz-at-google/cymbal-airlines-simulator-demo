@@ -36,10 +36,6 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
     <Fragment>
       {/* Bottom Bar Navigation */}
       <div style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
         height: '200px',
         backgroundColor: 'white',
         borderTop: '1px solid #dadce0',
@@ -48,6 +44,7 @@ export const GuidedExperienceOverlay: React.FC<GuidedExperienceProps> = ({
         alignItems: 'center',
         padding: '1rem 2rem',
         zIndex: 2001,
+        flexShrink: 0,
         gap: '2rem'
       }}>
         <div style={{ flexShrink: 0, maxWidth: '300px' }}>
@@ -562,3 +559,177 @@ export const getProductsAndChannelsTutorial = (
       hideNext: true
     }
 ];
+
+export const getPublishAndConsumeTutorial = (
+  setPersona: Function,
+  setActiveTab: Function,
+  setDistributionSubTab: Function,
+  setStorefrontConfig: Function,
+  setChannels: Function,
+  setConsumerApps: Function,
+  products: any[],
+  channels: any[]
+): TutorialStep[] => [
+    {
+      title: "Goal: Publish and Consume",
+      content: (
+        <div>
+          <p>This scenario demonstrates the end-to-end workflow of publishing a channel, subscribing to it via a storefront, managing product visibility, and completing the consumer app submission and approval process.</p>
+          <p>We will switch between multiple personas to complete this workflow.</p>
+        </div>
+      )
+    },
+    {
+      title: "Step 1: Publish a Channel (Product Owner)",
+      content: (
+        <div>
+          <p>As a <strong>Product Owner</strong>, you need to publish a channel to make its products available to storefronts.</p>
+          <p>Go to the <strong>Distribution</strong> tab, then the <strong>Channels</strong> sub-tab.</p>
+          <p>Find the channel <strong>'Cymbal Partner Rewards Network'</strong> (created for you) and click on its name or select <strong>Edit</strong> from the Actions menu.</p>
+          <p>In the edit form, change the <strong>Status</strong> to <strong>Published</strong> and click <strong>Save Changes</strong>.</p>
+          <p><em>Note: It is expected that a real endpoint is not generated in this simulation.</em></p>
+        </div>
+      ),
+      onNext: () => {
+        setPersona('Product Owner');
+        setActiveTab('Distribution');
+        setDistributionSubTab('Channels');
+        setChannels((prevChannels: any[]) => {
+          const channelExists = prevChannels.some((c: any) => c.name === 'Cymbal Partner Rewards Network');
+          if (channelExists) {
+              return prevChannels.map((c: any) => c.name === 'Cymbal Partner Rewards Network' ? {...c, status: 'Draft', publishedUrl: undefined} : c);
+          } else {
+              return [...prevChannels, {
+                  id: 'tut-ch-pub',
+                  name: 'Cymbal Partner Rewards Network',
+                  description: 'Channel for distributing Cymbal Airlines partner rewards and offers to storefronts.',
+                  status: 'Draft',
+                  products: ['tut-p1', 'tut-p2'],
+                  createdDate: new Date().toISOString().split('T')[0],
+                  modifiedDate: new Date().toISOString().split('T')[0],
+                  gtmInfo: 'Cymbal Partner Rewards GTM info'
+              }];
+          }
+        });
+      }
+    },
+    {
+      title: "Step 2: Switch to Storefront Owner",
+      content: (
+        <div>
+          <p>Now we need to switch to the <strong>Storefront Manager</strong> persona to subscribe to the channel.</p>
+          <p>Click <strong>Next Step</strong> to automatically switch, or use the switch in the top right.</p>
+        </div>
+      ),
+      onNext: () => {
+        setPersona('Storefront Manager');
+      }
+    },
+    {
+      title: "Step 3: Subscribe to Channel (Storefront Owner)",
+      content: (
+        <div>
+          <p>Select <strong>'Cymbal Partner Rewards Network'</strong> from the <strong>Active Endpoint</strong> dropdown in Catalog Settings.</p>
+          <p>Click <strong>Next Step</strong> to continue.</p>
+        </div>
+      ),
+      onNext: () => {
+          setChannels((prevChannels: any[]) => {
+               return prevChannels.map((c: any) => c.name === 'Cymbal Partner Rewards Network' ? {...c, status: 'Published', publishedUrl: 'https://api.cymbal.com/v1/channels/cymbal-partner-rewards'} : c);
+          });
+          setStorefrontConfig((prev: any) => ({
+              ...prev,
+              channelUrl: 'https://api.cymbal.com/v1/channels/cymbal-partner-rewards'
+          }));
+      }
+    },
+    {
+      title: "Step 4: Manage Product Visibility (Storefront Owner)",
+      content: (
+        <div>
+          <p>Try unpublishing a product (e.g., 'North America Customer Support Package') by clicking the <strong>Unpublish Agent</strong> button in the table.</p>
+          <p>This will hide it from the End Consumer.</p>
+        </div>
+      )
+    },
+    {
+      title: "Step 5: Switch to End Consumer",
+      content: (
+        <div>
+          <p>Now we need to switch to the <strong>End Consumer</strong> persona to browse the catalog.</p>
+          <p>Click <strong>Next Step</strong> to automatically switch.</p>
+        </div>
+      ),
+      onNext: () => {
+        setPersona('End Consumer');
+      }
+    },
+    {
+      title: "Step 6: Submit Consumer App (End Consumer)",
+      content: (
+        <div>
+          <p>Browse the catalog. Notice that any products you unpublished are hidden.</p>
+          <p>Select a visible product and click <strong>Create Consumer App for Access</strong>.</p>
+          <p>Fill out the form and submit.</p>
+        </div>
+      )
+    },
+    {
+      title: "Step 7: Switch to Product Owner",
+      content: (
+        <div>
+          <p>Now we need to switch back to the <strong>Product Owner</strong> persona to review the application.</p>
+          <p>Click <strong>Next Step</strong> to automatically switch.</p>
+        </div>
+      ),
+      onNext: () => {
+        setPersona('Product Owner');
+      }
+    },
+    {
+      title: "Step 8: Approve Consumer App (Product Owner)",
+      content: (
+        <div>
+          <p>Go to the <strong>Distribution</strong> tab, then the <strong>Consumer App Approval</strong> sub-tab.</p>
+          <p>Find the pending request and click <strong>Approve</strong>.</p>
+        </div>
+      ),
+      onNext: () => {
+          setPersona('Product Owner');
+          setActiveTab('Distribution');
+          setDistributionSubTab('Consumer App Approval');
+      }
+    },
+    {
+      title: "Step 9: Switch to End Consumer",
+      content: (
+        <div>
+          <p>Now we need to switch back to the <strong>End Consumer</strong> persona to verify the approval.</p>
+          <p>Click <strong>Next Step</strong> to automatically switch.</p>
+        </div>
+      ),
+      onNext: () => {
+        setPersona('End Consumer');
+      }
+    },
+    {
+      title: "Step 10: Verify Approval (End Consumer)",
+      content: (
+        <div>
+          <p>Click on <strong>My Profile</strong> in the top navigation.</p>
+          <p>Verify that your application status is now <strong>Approved</strong>.</p>
+        </div>
+      )
+    },
+    {
+      title: "Experience Complete",
+      content: (
+        <div>
+          <p>You've successfully navigated the end-to-end workflow!</p>
+        </div>
+      ),
+      hideNext: true
+    }
+];
+
+

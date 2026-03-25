@@ -19,7 +19,7 @@ import {AgentProfileManager, ToolProfileManager, AgentProfile, ToolProfile} from
 import {ProductManager, Product} from './views/ProductManager';
 import {ChannelManager, Channel} from './views/ChannelManager';
 import {TestBench} from './views/TestBench';
-import {GuidedExperienceOverlay, TutorialStep, getAirportOpsTutorial, getProductsAndChannelsTutorial} from './views/GuidedExperience';
+import {GuidedExperienceOverlay, TutorialStep, getAirportOpsTutorial, getProductsAndChannelsTutorial, getPublishAndConsumeTutorial} from './views/GuidedExperience';
 import {Modal} from './components/Modal';
 
 import {setAnchorHref} from 'safevalues/dom';
@@ -79,7 +79,7 @@ export interface AdminData {
 export interface GuidedExperienceState {
   isActive: boolean;
   currentStep: number;
-  type?: 'ops' | 'products';
+  type?: 'ops' | 'products' | 'publish';
   backupState: AdminData | null;
 }
 
@@ -353,7 +353,7 @@ interface ControlPanelProps {
   persona: Persona;
   handlePersonaChange: (p: Persona) => void;
   isGuidedExperienceActive: boolean;
-  startGuidedExperience: (type: 'ops' | 'products') => void;
+  startGuidedExperience: (type: 'ops' | 'products' | 'publish') => void;
   handleExport: () => void;
   handleImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
@@ -449,6 +449,20 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
               Launch Tutorial
             </button>
           </div>
+
+          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Publishing & Consumption</h4>
+              <span style={{ fontSize: '0.75rem', background: '#f59e0b20', color: '#f59e0b', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 3</span>
+            </div>
+            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
+              Complete the lifecycle: publish a channel, subscribe via storefront, manage visibility, and submit/approve consumer apps.
+            </p>
+            <button onClick={() => { startGuidedExperience('publish'); setShowLearningModal(false); }} style={{ background: '#f59e0b', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              Launch Tutorial
+            </button>
+          </div>
+
         </div>
       </Modal>
     </div>
@@ -684,7 +698,7 @@ const App = () => {
     reader.readAsText(file);
   };
 
-  const startGuidedExperience = (type: 'ops' | 'products' = 'ops') => {
+  const startGuidedExperience = (type: 'ops' | 'products' | 'publish' = 'ops') => {
     // Backup current state
     const backup: AdminData = {
       agents,
@@ -705,7 +719,7 @@ const App = () => {
     });
 
     if (type === 'ops') {
-      // Clear and Setup Initial Tutorial Data
+      handlePersonaChange('Product Owner');
       setAgents([
         {
           id: 'tut-a1',
@@ -717,7 +731,6 @@ const App = () => {
           status: 'Active'
         }
       ]);
-
       setTools([
         {
           id: 'tut-t1',
@@ -738,7 +751,14 @@ const App = () => {
           status: 'Active'
         }
       ]);
+      setAgentProfiles([]);
+      setToolProfiles([]);
+      setProducts([]);
+      setChannels([]);
+      setConsumerApps([]);
+      setActiveTab('Agents');
     } else if (type === 'products') {
+      handlePersonaChange('Product Owner');
       setAgents([
         {
           id: 'tut-a1',
@@ -760,16 +780,67 @@ const App = () => {
         }
       ]);
       setTools([]);
+      setAgentProfiles([]);
+      setToolProfiles([]);
+      setProducts([]);
+      setChannels([]);
+      setConsumerApps([]);
+      setActiveTab('Agents');
+    } else if (type === 'publish') {
+      handlePersonaChange('Product Owner');
+      setAgents([]);
+      setTools([]);
+      setAgentProfiles([]);
+      setToolProfiles([]);
+      setProducts([
+        {
+          id: 'tut-p1',
+          name: 'North America Customer Support Package',
+          description: 'Standard support package for NA.',
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          status: 'Active',
+          agents: [],
+          tools: [],
+          gtmCharacteristics: 'High volume, English speaking',
+          technicalSpec: 'Requires connection to CRM',
+          useCases: 'Tier 1 support'
+        },
+        {
+          id: 'tut-p2',
+          name: 'European Union Customer Support Package',
+          description: 'Support package for EU.',
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          status: 'Active',
+          agents: [],
+          tools: [],
+          gtmCharacteristics: 'Multi-lingual, GDPR compliant',
+          technicalSpec: 'Data residency in EU',
+          useCases: 'Tier 1 and 2 support'
+        }
+      ]);
+      setChannels([
+        {
+          id: 'tut-ch-pub',
+          name: 'Cymbal Partner Rewards Network',
+          description: 'Channel for distributing Cymbal Airlines partner rewards and offers to storefronts.',
+          status: 'Draft',
+          products: ['tut-p1', 'tut-p2'],
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          gtmInfo: 'Tutorial GTM info'
+        }
+      ]);
+      setStorefrontConfig({
+        channelUrl: '',
+        hiddenProductIds: [],
+        portalName: 'Cymbal Airlines Agentic Portal'
+      });
+      setConsumerApps([]);
+      setActiveTab('Distribution');
+      setDistributionSubTab('Home');
     }
-
-
-    setAgentProfiles([]);
-    setToolProfiles([]);
-    setProducts([]);
-    setChannels([]);
-    setConsumerApps([]);
-
-    setActiveTab('Agents');
   };
 
   const endGuidedExperience = () => {
@@ -792,8 +863,22 @@ const App = () => {
     setActiveTab('Dashboard');
   };
 
+  const airportOpsTutorial = getAirportOpsTutorial(setAgents, setAgentProfiles, setActiveTab, setGovernanceSubTab);
+  const productsAndChannelsTutorial = getProductsAndChannelsTutorial(setAgentProfiles, setActiveTab, setGovernanceSubTab, setDistributionSubTab);
+  const publishAndConsumeTutorial = getPublishAndConsumeTutorial(handlePersonaChange, setActiveTab, setDistributionSubTab, setStorefrontConfig, setChannels, setConsumerApps, products, channels);
+
   const nextTutorialStep = () => {
-    if (guidedExpState.currentStep === airportOpsTutorial.length - 1) {
+    const currentTutorial = guidedExpState.type === 'products' ? productsAndChannelsTutorial 
+                             : guidedExpState.type === 'publish' ? publishAndConsumeTutorial 
+                             : airportOpsTutorial;
+    
+    // Execute onNext for the current step if it exists
+    const step = currentTutorial[guidedExpState.currentStep];
+    if (step && step.onNext) {
+        step.onNext();
+    }
+
+    if (guidedExpState.currentStep === currentTutorial.length - 1) {
       endGuidedExperience();
       return;
     }
@@ -804,8 +889,6 @@ const App = () => {
     setGuidedExpState(prev => ({ ...prev, currentStep: Math.max(0, prev.currentStep - 1) }));
   };
 
-  const airportOpsTutorial = getAirportOpsTutorial(setAgents, setAgentProfiles, setActiveTab, setGovernanceSubTab);
-  const productsAndChannelsTutorial = getProductsAndChannelsTutorial(setAgentProfiles, setActiveTab, setGovernanceSubTab, setDistributionSubTab);
 
   const updateConsumerAppStatus = (id: string, status: 'Pending' | 'Approved' | 'Denied') => {
     setConsumerApps(apps => apps.map(a => a.id === id ? { ...a, status } : a));
@@ -1252,7 +1335,7 @@ const App = () => {
 
       {guidedExpState.isActive && (
         <GuidedExperienceOverlay 
-          steps={guidedExpState.type === 'products' ? productsAndChannelsTutorial : airportOpsTutorial} 
+          steps={guidedExpState.type === 'products' ? productsAndChannelsTutorial : guidedExpState.type === 'publish' ? publishAndConsumeTutorial : airportOpsTutorial} 
           currentStep={guidedExpState.currentStep} 
           onClose={endGuidedExperience} 
           onNext={nextTutorialStep} 
