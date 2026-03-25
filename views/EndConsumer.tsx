@@ -83,8 +83,8 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
           <nav style={{ display: 'flex', gap: '1.75rem', fontWeight: 400, fontSize: '0.95rem' }}>
             <div onClick={() => { setSelectedProductId(null); setShowMyIntegrations(false); }} style={{ cursor: 'pointer', color: (!selectedProductId && !showMyIntegrations) ? themeIndigo : '#64748b' }}>Agentic Products</div>
             <div onClick={() => setShowMyIntegrations(true)} style={{ cursor: 'pointer', color: showMyIntegrations ? themeIndigo : '#64748b' }}>My Profile</div>
-            <div style={{ cursor: 'pointer', color: '#64748b' }}>Solutions</div>
-            <div style={{ cursor: 'pointer', color: '#64748b' }}>Docs</div>
+            <div style={{ cursor: 'default', color: '#94a3b8', textDecoration: 'line-through' }}>Solutions</div>
+            <div style={{ cursor: 'default', color: '#94a3b8', textDecoration: 'line-through' }}>Docs</div>
           </nav>
           {isLoggedIn ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', position: 'relative' }}>
@@ -152,17 +152,17 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
             <h3 style={{ fontSize: '1.75rem', fontWeight: 400, color: '#0f172a', marginBottom: '1.5rem' }}>My Consumer Applications</h3>
             <div style={{ display: 'grid', gap: '1.5rem' }}>
               {consumerApps.filter(app => app.submitterEmail === userData.email).map(app => (
-                <div key={app.id} style={{ background: 'white', padding: '2rem', borderRadius: '20px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
+                <div key={app.id} style={{ background: 'white', padding: '2rem', borderRadius: '20px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div style={{ flex: 1, marginRight: '2rem' }}>
                     <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>{app.name}</h3>
                     <p style={{ color: '#64748b', margin: '0 0 1rem' }}>{app.description}</p>
                     {app.semanticPolicy && (
-                      <div style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 1rem', padding: '0.75rem', background: '#f8fafc', borderRadius: '8px', borderLeft: `3px solid ${themeIndigo}` }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>Semantic Governance Policy</span>
+                      <div style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 1rem', padding: '1rem', background: '#f1f5f9', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                        <span style={{ font_weight: 700, fontSize: '0.75rem', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem', color: '#475569' }}>Semantic Governance Policy</span>
                         {app.semanticPolicy}
                       </div>
                     )}
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', fontSize: '0.85rem' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', fontSize: '0.85rem', alignItems: 'center' }}>
                       <span style={{ fontWeight: 400 }}>Products:</span>
                       {app.productIds.map(pid => (
                         <span key={pid} style={{ color: themeIndigo, background: '#eef2ff', padding: '2px 8px', borderRadius: '6px' }}>
@@ -171,23 +171,23 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                       ))}
                     </div>
                   </div>
-                  <div style={{ textAlign: 'right' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '1rem', minWidth: '120px' }}>
                     <div style={{ 
                       padding: '0.5rem 1rem', 
                       borderRadius: '12px', 
                       fontSize: '0.85rem', 
                       fontWeight: 400,
                       background: app.status === 'Approved' ? '#ecfdf5' : app.status === 'Denied' ? '#fef2f2' : '#fffbeb',
-                      color: app.status === 'Approved' ? '#059669' : app.status === 'Denied' ? '#dc2626' : '#d97706'
+                      color: app.status === 'Approved' ? '#059669' : app.status === 'Denied' ? '#dc2626' : '#d97706',
+                      textAlign: 'center',
+                      width: '100%'
                     }}>
                       {app.status}
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.5rem' }}>Submitted: {app.createdDate}</div>
-                  </div>
-                  <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Submitted: {app.createdDate}</div>
                     <button 
                       onClick={() => handleEditApp(app)}
-                      style={{ background: 'white', border: `1px solid ${themeIndigo}`, color: themeIndigo, padding: '0.4rem 1rem', borderRadius: '8px', fontSize: '0.85rem', cursor: 'pointer', fontWeight: 400 }}
+                      style={{ background: 'white', border: `1px solid ${themeIndigo}`, color: themeIndigo, padding: '0.4rem 1rem', borderRadius: '8px', fontSize: '0.85rem', cursor: 'pointer', fontWeight: 400, width: '100%' }}
                     >
                       Edit Application
                     </button>
