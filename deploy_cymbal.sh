@@ -1,5 +1,6 @@
 #!/bin/bash
-source util/shell/gbash/gbash.sh || exit 1
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../../../../../util/shell/gbash/gbash.sh" || exit 1
 gbash::init_google "$@"
 export PATH=$PATH:/google/data/ro/teams/cloud-sdk
 

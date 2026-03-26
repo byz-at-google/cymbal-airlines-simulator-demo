@@ -233,6 +233,15 @@ const MOCK_TRUST_SCORE_DATA = [
   {label: 'Jun', value: 95}
 ];
 
+const MOCK_LATENCY_DATA = [
+  {label: 'Jan', value: 120},
+  {label: 'Feb', value: 115},
+  {label: 'Mar', value: 130},
+  {label: 'Apr', value: 110},
+  {label: 'May', value: 105},
+  {label: 'Jun', value: 98}
+];
+
 export const Dashboard: React.FC<DashboardProps> = ({
   persona, 
   agents,
@@ -288,6 +297,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </ChartContainer>
           <ChartContainer title="Quality Trust Score" mock>
             <SimpleLineChart color={themeColor} data={MOCK_TRUST_SCORE_DATA} />
+          </ChartContainer>
+          <ChartContainer title="Platform Latency" mock>
+            <SimpleLineChart color={themeColor} data={MOCK_LATENCY_DATA} />
           </ChartContainer>
         </div>
 
@@ -350,6 +362,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </ChartContainer>
           <ChartContainer title="Quality Trust Score" mock>
             <SimpleLineChart color={themeColor} data={MOCK_TRUST_SCORE_DATA} />
+          </ChartContainer>
+          <ChartContainer title="Platform Latency" mock>
+            <SimpleLineChart color={themeColor} data={MOCK_LATENCY_DATA} />
           </ChartContainer>
         </div>
 
@@ -415,6 +430,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </ChartContainer>
           <ChartContainer title="Quality Trust Score" mock>
             <SimpleLineChart color={themeColor} data={MOCK_TRUST_SCORE_DATA} />
+          </ChartContainer>
+          <ChartContainer title="Platform Latency" mock>
+            <SimpleLineChart color={themeColor} data={MOCK_LATENCY_DATA} />
           </ChartContainer>
         </div>
 
