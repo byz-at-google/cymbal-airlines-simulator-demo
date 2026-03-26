@@ -224,6 +224,15 @@ const MOCK_ADOPTION_DATA = [
   {label: 'Jun', value: 67}
 ];
 
+const MOCK_TRUST_SCORE_DATA = [
+  {label: 'Jan', value: 78},
+  {label: 'Feb', value: 82},
+  {label: 'Mar', value: 85},
+  {label: 'Apr', value: 89},
+  {label: 'May', value: 92},
+  {label: 'Jun', value: 95}
+];
+
 export const Dashboard: React.FC<DashboardProps> = ({
   persona, 
   agents,
@@ -276,6 +285,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </ChartContainer>
           <ChartContainer title="Agent Adoption over Time" mock>
             <SimpleLineChart color={themeColor} data={MOCK_ADOPTION_DATA} />
+          </ChartContainer>
+          <ChartContainer title="Quality Trust Score" mock>
+            <SimpleLineChart color={themeColor} data={MOCK_TRUST_SCORE_DATA} />
           </ChartContainer>
         </div>
 
@@ -335,6 +347,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </ChartContainer>
           <ChartContainer title="Agent Adoption over Time" mock>
             <SimpleLineChart color={themeColor} data={MOCK_ADOPTION_DATA} />
+          </ChartContainer>
+          <ChartContainer title="Quality Trust Score" mock>
+            <SimpleLineChart color={themeColor} data={MOCK_TRUST_SCORE_DATA} />
           </ChartContainer>
         </div>
 
@@ -397,6 +412,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </ChartContainer>
           <ChartContainer title="Agent Adoption over Time" mock>
             <SimpleLineChart color={themeColor} data={MOCK_ADOPTION_DATA} />
+          </ChartContainer>
+          <ChartContainer title="Quality Trust Score" mock>
+            <SimpleLineChart color={themeColor} data={MOCK_TRUST_SCORE_DATA} />
           </ChartContainer>
         </div>
 
