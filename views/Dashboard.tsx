@@ -225,12 +225,12 @@ const MOCK_ADOPTION_DATA = [
 ];
 
 const MOCK_TRUST_SCORE_DATA = [
-  {label: 'Jan', value: 78},
-  {label: 'Feb', value: 82},
-  {label: 'Mar', value: 85},
-  {label: 'Apr', value: 89},
-  {label: 'May', value: 92},
-  {label: 'Jun', value: 95}
+  {label: 'Jan', value: 88},
+  {label: 'Feb', value: 92},
+  {label: 'Mar', value: 95},
+  {label: 'Apr', value: 97},
+  {label: 'May', value: 98},
+  {label: 'Jun', value: 99}
 ];
 
 const MOCK_LATENCY_DATA = [
