@@ -394,10 +394,11 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button onClick={handleExport} style={{ padding: '0.4rem 0.8rem', background: 'transparent', color: '#f8fafc', border: '1px solid #475569', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer' }}>Export</button>
-          <button onClick={() => fileInputRef.current?.click()} style={{ padding: '0.4rem 0.8rem', background: 'transparent', color: '#f8fafc', border: '1px solid #475569', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer' }}>Import</button>
+          <button onClick={handleExport} style={{ padding: '0.4rem 0.8rem', background: 'transparent', color: '#f8fafc', border: '1px solid #475569', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer' }}>Export Simulator State</button>
+          <button onClick={() => fileInputRef.current?.click()} style={{ padding: '0.4rem 0.8rem', background: 'transparent', color: '#f8fafc', border: '1px solid #475569', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer' }}>Import Simulator State</button>
           <input type="file" ref={fileInputRef} style={{ display: 'none' }} accept=".json,.txt" onChange={handleImport} />
         </div>
+        {/*
         <div style={{ height: '20px', width: '1px', background: '#334155' }}></div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <label style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Persona View:</label>
@@ -411,6 +412,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             ))}
           </select>
         </div>
+        */}
       </div>
       <Modal 
         isOpen={showLearningModal} 
@@ -1172,8 +1174,8 @@ const App = () => {
           </svg>
           <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             Cymbal Airlines Simulation
-            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.16</span>
-            <a href="http://go/apm-simulator" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator</a>
+            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.16demo</span>
+            <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
           </h1>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>

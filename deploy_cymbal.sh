@@ -11,10 +11,10 @@ REGION="us-central1"
 IMAGE="us-central1-docker.pkg.dev/apigee-ux-standard-testing/cr-images/default-svc:latest"
 
 if [ "$ENV" == "live" ]; then
-  SERVICE="cymbal-airline-sim"
+  SERVICE="cymbal-airline-sim-demo"
   BRANCH="main"
 elif [ "$ENV" == "dev" ]; then
-  SERVICE="cymbal-airline-sim-dev"
+  SERVICE="cymbal-airline-sim-demo-dev"
   BRANCH="dev"
 else
   echo "Unknown environment: $ENV. Use 'dev' or 'live'."
@@ -48,13 +48,13 @@ if [ $? -eq 0 ]; then
         echo "Merging dev into main for live release..."
         git checkout main
         git merge dev -m "Merge dev into main for live release TAG=agy"
-        git push "https://$GITHUB_TOKEN@github.com/byz-at-google/cymbal-airlines-simulator" main:main
+        git push "https://$GITHUB_TOKEN@github.com/byz-at-google/cymbal-airlines-simulator-demo" main:main
         git checkout dev
       else
-        git push "https://$GITHUB_TOKEN@github.com/byz-at-google/cymbal-airlines-simulator" main:main
+        git push "https://$GITHUB_TOKEN@github.com/byz-at-google/cymbal-airlines-simulator-demo" main:main
       fi
     else
-      git push "https://$GITHUB_TOKEN@github.com/byz-at-google/cymbal-airlines-simulator" dev:dev
+      git push "https://$GITHUB_TOKEN@github.com/byz-at-google/cymbal-airlines-simulator-demo" dev:dev
     fi
   else
     echo "Warning: GITHUB_TOKEN not set. Skipping GitHub sync."
