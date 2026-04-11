@@ -54,7 +54,8 @@ if [ $? -eq 0 ]; then
         git push "https://$GITHUB_TOKEN@github.com/byz-at-google/cymbal-airlines-simulator-demo" main:main
       fi
     else
-      git push "https://$GITHUB_TOKEN@github.com/byz-at-google/cymbal-airlines-simulator-demo" dev:dev
+      CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+      git push "https://$GITHUB_TOKEN@github.com/byz-at-google/cymbal-airlines-simulator-demo" "$CURRENT_BRANCH:$CURRENT_BRANCH"
     fi
   else
     echo "Warning: GITHUB_TOKEN not set. Skipping GitHub sync."

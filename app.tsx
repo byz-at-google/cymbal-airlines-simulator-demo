@@ -85,7 +85,7 @@ export interface GuidedExperienceState {
 
 export interface PersonaViewState {
   activeTab: 'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance';
-  distributionSubTab: 'Home' | 'Product' | 'Channels' | 'Consumer App Approval' | 'Test Bench';
+  distributionSubTab: 'Home' | 'Product' | 'Channels' | 'Consumer App Approval';
   governanceSubTab: 'Agent' | 'Tool';
 }
 
@@ -489,114 +489,13 @@ const App = () => {
     return 'Product Owner';
   });
 
-  const [agents, setAgents] = React.useState<Agent[]>(INITIAL_AGENTS);
-  const [tools, setTools] = React.useState<Tool[]>(INITIAL_TOOLS);
-  const [agentProfiles, setAgentProfiles] = React.useState<AgentProfile[]>(INITIAL_AGENT_PROFILES);
-  const [toolProfiles, setToolProfiles] = React.useState<ToolProfile[]>(INITIAL_TOOL_PROFILES);
-  const [products, setProducts] = React.useState<Product[]>([
-    {
-      id: 'pr1',
-      name: 'European Regional Support Package',
-      description: 'Localized support bundle for EU operations.',
-      createdDate: '2026-03-13',
-      modifiedDate: '2026-03-13',
-      agents: [{agentId: 'a1', profileId: 'p2'}],
-      tools: [{toolId: 't1', profileId: 'tp1'}, {toolId: 't2', profileId: 'tp1'}],
-      gtmCharacteristics: 'Targeting high-growth EMEA markets with strict compliance focus.',
-      technicalSpec: '',
-      useCases: '',
-      status: 'Active'
-    },
-    {
-      id: 'pr2',
-      name: 'Global Premium Concierge Suite',
-      description: 'Elite passenger assistance for premium trans-pacific flights.',
-      createdDate: '2026-03-13',
-      modifiedDate: '2026-03-13',
-      agents: [{agentId: 'a3', profileId: 'p3'}],
-      tools: [{toolId: 't1', profileId: 'tp1'}, {toolId: 't3', profileId: 'tp1'}, {toolId: 't4', profileId: 'tp2'}],
-      gtmCharacteristics: 'High-value product for loyalty retention in competitive markets.',
-      technicalSpec: '',
-      useCases: '',
-      status: 'Active'
-    },
-    {
-      id: 'pr3',
-      name: 'Safety & Quality Assurance Operations',
-      description: 'Internal toolset for ground operations and safety auditing.',
-      createdDate: '2026-03-13',
-      modifiedDate: '2026-03-13',
-      agents: [{agentId: 'a4', profileId: 'p1'}],
-      tools: [{toolId: 't4', profileId: 'tp1'}],
-      gtmCharacteristics: 'Focused on internal efficiency and safety standard adherence.',
-      technicalSpec: '',
-      useCases: '',
-      status: 'Active'
-    },
-    {
-      id: 'pr4',
-      name: 'North America Customer Support Package',
-      description: 'Regional support bundle for NA operations.',
-      createdDate: '2026-03-13',
-      modifiedDate: '2026-03-13',
-      agents: [{agentId: 'a1', profileId: 'p5'}],
-      tools: [{toolId: 't5', profileId: 'tp4'}],
-      gtmCharacteristics: 'Standard support package for the US and Canadian markets.',
-      technicalSpec: '',
-      useCases: '',
-      status: 'Active'
-    },
-    {
-      id: 'pr5',
-      name: 'European Union Customer Support Package',
-      description: 'GDPR-first support bundle for EU operations.',
-      createdDate: '2026-03-13',
-      modifiedDate: '2026-03-13',
-      agents: [{agentId: 'a1', profileId: 'p6'}],
-      tools: [{toolId: 't6', profileId: 'tp5'}],
-      gtmCharacteristics: 'High-compliance package designed for the EEA.',
-      technicalSpec: '',
-      useCases: '',
-      status: 'Active'
-    },
-    {
-      id: 'pr6',
-      name: 'APAC Regional Support Package',
-      description: 'Multi-lingual support bundle for Asia-Pacific.',
-      createdDate: '2026-03-13',
-      modifiedDate: '2026-03-13',
-      agents: [{agentId: 'a1', profileId: 'p7'}],
-      tools: [{toolId: 't7', profileId: 'tp4'}],
-      gtmCharacteristics: 'Agile support package for diverse APAC economies.',
-      technicalSpec: '',
-      useCases: '',
-      status: 'Active'
-    }
-  ]);
+  const [agents, setAgents] = React.useState<Agent[]>([]);
+  const [tools, setTools] = React.useState<Tool[]>([]);
+  const [agentProfiles, setAgentProfiles] = React.useState<AgentProfile[]>([]);
+  const [toolProfiles, setToolProfiles] = React.useState<ToolProfile[]>([]);
+  const [products, setProducts] = React.useState<Product[]>([]);
 
-  const [channels, setChannels] = React.useState<Channel[]>([
-    {
-      id: 'ch1',
-      name: 'North America Direct Consumer Channel',
-      description: 'Primary public endpoint for NA retail customers.',
-      status: 'Published',
-      products: ['pr4', 'pr2', 'pr6'],
-      gtmInfo: 'Targeting standard retail segments in the US and Canada.',
-      publishedUrl: 'https://api.cymbal.com/v1/channels/na-direct',
-      createdDate: '2026-03-17',
-      modifiedDate: '2026-03-17'
-    },
-    {
-      id: 'ch2',
-      name: 'European Enterprise Support Channel',
-      description: 'Dedicated channel for EU-based corporate clients.',
-      status: 'Draft',
-      products: ['pr1', 'pr5'],
-      gtmInfo: 'Focus on high-compliance, b2b support services.',
-      createdDate: '2026-03-17',
-      modifiedDate: '2026-03-17'
-    }
-  ]);
+  const [channels, setChannels] = React.useState<Channel[]>([]);
 
   const [storefrontConfig, setStorefrontConfig] = React.useState<StorefrontConfig>({
     channelUrl: 'https://api.cymbal.com/v1/channels/na-direct',
@@ -604,7 +503,7 @@ const App = () => {
     portalName: 'Cymbal Airlines Agentic Portal'
   });
 
-  const [consumerApps, setConsumerApps] = React.useState<ConsumerApp[]>(INITIAL_CONSUMER_APPS);
+  const [consumerApps, setConsumerApps] = React.useState<ConsumerApp[]>([]);
 
   const [isGuidedExperienceEnabled, setIsGuidedExperienceEnabled] = React.useState(true);
   const [guidedExpState, setGuidedExpState] = React.useState<GuidedExperienceState>({
@@ -614,7 +513,7 @@ const App = () => {
   });
 
   const [activeTab, setActiveTab] = React.useState<'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance'>('Dashboard');
-  const [distributionSubTab, setDistributionSubTab] = React.useState<'Home' | 'Product' | 'Channels' | 'Consumer App Approval' | 'Test Bench'>('Home');
+  const [distributionSubTab, setDistributionSubTab] = React.useState<'Home' | 'Product' | 'Channels' | 'Consumer App Approval'>('Home');
   const [governanceSubTab, setGovernanceSubTab] = React.useState<'Agent' | 'Tool'>('Agent');
 
   const [personaViewStates, setPersonaViewStates] = React.useState<PersonaViewStates>({
@@ -1023,20 +922,7 @@ const App = () => {
                 transition: 'all 0.2s'
               }}
             >Consumer App Approval</button>
-            <button 
-              onClick={() => setDistributionSubTab('Test Bench')}
-              style={{
-                padding: '0.75rem 1.5rem',
-                border: 'none',
-                background: 'none',
-                borderBottom: distributionSubTab === 'Test Bench' ? '2px solid #1a73e8' : '2px solid transparent',
-                color: distributionSubTab === 'Test Bench' ? '#1a73e8' : '#5f6368',
-                fontWeight: 400,
-                cursor: 'pointer',
-                fontSize: '0.9rem',
-                transition: 'all 0.2s'
-              }}
-            >Test Bench</button>
+
           </div>
           {distributionSubTab === 'Home' && (
             <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
@@ -1080,15 +966,7 @@ const App = () => {
               onUpdateStatus={updateConsumerAppStatus}
             />
           )}
-          {distributionSubTab === 'Test Bench' && (
-            <TestBench 
-              products={products}
-              agents={agents}
-              agentProfiles={agentProfiles}
-              tools={tools}
-              toolProfiles={toolProfiles}
-            />
-          )}
+
         </div>
       );
     }
@@ -1169,14 +1047,8 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "rotate(45deg)" }}>
-            <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.7 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
-          </svg>
-          <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
-            Cymbal Airlines Simulation
-            <span style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.16demo</span>
-            <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '1rem', fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
-          </h1>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.16demo</span>
+          <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           {/* Persona select moved to Control Panel */}
@@ -1195,7 +1067,7 @@ const App = () => {
           letterSpacing: '0.5px',
           boxShadow: '0 1px 2px 0 rgba(60,64,67,.3)'
         }}>
-          Cymbal Airlines Internal
+          &nbsp;
         </div>
       )}
       
