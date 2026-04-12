@@ -395,7 +395,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           title="System Configuration & Deployment Authority"
           description={
             <Fragment>
-              As an IT Team member, you have full authority over the deployment of simulation assets into Services and their publication to API Gateways. You are responsible for system stability and integration.
+              As an IT Team member, you have full authority over the deployment of simulation assets into Services and their publication to API Gateways. You are responsible for system stability and integration, ensuring that AI agents deliver measurable business value and positive customer outcomes.
             </Fragment>
           }
           color={themeColor}
