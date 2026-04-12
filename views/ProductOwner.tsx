@@ -30,7 +30,7 @@ export const ProductOwner: React.FC<ProductOwnerProps> = ({
           <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 800, color: themeColor }}>IT Operations Workspace</h2>
           <p style={{ margin: '0.75rem 0 0', color: '#4b5563', fontSize: '1.1rem' }}>Manage and monitor AI agents and system integrations.</p>
           <div style={{ marginTop: '1rem', padding: '1rem', background: '#eef2ff', borderLeft: `4px solid ${themeColor}`, borderRadius: '0 8px 8px 0', fontSize: '0.9rem', color: '#374151' }}>
-            <strong>System Configuration & Deployment Authority:</strong> Full control over agent deployments, tool integrations, and system policies. Optimize agent performance to drive customer satisfaction and operational efficiency.
+            <strong>System Configuration & Deployment Authority:</strong> Full control over agent deployments, tool integrations, and system policies. Ensure optimal system performance, low latency, and high availability for all deployed agents.
           </div>
         </div>
         {isGuidedExperienceEnabled && !isGuidedExperienceActive && (
