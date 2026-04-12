@@ -387,7 +387,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
               </svg>
-              Learning Scenarios
+              Customer Scenarios
             </button>
           </div>
         )}
@@ -417,7 +417,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
       <Modal 
         isOpen={showLearningModal} 
         onClose={() => setShowLearningModal(false)} 
-        title="SIMULATOR LEARNING SCENARIOS"
+        title="SIMULATOR CUSTOMER SCENARIOS"
         icon={
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
@@ -428,8 +428,21 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
         <div style={{ display: 'grid', gap: '1.25rem' }}>
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Profile Governance Syncing</h4>
+              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>L'Oreal - Regional Agent Distribution</h4>
               <span style={{ fontSize: '0.75rem', background: '#38bdf820', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 1</span>
+            </div>
+            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
+              L'Oreal needs to deploy the same functional agent to different geographical regions with specific governance in each region to ensure compliance with local laws and regulations.
+            </p>
+            <button style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', opacity: 0.5 }}>
+              Coming Soon
+            </button>
+          </div>
+
+          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Profile Governance Syncing</h4>
+              <span style={{ fontSize: '0.75rem', background: '#38bdf820', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 2</span>
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
               Master balancing localized Agent Profiles with Governance Policies semantic rules updates. Set up region sync loops securely.
@@ -442,7 +455,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Product Distribution Strategy</h4>
-              <span style={{ fontSize: '0.75rem', background: '#10b98120', color: '#10b981', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 2</span>
+              <span style={{ fontSize: '0.75rem', background: '#10b98120', color: '#10b981', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 3</span>
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
               Coordinate bundle publications across multiple global branches (SEA, JFK, DXB). Manage release targeting into Channels smoothly.
@@ -455,7 +468,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Publishing & Consumption</h4>
-              <span style={{ fontSize: '0.75rem', background: '#f59e0b20', color: '#f59e0b', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 3</span>
+              <span style={{ fontSize: '0.75rem', background: '#f59e0b20', color: '#f59e0b', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 4</span>
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
               Complete the lifecycle: publish a channel, subscribe via storefront, manage visibility, and submit/approve consumer apps.
@@ -1053,7 +1066,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.19demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.20demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
