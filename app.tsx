@@ -852,15 +852,21 @@ const App = () => {
             >Tool Profiles</button>
           </div>
           {governanceSubTab === 'Agent' && (
-            <AgentProfileManager 
-              profiles={agentProfiles} 
-              setProfiles={setAgentProfiles} 
-              tools={tools} 
-              canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} 
-            />
+            <Fragment>
+              <p style={{ margin: '0.5rem 1rem 1rem', color: '#5f6368', fontSize: '0.9rem' }}>Agent Profiles define global and tool-specific semantic governance policies for AI agents.</p>
+              <AgentProfileManager 
+                profiles={agentProfiles} 
+                setProfiles={setAgentProfiles} 
+                tools={tools} 
+                canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} 
+              />
+            </Fragment>
           )}
           {governanceSubTab === 'Tool' && (
-            <ToolProfileManager profiles={toolProfiles} setProfiles={setToolProfiles} canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} />
+            <Fragment>
+              <p style={{ margin: '0.5rem 1rem 1rem', color: '#5f6368', fontSize: '0.9rem' }}>Tool Profiles define semantic governance policies for individual tools.</p>
+              <ToolProfileManager profiles={toolProfiles} setProfiles={setToolProfiles} canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} />
+            </Fragment>
           )}
         </div>
       );
@@ -1047,7 +1053,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.17demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.18demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
