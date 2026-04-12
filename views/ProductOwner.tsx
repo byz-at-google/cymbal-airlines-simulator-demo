@@ -27,10 +27,10 @@ export const ProductOwner: React.FC<ProductOwnerProps> = ({
     <div>
       <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 800, color: themeColor }}>Product Owner Workspace</h2>
-          <p style={{ margin: '0.75rem 0 0', color: '#4b5563', fontSize: '1.1rem' }}>Manage and optimize agents for enterprise solutions.</p>
+          <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 800, color: themeColor }}>IT Operations Workspace</h2>
+          <p style={{ margin: '0.75rem 0 0', color: '#4b5563', fontSize: '1.1rem' }}>Manage and monitor AI agents and system integrations.</p>
           <div style={{ marginTop: '1rem', padding: '1rem', background: '#eef2ff', borderLeft: `4px solid ${themeColor}`, borderRadius: '0 8px 8px 0', fontSize: '0.9rem', color: '#374151' }}>
-            <strong>Product Catalog & Distribution Authority:</strong> Full control over catalog distribution and channel management for all agent and tool profiles.
+            <strong>System Configuration & Deployment Authority:</strong> Full control over agent deployments, tool integrations, and system policies.
           </div>
         </div>
         {isGuidedExperienceEnabled && !isGuidedExperienceActive && (

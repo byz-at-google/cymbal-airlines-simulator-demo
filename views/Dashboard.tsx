@@ -380,22 +380,22 @@ export const Dashboard: React.FC<DashboardProps> = ({
     );
   }
 
-  if (persona === 'Product Owner') {
+  if (persona === 'IT Team') {
     const themeColor = '#4338ca';
     const bgColor = '#eef2ff';
     return (
       <div>
         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
           <div>
-            <h2 style={{ fontSize: '1.75rem', fontWeight: 800, margin: 0, color: themeColor }}>Product Strategy Dashboard</h2>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 800, margin: 0, color: themeColor }}>IT Operations Dashboard</h2>
           </div>
           {/* Guided Experience triggers moved to Simulator Control Panel */}
         </header>
         <AuthorityBlurb 
-          title="Product Catalog & Distribution Authority"
+          title="System Configuration & Deployment Authority"
           description={
             <Fragment>
-              As a Product Owner, you have full authority over the bundling of simulation assets into marketable Products and their publication to regional Channels. You are responsible for regional go-to-market strategy.
+              As an IT Team member, you have full authority over the deployment of simulation assets into Services and their publication to API Gateways. You are responsible for system stability and integration.
             </Fragment>
           }
           color={themeColor}
@@ -411,18 +411,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
 
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-          <MetricCard title="Product Revenue ROI" value="$24.8k" mock color={themeColor} />
+          <MetricCard title="System Uptime" value="99.9%" mock color={themeColor} />
           <MetricCard title="Agent Ecosystem Size" value={totalAgents} color={themeColor} />
-          <MetricCard title="User Feature Adoption" value="64.8%" mock color={themeColor} />
-          <MetricCard title="Marketplace Conversions" value="12.5%" mock color={themeColor} />
+          <MetricCard title="API Success Rate" value="98.5%" mock color={themeColor} />
+          <MetricCard title="Peak QPS" value="150" mock color={themeColor} />
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem' }}>
-          <ChartContainer title="Product Profit Margin (Estimated)" mock>
+          <ChartContainer title="Service Resource Usage" mock>
             <SimpleBarChart color={themeColor} data={[
-              {label: 'Prod A', value: 45},
-              {label: 'Prod B', value: 30},
-              {label: 'Prod C', value: 55}
+              {label: 'Svc A', value: 45},
+              {label: 'Svc B', value: 30},
+              {label: 'Svc C', value: 55}
             ]} />
           </ChartContainer>
           <ChartContainer title="Agent Adoption over Time" mock>

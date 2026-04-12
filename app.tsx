@@ -47,7 +47,7 @@ export interface StorefrontConfig {
 
 export type Persona = 
   | 'Governance Administrator' 
-  | 'Product Owner' 
+  | 'IT Team' 
   | 'C-Suite Executive' 
   | 'Storefront Manager'
   | 'End Consumer'
@@ -478,7 +478,7 @@ const App = () => {
     const p = params.get('persona');
     if (p && [
       'Governance Administrator', 
-      'Product Owner', 
+      'IT Team', 
       'C-Suite Executive', 
       'Storefront Manager', 
       'End Consumer', 
@@ -486,7 +486,7 @@ const App = () => {
     ].includes(p)) {
       return p as Persona;
     }
-    return 'Product Owner';
+    return 'IT Team';
   });
 
   const [agents, setAgents] = React.useState<Agent[]>([]);
@@ -518,7 +518,7 @@ const App = () => {
 
   const [personaViewStates, setPersonaViewStates] = React.useState<PersonaViewStates>({
     'Governance Administrator': { ...DEFAULT_VIEW_STATE },
-    'Product Owner': { ...DEFAULT_VIEW_STATE },
+    'IT Team': { ...DEFAULT_VIEW_STATE },
     'C-Suite Executive': { ...DEFAULT_VIEW_STATE },
     'Storefront Manager': { ...DEFAULT_VIEW_STATE },
     'End Consumer': { ...DEFAULT_VIEW_STATE },
@@ -542,7 +542,7 @@ const App = () => {
     setGovernanceSubTab(newState.governanceSubTab);
   };
 
-  const isSaaSPersona = ['Governance Administrator', 'Product Owner', 'C-Suite Executive'].includes(persona);
+  const isSaaSPersona = ['Governance Administrator', 'IT Team', 'C-Suite Executive'].includes(persona);
 
   const handleExport = () => {
     const dataStr = JSON.stringify({
@@ -620,7 +620,7 @@ const App = () => {
     });
 
     if (type === 'ops') {
-      handlePersonaChange('Product Owner');
+      handlePersonaChange('IT Team');
       setAgents([
         {
           id: 'tut-a1',
@@ -659,7 +659,7 @@ const App = () => {
       setConsumerApps([]);
       setActiveTab('Agents');
     } else if (type === 'products') {
-      handlePersonaChange('Product Owner');
+      handlePersonaChange('IT Team');
       setAgents([
         {
           id: 'tut-a1',
@@ -688,7 +688,7 @@ const App = () => {
       setConsumerApps([]);
       setActiveTab('Agents');
     } else if (type === 'publish') {
-      handlePersonaChange('Product Owner');
+      handlePersonaChange('IT Team');
       setAgents([]);
       setTools([]);
       setAgentProfiles([]);
@@ -813,13 +813,13 @@ const App = () => {
         <AgentManager 
           agents={agents} 
           setAgents={setAgents} 
-          canEdit={persona === 'Governance Administrator' || persona === 'Product Owner'} 
+          canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} 
         />
       );
     }
 
     if (isSaaSPersona && activeTab === 'Tools') {
-      return <ToolManager tools={tools} setTools={setTools} canEdit={persona === 'Governance Administrator' || persona === 'Product Owner'} />;
+      return <ToolManager tools={tools} setTools={setTools} canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} />;
     }
 
     if (isSaaSPersona && activeTab === 'Governance') {
@@ -856,11 +856,11 @@ const App = () => {
               profiles={agentProfiles} 
               setProfiles={setAgentProfiles} 
               tools={tools} 
-              canEdit={persona === 'Governance Administrator' || persona === 'Product Owner'} 
+              canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} 
             />
           )}
           {governanceSubTab === 'Tool' && (
-            <ToolProfileManager profiles={toolProfiles} setProfiles={setToolProfiles} canEdit={persona === 'Governance Administrator' || persona === 'Product Owner'} />
+            <ToolProfileManager profiles={toolProfiles} setProfiles={setToolProfiles} canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} />
           )}
         </div>
       );
@@ -949,14 +949,14 @@ const App = () => {
               products={products} setProducts={setProducts} 
               agents={agents} agentProfiles={agentProfiles}
               tools={tools} toolProfiles={toolProfiles}
-              canEdit={persona === 'Product Owner'} 
+              canEdit={persona === 'IT Team'} 
             />
           )}
           {distributionSubTab === 'Channels' && (
             <ChannelManager 
               channels={channels} setChannels={setChannels}
               products={products}
-              canEdit={persona === 'Product Owner'}
+              canEdit={persona === 'IT Team'}
             />
           )}
           {distributionSubTab === 'Consumer App Approval' && (
@@ -974,7 +974,7 @@ const App = () => {
     switch (persona) {
       case 'Governance Administrator':
         return <GovernanceAdmin agents={agents} setAgents={setAgents} />;
-      case 'Product Owner':
+      case 'IT Team':
         return (
           <ProductOwner 
             agents={agents} 
