@@ -387,15 +387,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <div>
         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
           <div>
-            <h2 style={{ fontSize: '1.75rem', fontWeight: 800, margin: 0, color: themeColor }}>IT Operations Dashboard</h2>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 800, margin: 0, color: themeColor }}>IT Team Administrator</h2>
           </div>
           {/* Guided Experience triggers moved to Simulator Control Panel */}
         </header>
         <AuthorityBlurb 
-          title="System Configuration & Deployment Authority"
+          title="Agentic System Governance Authority"
           description={
             <Fragment>
-              As an IT Team member, you have full authority over the deployment of simulation assets into Services and their publication to API Gateways. You are responsible for system stability and integration, ensuring optimal system performance, low latency, and high availability for all deployed agents.
+              As an IT team administrator, you are responsible for the deployment and consumption of agentic assets in your organization, and ensuring they efficiently work together toward achieving business goals. You have full authority over the system of agents and their distribution across your organization.
             </Fragment>
           }
           color={themeColor}
