@@ -89,6 +89,13 @@ export interface PersonaViewState {
   governanceSubTab: 'Agent' | 'Tool';
 }
 
+export interface GlobalPolicy {
+  id: string;
+  content: string;
+  agentId: string;
+  status: 'Active' | 'Draft';
+}
+
 export type PersonaViewStates = Record<string, PersonaViewState>;
 
 const DEFAULT_VIEW_STATE: PersonaViewState = { 
@@ -530,6 +537,10 @@ const App = () => {
   const [governanceSubTab, setGovernanceSubTab] = React.useState<'Agent' | 'Tool'>('Agent');
   const [technicalGovernanceSubTab, setTechnicalGovernanceSubTab] = React.useState<'BusinessPolicies'>('BusinessPolicies');
 
+  const [globalPolicies, setGlobalPolicies] = React.useState<GlobalPolicy[]>([]);
+  const [newPolicyContent, setNewPolicyContent] = React.useState('');
+  const [selectedAgentId, setSelectedAgentId] = React.useState('');
+
   const [personaViewStates, setPersonaViewStates] = React.useState<PersonaViewStates>({
     'Governance Administrator': { ...DEFAULT_VIEW_STATE },
     'IT Team': { ...DEFAULT_VIEW_STATE },
@@ -915,19 +926,40 @@ const App = () => {
                   <textarea 
                     rows={4} 
                     placeholder="Enter global semantic governance policy..." 
+                    value={newPolicyContent}
+                    onChange={e => setNewPolicyContent(e.target.value)}
                     style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                   />
                 </div>
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Assign to Agent</label>
-                  <select style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}>
-                    <option value="" disabled selected>Select an agent...</option>
+                  <select 
+                    value={selectedAgentId}
+                    onChange={e => setSelectedAgentId(e.target.value)}
+                    style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                  >
+                    <option value="" disabled>Select an agent...</option>
+                    <option value="all">All Agents</option>
                     {agents.map(agent => (
                       <option key={agent.id} value={agent.id}>{agent.name}</option>
                     ))}
                   </select>
                 </div>
-                <button style={{ padding: '0.6rem 1.2rem', backgroundColor: '#1a73e8', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 500 }}>
+                <button 
+                  onClick={() => {
+                    if (!newPolicyContent || !selectedAgentId) return;
+                    const newPolicy: GlobalPolicy = {
+                      id: Math.random().toString(36).substr(2, 9),
+                      content: newPolicyContent,
+                      agentId: selectedAgentId,
+                      status: 'Active'
+                    };
+                    setGlobalPolicies([...globalPolicies, newPolicy]);
+                    setNewPolicyContent('');
+                    setSelectedAgentId('');
+                  }}
+                  style={{ padding: '0.6rem 1.2rem', backgroundColor: '#1a73e8', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 500 }}
+                >
                   Create & Assign Policy
                 </button>
               </div>
@@ -944,11 +976,26 @@ const App = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td colSpan={3} style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>
-                        No active policies defined.
-                      </td>
-                    </tr>
+                    {globalPolicies.map(policy => {
+                      const agent = agents.find(a => a.id === policy.agentId);
+                      const agentName = policy.agentId === 'all' ? 'All Agents' : (agent ? agent.name : 'Unknown Agent');
+                      return (
+                        <tr key={policy.id}>
+                          <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>{policy.content}</td>
+                          <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>{agentName}</td>
+                          <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>
+                            <span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>{policy.status}</span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    {globalPolicies.length === 0 && (
+                      <tr>
+                        <td colSpan={3} style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>
+                          No active policies defined.
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -1139,7 +1186,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.30demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.32demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -1242,6 +1289,34 @@ const App = () => {
               </div>
 
               <div style={{ padding: '1.5rem 1.5rem 0.5rem', fontSize: '0.75rem', fontWeight: 400, color: '#5f6368', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Platform Governance
+              </div>
+              <div 
+                onClick={() => setActiveTab('TechnicalGovernance')}
+                style={{ 
+                  padding: '0.75rem 1.5rem', 
+                  background: activeTab === 'TechnicalGovernance' ? '#e8f0fe' : 'transparent', 
+                  color: activeTab === 'TechnicalGovernance' ? '#1a73e8' : '#5f6368',
+                  fontWeight: 400,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  borderLeft: activeTab === 'TechnicalGovernance' ? '4px solid #1a73e8' : '4px solid transparent',
+                  cursor: 'pointer',
+                  marginBottom: '0.5rem'
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 18 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                Technical Governance
+              </div>
+
+              <div style={{ padding: '1.5rem 1.5rem 0.5rem', fontSize: '0.75rem', fontWeight: 400, color: '#5f6368', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Portfolio Management
               </div>
               <div 
@@ -1283,34 +1358,6 @@ const App = () => {
                   <line x1="2" y1="10" x2="22" y2="10"></line>
                 </svg>
                 Distribution
-              </div>
- 
-              <div style={{ padding: '1.5rem 1.5rem 0.5rem', fontSize: '0.75rem', fontWeight: 400, color: '#5f6368', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Platform Governance
-              </div>
-              <div 
-                onClick={() => setActiveTab('TechnicalGovernance')}
-                style={{ 
-                  padding: '0.75rem 1.5rem', 
-                  background: activeTab === 'TechnicalGovernance' ? '#e8f0fe' : 'transparent', 
-                  color: activeTab === 'TechnicalGovernance' ? '#1a73e8' : '#5f6368',
-                  fontWeight: 400,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  borderLeft: activeTab === 'TechnicalGovernance' ? '4px solid #1a73e8' : '4px solid transparent',
-                  cursor: 'pointer',
-                  marginBottom: '0.5rem'
-                }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 18 8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                  <polyline points="10 9 9 9 8 9"></polyline>
-                </svg>
-                Technical Governance
               </div>
             </nav>
           </aside>
