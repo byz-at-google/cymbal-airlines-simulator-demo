@@ -411,37 +411,38 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
 
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-          <MetricCard title="System Uptime" value="99.9%" mock color={themeColor} />
-          <MetricCard title="Agent Ecosystem Size" value={totalAgents} color={themeColor} />
-          <MetricCard title="API Success Rate" value="98.5%" mock color={themeColor} />
-          <MetricCard title="Peak QPS" value="150" mock color={themeColor} />
+          <MetricCard title="System Uptime" value="99.995%" mock color={themeColor} />
+          <MetricCard title="Active AI Agents" value={totalAgents} color={themeColor} />
+          <MetricCard title="Gateway Success Rate" value="99.99%" mock color={themeColor} />
+          <MetricCard title="P99 Latency" value="85ms" mock color={themeColor} />
+          <MetricCard title="Peak Throughput" value="25k QPS" mock color={themeColor} />
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem' }}>
-          <ChartContainer title="Service Resource Usage" mock>
+          <ChartContainer title="Core Service Health (CPU %)" mock>
             <SimpleBarChart color={themeColor} data={[
-              {label: 'Svc A', value: 45},
-              {label: 'Svc B', value: 30},
-              {label: 'Svc C', value: 55}
+              {label: 'Gateway', value: 45},
+              {label: 'Execution', value: 60},
+              {label: 'Governance', value: 30}
             ]} />
           </ChartContainer>
-          <ChartContainer title="Agent Adoption over Time" mock>
+          <ChartContainer title="System Throughput (QPS)" mock>
             <SimpleLineChart color={themeColor} data={MOCK_ADOPTION_DATA} />
           </ChartContainer>
-          <ChartContainer title="Quality Trust Score" mock>
+          <ChartContainer title="Policy Compliance Rate" mock>
             <SimpleLineChart color={themeColor} data={MOCK_TRUST_SCORE_DATA} />
           </ChartContainer>
-          <ChartContainer title="Platform Latency" mock>
+          <ChartContainer title="Platform Latency (ms)" mock>
             <SimpleLineChart color={themeColor} data={MOCK_LATENCY_DATA} />
           </ChartContainer>
         </div>
 
-        <ChartContainer title="Top Feature Usage" mock>
+        <ChartContainer title="API Calls by Region (Thousands)" mock>
           <SimpleBarChart color={themeColor} data={[
-            {label: 'Summarize', value: 850},
-            {label: 'Booking', value: 720},
-            {label: 'Schedule', value: 640},
-            {label: 'Rewards', value: 410}
+            {label: 'North America', value: 1200},
+            {label: 'Europe', value: 850},
+            {label: 'Asia Pacific', value: 640},
+            {label: 'Latin America', value: 210}
           ]} />
         </ChartContainer>
       </div>
