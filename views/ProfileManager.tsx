@@ -52,12 +52,12 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
 
   const handleCreate = () => {
     setView('create');
-    if (guidedExpState && guidedExpState.isActive && guidedExpState.type === 'loreal') {
+    if (guidedExpState && guidedExpState.isActive && guidedExpState.type === 'unicredit') {
       if (guidedExpState.currentStep === 3) { // Step 4 (0-based index 3) - Create NA Profile
         setFormData({
           name: 'NA Agent Profile',
           description: 'Profile for North America region',
-          globalSemanticPolicy: 'Do not recommend products containing ingredients not approved by FDA.',
+          globalSemanticPolicy: 'Do not offer investment advice on products not registered with SEC.',
           status: 'Active'
         });
         setFormRows([]);
@@ -66,7 +66,7 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
         setFormData({
           name: 'EU Agent Profile',
           description: 'Profile for European Union region',
-          globalSemanticPolicy: 'Ensure all data processing complies with GDPR. Do not share dermatological data across borders without explicit consent.',
+          globalSemanticPolicy: 'Strictly adhere to GDPR data minimization principles. Do not process transaction data without explicit consent.',
           status: 'Active'
         });
         setFormRows([]);
