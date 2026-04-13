@@ -1148,8 +1148,14 @@ const App = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td colSpan={5} style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>
-                        No behavioral anomalies detected in the last 24 hours.
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>2026-04-13 16:45:22</td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Customer Support Agent <span style={{ fontSize: '0.75rem', color: '#1a73e8', backgroundColor: '#e8f0fe', padding: '2px 4px', borderRadius: '3px', fontWeight: 'bold' }}>EXAMPLE</span></td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Potential Jailbreak Attempt</td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>
+                        <span style={{ color: '#c5221f', backgroundColor: '#fce8e6', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>High</span>
+                      </td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>
+                        <button style={{ padding: '0.4rem 0.8rem', backgroundColor: '#fff', border: '1px solid #dadce0', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}>Investigate</button>
                       </td>
                     </tr>
                   </tbody>
@@ -1432,7 +1438,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.35demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.36demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
