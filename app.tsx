@@ -1031,27 +1031,105 @@ const App = () => {
               <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Agent Anomaly Detection</h2>
               
               {/* Configuration Section */}
-              <div style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 500, marginTop: 0 }}>Detection Configuration</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Sensitivity Threshold</label>
-                    <input type="range" min="1" max="100" defaultValue="75" style={{ width: '50%' }} />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#5f6368', width: '50%' }}>
-                      <span>Low</span>
-                      <span>High</span>
+              <div style={{ marginBottom: '2rem' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 500, marginTop: 0 }}>Anomaly Detection Profiles</h3>
+                <p style={{ fontSize: '0.85rem', color: '#5f6368', marginBottom: '1rem' }}>
+                  Configure specific monitors to detect runtime behavioral anomalies across the agent portfolio.
+                </p>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                  
+                  {/* Card 1: Resource & Cost Control */}
+                  <div style={{ padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                      <h4 style={{ fontSize: '0.95rem', fontWeight: 500, margin: 0 }}>Resource &amp; Cost Control</h4>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8rem' }}>
+                        <input type="checkbox" defaultChecked /> Active
+                      </label>
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: '#5f6368', marginBottom: '0.75rem' }}>Detects runaway loops and sudden spikes in token consumption.</p>
+                    <div style={{ fontSize: '0.85rem' }}>
+                      <div style={{ marginBottom: '0.5rem' }}>
+                        <label style={{ display: 'block', marginBottom: '0.25rem' }}>Loop Detection Sensitivity</label>
+                        <input type="range" min="1" max="5" defaultValue="3" style={{ width: '100%' }} />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', marginBottom: '0.25rem' }}>Burst Threshold (Tokens/min)</label>
+                        <input type="number" defaultValue="10000" style={{ width: '100%', padding: '0.4rem', borderRadius: '4px', border: '1px solid #dadce0' }} />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div style={{ marginTop: '1rem' }}>
-                  <label style={{ fontWeight: 500 }}>Active Monitors</label>
-                  <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Goal Violation &amp; Semantic Drift</label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Prompt Injection &amp; Jailbreak</label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Anomalous Tool Sequences</label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Sentiment &amp; Tone Deviation</label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Data Exfiltration Suspected</label>
+
+                  {/* Card 2: Security & Alignment */}
+                  <div style={{ padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                      <h4 style={{ fontSize: '0.95rem', fontWeight: 500, margin: 0 }}>Security &amp; Alignment</h4>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8rem' }}>
+                        <input type="checkbox" defaultChecked /> Active
+                      </label>
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: '#5f6368', marginBottom: '0.75rem' }}>Identifies prompt injections and attempts to access unauthorized data.</p>
+                    <div style={{ fontSize: '0.85rem' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                          <input type="checkbox" defaultChecked /> Jailbreak Attempt Detection
+                        </label>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                          <input type="checkbox" defaultChecked /> PII Leak Prevention
+                        </label>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                          <input type="checkbox" defaultChecked /> Shadow Tool Usage Monitor
+                        </label>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Card 3: Behavioral Drift */}
+                  <div style={{ padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                      <h4 style={{ fontSize: '0.95rem', fontWeight: 500, margin: 0 }}>Behavioral Drift</h4>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8rem' }}>
+                        <input type="checkbox" defaultChecked /> Active
+                      </label>
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: '#5f6368', marginBottom: '0.75rem' }}>Monitors for degradation in output quality and tone deviation.</p>
+                    <div style={{ fontSize: '0.85rem' }}>
+                      <div style={{ marginBottom: '0.5rem' }}>
+                        <label style={{ display: 'block', marginBottom: '0.25rem' }}>Tone Deviation Threshold</label>
+                        <select style={{ width: '100%', padding: '0.4rem', borderRadius: '4px', border: '1px solid #dadce0' }}>
+                          <option>Strict (Flag minor deviations)</option>
+                          <option selected>Standard</option>
+                          <option>Relaxed</option>
+                        </select>
+                      </div>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <input type="checkbox" defaultChecked /> Hallucination Probability Spike
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Card 4: Interaction Compliance */}
+                  <div style={{ padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                      <h4 style={{ fontSize: '0.95rem', fontWeight: 500, margin: 0 }}>Interaction Compliance</h4>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8rem' }}>
+                        <input type="checkbox" defaultChecked /> Active
+                      </label>
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: '#5f6368', marginBottom: '0.75rem' }}>Ensures agents adhere to prescribed interaction paths and policies.</p>
+                    <div style={{ fontSize: '0.85rem' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginBottom: '0.25rem' }}>
+                        <input type="checkbox" defaultChecked /> Out-of-Scope Topic Detection
+                      </label>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginBottom: '0.25rem' }}>
+                        <input type="checkbox" defaultChecked /> Policy Violation Detection
+                      </label>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <input type="checkbox" defaultChecked /> Off-Platform Redirection Attempts
+                      </label>
+                    </div>
+                  </div>
+
                 </div>
               </div>
 
@@ -1354,7 +1432,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.34demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.35demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
