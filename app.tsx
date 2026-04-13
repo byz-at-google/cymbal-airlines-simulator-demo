@@ -535,7 +535,7 @@ const App = () => {
   const [activeTab, setActiveTab] = React.useState<'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance' | 'TechnicalGovernance'>('Dashboard');
   const [distributionSubTab, setDistributionSubTab] = React.useState<'Home' | 'Product' | 'Channels' | 'Consumer App Approval'>('Home');
   const [governanceSubTab, setGovernanceSubTab] = React.useState<'Agent' | 'Tool'>('Agent');
-  const [technicalGovernanceSubTab, setTechnicalGovernanceSubTab] = React.useState<'BusinessPolicies'>('BusinessPolicies');
+  const [technicalGovernanceSubTab, setTechnicalGovernanceSubTab] = React.useState<'BusinessPolicies' | 'AgentAnomalyDetection' | 'PrivacyControls'>('BusinessPolicies');
 
   const [globalPolicies, setGlobalPolicies] = React.useState<GlobalPolicy[]>([]);
   const [newPolicyContent, setNewPolicyContent] = React.useState('');
@@ -912,11 +912,35 @@ const App = () => {
                 fontWeight: 400,
                 cursor: 'pointer'
               }}
-            >Business Policies</button>
+            >Semantic Governance Policy</button>
+            <button 
+              onClick={() => setTechnicalGovernanceSubTab('AgentAnomalyDetection')}
+              style={{
+                padding: '0.75rem 1.5rem',
+                border: 'none',
+                background: 'none',
+                borderBottom: technicalGovernanceSubTab === 'AgentAnomalyDetection' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: technicalGovernanceSubTab === 'AgentAnomalyDetection' ? '#1a73e8' : '#5f6368',
+                fontWeight: 400,
+                cursor: 'pointer'
+              }}
+            >Agent Anomaly Detection</button>
+            <button 
+              onClick={() => setTechnicalGovernanceSubTab('PrivacyControls')}
+              style={{
+                padding: '0.75rem 1.5rem',
+                border: 'none',
+                background: 'none',
+                borderBottom: technicalGovernanceSubTab === 'PrivacyControls' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: technicalGovernanceSubTab === 'PrivacyControls' ? '#1a73e8' : '#5f6368',
+                fontWeight: 400,
+                cursor: 'pointer'
+              }}
+            >Privacy Controls</button>
           </div>
           {technicalGovernanceSubTab === 'BusinessPolicies' && (
             <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
-              <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Business Policies</h2>
+              <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Semantic Governance Policy</h2>
               
               {/* Form to create/assign policy */}
               <div style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
@@ -998,6 +1022,157 @@ const App = () => {
                     )}
                   </tbody>
                 </table>
+              </div>
+            </div>
+          )}
+
+          {technicalGovernanceSubTab === 'AgentAnomalyDetection' && (
+            <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
+              <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Agent Anomaly Detection</h2>
+              
+              {/* Configuration Section */}
+              <div style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 500, marginTop: 0 }}>Detection Configuration</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Sensitivity Threshold</label>
+                    <input type="range" min="1" max="100" defaultValue="75" style={{ width: '100%' }} />
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#5f6368' }}>
+                      <span>Low</span>
+                      <span>High</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Notification Channel</label>
+                    <select style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}>
+                      <option>Email Digest</option>
+                      <option>Slack Alert</option>
+                      <option>PagerDuty</option>
+                    </select>
+                  </div>
+                </div>
+                <div style={{ marginTop: '1rem' }}>
+                  <label style={{ fontWeight: 500 }}>Active Monitors</label>
+                  <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
+                    <label><input type="checkbox" defaultChecked /> Prompt Injection</label>
+                    <label><input type="checkbox" defaultChecked /> Data Exfiltration</label>
+                    <label><input type="checkbox" defaultChecked /> Hallucination Spike</label>
+                    <label><input type="checkbox" defaultChecked /> Token Exhaustion</label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Results Section */}
+              <div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 500 }}>Runtime Anomalies</h3>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Timestamp</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Agent</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Anomaly Type</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Severity</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colSpan={5} style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>
+                        No behavioral anomalies detected in the last 24 hours.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {technicalGovernanceSubTab === 'PrivacyControls' && (
+            <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
+              <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Privacy Controls</h2>
+              
+              {/* Pre-populated list of policies */}
+              <div style={{ marginBottom: '2rem' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 500 }}>Advanced Privacy Policies</h3>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Policy Name</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Description</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0', fontWeight: 500 }}>PII Redaction</td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Automatically redact PII before sharing payload with external agents.</td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Active</span></td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0', fontWeight: 500 }}>Cross-Border Data Restriction</td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Prevent communication between EU agents and non-EU agents if payload contains sensitive data.</td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Active</span></td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0', fontWeight: 500 }}>Zero-Knowledge Verification</td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Enforce ZK proofs for credit score verification between Booking and Finance agents.</td>
+                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#f9ab00', backgroundColor: '#fef7e0', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Draft</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Example Inspector */}
+              <div style={{ padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 500, marginTop: 0 }}>Inter-Agent Communication Inspector</h3>
+                <p style={{ fontSize: '0.85rem', color: '#5f6368', marginBottom: '1rem' }}>
+                  Determine if communication is permitted between two agent parties given their privacy classification and payload sensitivity.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Source Agent</label>
+                    <select style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}>
+                      <option>Customer Support Agent (Public)</option>
+                      <option>Booking Agent (Confidential)</option>
+                      <option>Finance Agent (Secret)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Destination Agent</label>
+                    <select style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}>
+                      <option>Customer Support Agent (Public)</option>
+                      <option>Booking Agent (Confidential)</option>
+                      <option>Finance Agent (Secret)</option>
+                    </select>
+                  </div>
+                </div>
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Payload Content</label>
+                  <textarea 
+                    rows={3} 
+                    placeholder="Enter message payload to inspect..." 
+                    defaultValue="User requested a refund for ticket #12345. Credit card ending in 4321."
+                    style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                  />
+                </div>
+                <button style={{ padding: '0.6rem 1.2rem', backgroundColor: '#1a73e8', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 500 }}>
+                  Inspect Communication
+                </button>
+                
+                {/* Mock Result */}
+                <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#fce8e6', borderRadius: '4px', border: '1px solid #f5c6cb' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c5221f" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="15" y1="9" x2="9" y2="15"></line>
+                      <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    <span style={{ fontWeight: 500, color: '#c5221f' }}>Communication Denied</span>
+                  </div>
+                  <p style={{ fontSize: '0.85rem', color: '#c5221f', marginTop: '0.5rem', marginBottom: 0 }}>
+                    Payload contains raw financial data (credit card number). Public agents cannot send Confidential data to Secret agents without redaction.
+                  </p>
+                </div>
               </div>
             </div>
           )}
@@ -1186,7 +1361,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.32demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.33demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -1357,7 +1532,7 @@ const App = () => {
                   <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
                   <line x1="2" y1="10" x2="22" y2="10"></line>
                 </svg>
-                Distribution
+                Lifecycle
               </div>
             </nav>
           </aside>
