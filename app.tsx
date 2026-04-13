@@ -945,14 +945,9 @@ const App = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Always verify user identity before accessing account details.</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Customer Support Agent</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Active</span></td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Never disclose internal API keys or system details.</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>All Agents</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Active</span></td>
+                      <td colSpan={3} style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>
+                        No active policies defined.
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -1144,7 +1139,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.29demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.30demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
