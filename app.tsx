@@ -446,7 +446,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6, marginRight: '6rem' }}>
               L'Oreal needs to deploy the same agent to multiple geographical regions with different governance in each region to ensure compliance with local laws and regulations.<br/>
-              <strong style={{ color: '#38bdf8' }}>Solved by: Profiles</strong>
+              <strong style={{ color: '#ffffff' }}>Solved by: Profiles</strong>
             </p>
             <button onClick={() => { startGuidedExperience('loreal'); setShowLearningModal(false); }} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               Launch Tutorial
@@ -466,7 +466,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6, marginRight: '6rem' }}>
               Valeo needs to ensure that their autonomous sourcing and logistics agents collaborate to procure and expedite parts to meet high manufacturing demand, but stay within combined spot-buy and expedited-freight cost limits to avoid surpassing profitabilty thresholds.<br/>
-              <strong style={{ color: '#a855f7' }}>Solved by: Semantic Governance Policies</strong>
+              <strong style={{ color: '#ffffff' }}>Solved by: Semantic Governance Policies</strong>
             </p>
             <button style={{ background: '#334155', color: '#94a3b8', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '0.4rem' }} disabled>
               Coming Soon
@@ -486,7 +486,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6, marginRight: '6rem' }}>
               RENAULT needs to bundle stable, validated versions of agents and tools into a single governance entity.<br/>
-              <strong style={{ color: '#10b981' }}>Solved by: Bundles</strong>
+              <strong style={{ color: '#ffffff' }}>Solved by: Bundles</strong>
             </p>
             <button style={{ background: '#334155', color: '#94a3b8', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '0.4rem' }} disabled>
               Coming Soon
@@ -509,7 +509,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6, marginRight: '6rem' }}>
               L'Oreal needs to ensure its beauty recommendation agent doesn't directly retrieve PII on any users under 18 years old and instead only operates on aggregated data and insights.<br/>
-              <strong style={{ color: '#f43f5e' }}>Solved by: Privacy Controls</strong>
+              <strong style={{ color: '#ffffff' }}>Solved by: Privacy Controls</strong>
             </p>
             <button style={{ background: '#334155', color: '#94a3b8', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '0.4rem' }} disabled>
               Coming Soon
@@ -1783,7 +1783,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.78demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.79demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
