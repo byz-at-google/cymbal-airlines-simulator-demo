@@ -18,6 +18,8 @@ ts_library(
         "context/SimulatorContext.tsx",
         "views/AdminState.tsx",
         "views/AgentManager.tsx",
+        "views/BundleManager.tsx",
+        "views/BundleOwner.tsx",
         "views/CSuiteExecutive.tsx",
         "views/ChannelManager.tsx",
         "views/ConsumerAppManager.tsx",
@@ -25,8 +27,6 @@ ts_library(
         "views/EndConsumer.tsx",
         "views/GovernanceAdmin.tsx",
         "views/GuidedExperience.tsx",
-        "views/BundleManager.tsx",
-        "views/BundleOwner.tsx",
         "views/ProfileManager.tsx",
         "views/StorefrontManager.tsx",
         "views/TestBench.tsx",
@@ -74,7 +74,7 @@ go_binary(
     data = [
         "static/index.html",
         ":bundle",
-    ],
+    ] + glob(["static/assets/*"]),
     deps = [
         "//base/go:flag",
         "//base/go:log",
