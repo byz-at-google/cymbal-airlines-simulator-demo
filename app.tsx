@@ -471,8 +471,8 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             <button style={{ background: '#334155', color: '#94a3b8', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '0.4rem' }} disabled>
               Coming Soon
             </button>
-            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.3 }}>
-              <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#a855f7', fontFamily: 'sans-serif' }}>VALEO</div>
+            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.5 }}>
+              <img src="/assets/valeo.png" style={{ height: '2rem' }} alt="Valeo Logo" />
             </div>
           </div>
 
@@ -491,11 +491,8 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             <button style={{ background: '#334155', color: '#94a3b8', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '0.4rem' }} disabled>
               Coming Soon
             </button>
-            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.3 }}>
-              <svg width="30" height="30" viewBox="0 0 40 40" fill="none" stroke="#10b981" strokeWidth="3">
-                <path d="M20 2L38 20L20 38L2 20Z" />
-                <path d="M20 10L30 20L20 30L10 20Z" />
-              </svg>
+            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.5 }}>
+              <img src="/assets/renault.png" style={{ height: '2.5rem' }} alt="Renault Logo" />
             </div>
           </div>
 
@@ -514,8 +511,8 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             <button style={{ background: '#334155', color: '#94a3b8', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '0.4rem' }} disabled>
               Coming Soon
             </button>
-            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.3 }}>
-              <div style={{ fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '0.2em', color: '#f43f5e', fontFamily: 'sans-serif' }}>L'ORÉAL</div>
+            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.5 }}>
+              <img src="/assets/loreal.png" style={{ height: '1.5rem' }} alt="L'Oreal Logo" />
             </div>
           </div>
 
@@ -1783,7 +1780,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.81demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.82demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
