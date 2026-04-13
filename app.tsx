@@ -452,7 +452,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
               Launch Tutorial
             </button>
             <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.5 }}>
-              <img src="/assets/unicredit.png" style={{ height: '1.5rem' }} alt="Unicredit Logo" />
+              <img src="/assets/unicredit.png" style={{ height: '1.5rem', filter: 'brightness(0) invert(1)' }} alt="Unicredit Logo" />
             </div>
           </div>
 
@@ -472,7 +472,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
               Coming Soon
             </button>
             <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.5 }}>
-              <img src="/assets/valeo.png" style={{ height: '2rem' }} alt="Valeo Logo" />
+              <img src="/assets/valeo.png" style={{ height: '2rem', filter: 'brightness(0) invert(1)' }} alt="Valeo Logo" />
             </div>
           </div>
 
@@ -492,7 +492,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
               Coming Soon
             </button>
             <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.5 }}>
-              <img src="/assets/renault.png" style={{ height: '2.5rem' }} alt="Renault Logo" />
+              <img src="/assets/renault.png" style={{ height: '2.5rem', filter: 'brightness(0) invert(1)' }} alt="Renault Logo" />
             </div>
           </div>
 
@@ -512,7 +512,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
               Coming Soon
             </button>
             <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.5 }}>
-              <img src="/assets/loreal.png" style={{ height: '1.5rem' }} alt="L'Oreal Logo" />
+              <img src="/assets/loreal.png" style={{ height: '1.5rem', filter: 'brightness(0) invert(1)' }} alt="L'Oreal Logo" />
             </div>
           </div>
 
@@ -1780,7 +1780,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.84demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.85demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
