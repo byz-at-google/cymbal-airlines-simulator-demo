@@ -1217,8 +1217,9 @@ const App = () => {
                     </p>
                   </div>
                   
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem', alignItems: 'center' }}>
                     <button onClick={() => setShowAnomalyModal(false)} style={{ padding: '0.5rem 1rem', background: 'transparent', border: '1px solid #64748b', color: '#f8fafc', borderRadius: '4px', cursor: 'pointer' }}>Close</button>
+                    <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Not Implemented</span>
                     <button style={{ padding: '0.5rem 1rem', background: '#ef4444', border: 'none', color: '#fff', borderRadius: '4px', cursor: 'pointer', fontWeight: 500 }}>Quarantine Agent</button>
                   </div>
                 </div>
@@ -1500,7 +1501,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.38demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.39demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
