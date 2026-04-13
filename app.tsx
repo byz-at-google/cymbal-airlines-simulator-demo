@@ -451,8 +451,8 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
             <button onClick={() => { startGuidedExperience('unicredit'); setShowLearningModal(false); }} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               Launch Tutorial
             </button>
-            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.3 }}>
-              <div style={{ fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '0.2em', color: '#38bdf8', fontFamily: 'sans-serif' }}>UNICREDIT</div>
+            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.5 }}>
+              <img src="/assets/unicredit.png" style={{ height: '1.5rem' }} alt="Unicredit Logo" />
             </div>
           </div>
 
@@ -1780,7 +1780,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.82demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.83demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
