@@ -21,7 +21,7 @@ export const GovernanceAdmin: React.FC<GovernanceAdminProps> = ({agents, setAgen
         <p style={{ margin: '0.75rem 0 0', color: '#4b5563', fontSize: '1.1rem' }}>Review and monitor agent policies and compliance.</p>
         <div style={{ marginTop: '1rem', padding: '1rem', background: '#f0fdfa', borderLeft: `4px solid ${themeColor}`, borderRadius: '0 8px 8px 0', fontSize: '0.9rem', color: '#374151' }}>
           <strong>Governance Authority:</strong> Global safety and compliance custodian. 
-          <span style={{ marginLeft: '1rem', color: '#991b1b', fontWeight: 600 }}>NO ACCESS:</span> Product creation, channel management, storefront config, or app approval.
+          <span style={{ marginLeft: '1rem', color: '#991b1b', fontWeight: 600 }}>NO ACCESS:</span> Bundle creation, channel management, storefront config, or app approval.
         </div>
       </header>
       <AgentManager agents={agents} setAgents={setAgents} canEdit={false} />

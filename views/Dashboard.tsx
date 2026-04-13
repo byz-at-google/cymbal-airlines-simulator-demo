@@ -11,7 +11,7 @@ interface DashboardProps {
   agents: Agent[];
   isGuidedExperienceEnabled?: boolean;
   isGuidedExperienceActive?: boolean;
-  startGuidedExperience?: (type?: 'ops' | 'products') => void;
+  startGuidedExperience?: (type?: 'ops' | 'bundles') => void;
 }
 
 const MockBadge = () => (
@@ -263,7 +263,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <Fragment>
               As a C-Suite Executive, you have a global view of all system assets and market performance. Your role is focused on strategic alignment, performance monitoring, and ensuring long-term ROI. 
               <div style={{ marginTop: '0.75rem', fontWeight: 700 }}>
-                <span style={{ color: '#991b1b' }}>NOTE:</span> You do not have access to operational tasks such as creating or editing products, agents, or tools, nor can you approve integration requests or modify governance policies.
+                <span style={{ color: '#991b1b' }}>NOTE:</span> You do not have access to operational tasks such as creating or editing bundles, agents, or tools, nor can you approve integration requests or modify governance policies.
               </div>
             </Fragment>
           }
@@ -328,7 +328,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <Fragment>
               As a Governance Administrator, you are the custodian of global safety and compliance standards. You have full authority to manage Agent and Tool Profiles, ensuring every AI interaction meets regional regulatory requirements.
               <div style={{ marginTop: '0.75rem', fontWeight: 700 }}>
-                <span style={{ color: '#991b1b' }}>NOTE:</span> You do not have access to business-level product creation, channel management, storefront configuration, or the approval of consumer application requests.
+                <span style={{ color: '#991b1b' }}>NOTE:</span> You do not have access to business-level bundle creation, channel management, storefront configuration, or the approval of consumer application requests.
               </div>
             </Fragment>
           }

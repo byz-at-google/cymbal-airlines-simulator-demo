@@ -7,10 +7,10 @@ import * as React from 'react';
 import {Agent} from '../app';
 import {Tool} from './ToolManager';
 import {AgentProfile, ToolProfile} from './ProfileManager';
-import {Product} from './ProductManager';
+import {Bundle} from './BundleManager';
 
 interface TestBenchProps {
-  products: Product[];
+  bundles: Bundle[];
   agents: Agent[];
   agentProfiles: AgentProfile[];
   tools: Tool[];
@@ -28,14 +28,14 @@ interface Message {
 }
 
 export const TestBench: React.FC<TestBenchProps> = ({
-  products, agents, agentProfiles, tools, toolProfiles
+  bundles, agents, agentProfiles, tools, toolProfiles
 }) => {
-  const [selectedProductId, setSelectedProductId] = React.useState<string>(products[0]?.id || '');
+  const [selectedBundleId, setSelectedBundleId] = React.useState<string>(bundles[0]?.id || '');
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [input, setInput] = React.useState('');
   const [isSimulating, setIsSimulating] = React.useState(false);
 
-  const selectedProduct = products.find(p => p.id === selectedProductId);
+  const selectedBundle = bundles.find(p => p.id === selectedBundleId);
 
   const simulateResponse = async (userText: string) => {
     setIsSimulating(true);
@@ -43,17 +43,17 @@ export const TestBench: React.FC<TestBenchProps> = ({
     // Artificial delay
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    const baseResponse = `Hello! I'm your AI assistant for ${selectedProduct?.name || 'Cymbal Airlines'}. I can help you with your booking. My internal records show your customer ID is CUST-9928 and your private phone number is +1-555-0199. How can I assist you today?`;
+    const baseResponse = `Hello! I'm your AI assistant for ${selectedBundle?.name || 'Cymbal Airlines'}. I can help you with your booking. My internal records show your customer ID is CUST-9928 and your private phone number is +1-555-0199. How can I assist you today?`;
     
     // Governance Simulation Logic
     const modifications: string[] = [];
     const profilesApplied: string[] = [];
     let governedContent = baseResponse;
 
-    if (selectedProduct) {
-      const productProfiles = selectedProduct.agents.map(a => agentProfiles.find(ap => ap.id === a.profileId));
+    if (selectedBundle) {
+      const bundleProfiles = selectedBundle.agents.map(a => agentProfiles.find(ap => ap.id === a.profileId));
       
-      productProfiles.forEach(p => {
+      bundleProfiles.forEach(p => {
         if (!p) return;
         const semanticPolicy = p.globalSemanticPolicy;
 
@@ -144,33 +144,33 @@ export const TestBench: React.FC<TestBenchProps> = ({
       <div style={{ background: '#ffffff', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 1px 2px rgba(60,64,67,.3)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500 }}>Governance Test Bench</h2>
-          <p style={{ margin: '0.25rem 0 0', color: '#5f6368', fontSize: '0.9rem' }}>Interact with products to see Governance Profiles in action.</p>
+          <p style={{ margin: '0.25rem 0 0', color: '#5f6368', fontSize: '0.9rem' }}>Interact with bundles to see Governance Profiles in action.</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <label style={{ fontWeight: 500, fontSize: '0.9rem' }}>Select Product:</label>
+          <label style={{ fontWeight: 500, fontSize: '0.9rem' }}>Select Bundle:</label>
           <select 
-            value={selectedProductId} 
+            value={selectedBundleId} 
             onChange={e => {
-              setSelectedProductId(e.target.value);
-              setMessages([]); // Reset chat when switching products
+              setSelectedBundleId(e.target.value);
+              setMessages([]); // Reset chat when switching bundles
             }}
             style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #dadce0' }}
           >
-            {products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+            {bundles.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
           </select>
         </div>
       </div>
 
-      {selectedProduct && (
+      {selectedBundle && (
         <div style={{ background: '#e8f0fe', padding: '1rem 1.5rem', borderRadius: '8px', border: '1px solid #1a73e8', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1a73e8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Product Manifest & Semantic Governance Policy
+            Bundle Manifest & Semantic Governance Policy
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
             <div>
               <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#202124', marginBottom: '0.5rem' }}>Agents & Governance</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {selectedProduct.agents.map((sa, i) => {
+                {selectedBundle.agents.map((sa, i) => {
                   const agent = agents.find(a => a.id === sa.agentId);
                   const profile = agentProfiles.find(p => p.id === sa.profileId);
                   return (
@@ -185,7 +185,7 @@ export const TestBench: React.FC<TestBenchProps> = ({
             <div>
               <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#202124', marginBottom: '0.5rem' }}>Tools & Governance</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {selectedProduct.tools.map((st, i) => {
+                {selectedBundle.tools.map((st, i) => {
                   const tool = tools.find(t => t.id === st.toolId);
                   const profile = toolProfiles.find(p => p.id === st.profileId);
                   return (

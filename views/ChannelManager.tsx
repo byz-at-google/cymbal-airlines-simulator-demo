@@ -4,14 +4,14 @@
  */
 import {createElement, Fragment} from 'react';
 import * as React from 'react';
-import {Product} from './ProductManager';
+import {Bundle} from './BundleManager';
 
 export interface Channel {
   id: string;
   name: string;
   description: string;
   status: 'Draft' | 'Published';
-  products: string[];
+  bundles: string[];
   gtmInfo: string;
   publishedUrl?: string;
   createdDate: string;
@@ -21,12 +21,12 @@ export interface Channel {
 interface ChannelManagerProps {
   channels: Channel[];
   setChannels: React.Dispatch<React.SetStateAction<Channel[]>>;
-  products: Product[];
+  bundles: Bundle[];
   canEdit: boolean;
 }
 
 export const ChannelManager: React.FC<ChannelManagerProps> = ({
-  channels, setChannels, products, canEdit
+  channels, setChannels, bundles, canEdit
 }) => {
   const [view, setView] = React.useState<'list' | 'create' | 'edit'>('list');
   const [currentChannel, setCurrentChannel] = React.useState<Channel | null>(null);
@@ -35,16 +35,16 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
     name: '',
     description: '',
     status: 'Draft',
-    products: [],
+    bundles: [],
     gtmInfo: ''
   });
 
-  const [productSearchQuery, setProductSearchQuery] = React.useState('');
-  const [showProductDropdown, setShowProductDropdown] = React.useState(false);
+  const [bundleSearchQuery, setBundleSearchQuery] = React.useState('');
+  const [showBundleDropdown, setShowBundleDropdown] = React.useState(false);
 
   const handleCreate = () => {
     setView('create');
-    setFormData({name: '', description: '', status: 'Draft', products: [], gtmInfo: ''});
+    setFormData({name: '', description: '', status: 'Draft', bundles: [], gtmInfo: ''});
   };
 
   const handleEdit = (channel: Channel) => {
@@ -53,7 +53,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
       name: channel.name,
       description: channel.description,
       status: channel.status,
-      products: channel.products || [],
+      bundles: channel.bundles || [],
       gtmInfo: channel.gtmInfo || '',
       publishedUrl: channel.publishedUrl
     });
@@ -95,11 +95,11 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
     setView('list');
   };
 
-  const toggleProduct = (productId: string) => {
-    const updatedProducts = formData.products.includes(productId)
-      ? formData.products.filter(id => id !== productId)
-      : [...formData.products, productId];
-    setFormData({...formData, products: updatedProducts});
+  const toggleBundle = (bundleId: string) => {
+    const updatedBundles = formData.bundles.includes(bundleId)
+      ? formData.bundles.filter(id => id !== bundleId)
+      : [...formData.bundles, bundleId];
+    setFormData({...formData, bundles: updatedBundles});
   };
 
   if (view === 'list') {
@@ -123,7 +123,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
                 <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Channel Name</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0' }}>Description</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Status</th>
-                <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Products</th>
+                <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Bundles</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0' }}>Modified</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 500, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Actions</th>
               </tr>
@@ -153,7 +153,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
                     </span>
                   </td>
                   <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap', fontSize: '0.9rem', textAlign: 'center' }}>
-                    {channel.products.length} {channel.products.length === 1 ? 'Product' : 'Products'}
+                    {channel.bundles.length} {channel.bundles.length === 1 ? 'Bundle' : 'Bundles'}
                   </td>
                   <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{channel.modifiedDate}</td>
                   <td style={{ padding: '1rem 2rem', textAlign: 'center' }}>
@@ -210,7 +210,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
         </div>
 
         <div style={{ marginBottom: '1.5rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Associated Products</label>
+          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Associated Bundles</label>
           <div style={{ position: 'relative' }}>
             <div 
               style={{ 
@@ -224,41 +224,41 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
                 cursor: canEdit ? 'text' : 'default',
                 backgroundColor: canEdit ? 'white' : '#f1f3f4'
               }}
-              onClick={() => canEdit && setShowProductDropdown(true)}
+              onClick={() => canEdit && setShowBundleDropdown(true)}
             >
-              {formData.products.length === 0 && !productSearchQuery && <span style={{ color: '#aaa' }}>Select products...</span>}
-              {formData.products.map(id => {
-                const p = products.find(prod => prod.id === id);
+              {formData.bundles.length === 0 && !bundleSearchQuery && <span style={{ color: '#aaa' }}>Select bundles...</span>}
+              {formData.bundles.map(id => {
+                const p = bundles.find(prod => prod.id === id);
                 return (
                   <span key={id} style={{ backgroundColor: '#e8f0fe', color: '#1a73e8', padding: '2px 8px', borderRadius: '12px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     {p?.name}
-                    {canEdit && <span onClick={(e) => { e.stopPropagation(); toggleProduct(id); }} style={{ cursor: 'pointer', fontWeight: 'bold' }}>×</span>}
+                    {canEdit && <span onClick={(e) => { e.stopPropagation(); toggleBundle(id); }} style={{ cursor: 'pointer', fontWeight: 'bold' }}>×</span>}
                   </span>
                 );
               })}
               {canEdit && (
                 <input 
                   type="text"
-                  value={productSearchQuery}
+                  value={bundleSearchQuery}
                   onChange={e => {
-                    setProductSearchQuery(e.target.value);
-                    setShowProductDropdown(true);
+                    setBundleSearchQuery(e.target.value);
+                    setShowBundleDropdown(true);
                   }}
-                  onFocus={() => setShowProductDropdown(true)}
+                  onFocus={() => setShowBundleDropdown(true)}
                   style={{ border: 'none', outline: 'none', flex: 1, minWidth: '100px', background: 'transparent' }}
                 />
               )}
             </div>
-            {showProductDropdown && canEdit && (
+            {showBundleDropdown && canEdit && (
               <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: 'white', border: '1px solid #dadce0', borderRadius: '4px', marginTop: '4px', maxHeight: '200px', overflowY: 'auto', zIndex: 100, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-                {products
-                  .filter(p => p.name.toLowerCase().includes(productSearchQuery.toLowerCase()))
+                {bundles
+                  .filter(p => p.name.toLowerCase().includes(bundleSearchQuery.toLowerCase()))
                   .map(p => (
                     <div 
                       key={p.id}
                       onClick={() => {
-                        toggleProduct(p.id);
-                        setProductSearchQuery('');
+                        toggleBundle(p.id);
+                        setBundleSearchQuery('');
                       }}
                       style={{ 
                         padding: '0.75rem 1rem', 
@@ -266,22 +266,22 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
                         display: 'flex', 
                         justifyContent: 'space-between', 
                         alignItems: 'center',
-                        backgroundColor: formData.products.includes(p.id) ? '#f8f9fa' : 'white',
+                        backgroundColor: formData.bundles.includes(p.id) ? '#f8f9fa' : 'white',
                         borderBottom: '1px solid #eee'
                       }}
                       onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f1f3f4')}
-                      onMouseLeave={e => (e.currentTarget.style.backgroundColor = formData.products.includes(p.id) ? '#f8f9fa' : 'white')}
+                      onMouseLeave={e => (e.currentTarget.style.backgroundColor = formData.bundles.includes(p.id) ? '#f8f9fa' : 'white')}
                     >
                       <span>{p.name}</span>
-                      {formData.products.includes(p.id) && <span style={{ color: '#1a73e8' }}>✓</span>}
+                      {formData.bundles.includes(p.id) && <span style={{ color: '#1a73e8' }}>✓</span>}
                     </div>
                   ))
                 }
-                {products.length === 0 && <div style={{ padding: '1rem', color: '#5f6368', textAlign: 'center' }}>No products found</div>}
+                {bundles.length === 0 && <div style={{ padding: '1rem', color: '#5f6368', textAlign: 'center' }}>No bundles found</div>}
               </div>
             )}
           </div>
-          {showProductDropdown && <div style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, zIndex: 90 }} onClick={() => setShowProductDropdown(false)} />}
+          {showBundleDropdown && <div style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, zIndex: 90 }} onClick={() => setShowBundleDropdown(false)} />}
         </div>
 
         <div style={{ marginBottom: '1.5rem' }}>
@@ -327,7 +327,7 @@ export const ChannelManager: React.FC<ChannelManagerProps> = ({
                 Copy
               </button>
             </div>
-            <p style={{ fontSize: '0.8rem', color: '#5f6368', marginTop: '0.5rem' }}>This endpoint is consumed by storefronts to retrieve available products.</p>
+            <p style={{ fontSize: '0.8rem', color: '#5f6368', marginTop: '0.5rem' }}>This endpoint is consumed by storefronts to retrieve available bundles.</p>
           </div>
         )}
 

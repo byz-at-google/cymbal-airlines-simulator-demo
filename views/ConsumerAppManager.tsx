@@ -4,23 +4,23 @@
  */
 import {createElement, Fragment, useState} from 'react';
 import * as React from 'react';
-import {ConsumerApp, Product} from '../app';
+import {ConsumerApp, Bundle} from '../app';
 
 interface ConsumerAppManagerProps {
   consumerApps: ConsumerApp[];
-  products: Product[];
+  bundles: Bundle[];
   onUpdateStatus: (id: string, status: 'Pending' | 'Approved' | 'Denied') => void;
 }
 
 export const ConsumerAppManager: React.FC<ConsumerAppManagerProps> = ({
-  consumerApps, products, onUpdateStatus
+  consumerApps, bundles, onUpdateStatus
 }) => {
   const [selectedAppId, setSelectedAppId] = useState<string | null>(null);
 
   const selectedApp = consumerApps.find(a => a.id === selectedAppId);
 
   if (selectedApp) {
-    const selectedProducts = products.filter(p => selectedApp.productIds.includes(p.id));
+    const selectedBundles = bundles.filter(p => selectedApp.bundleIds.includes(p.id));
     return (
       <div style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 2px rgba(60,64,67,.3)', fontFamily: "'Google Sans', Roboto, sans-serif" }}>
         <button 
@@ -77,9 +77,9 @@ export const ConsumerAppManager: React.FC<ConsumerAppManagerProps> = ({
               <div style={{ fontSize: '1rem', color: '#202124' }}>{selectedApp.description}</div>
             </div>
             <div>
-              <div style={{ fontSize: '0.8rem', color: '#5f6368', marginBottom: '0.5rem' }}>Requested {selectedProducts.length === 1 ? 'Product' : 'Products'} ({selectedProducts.length})</div>
+              <div style={{ fontSize: '0.8rem', color: '#5f6368', marginBottom: '0.5rem' }}>Requested {selectedBundles.length === 1 ? 'Bundle' : 'Bundles'} ({selectedBundles.length})</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {selectedProducts.map(p => (
+                {selectedBundles.map(p => (
                   <div key={p.id} style={{ 
                     padding: '0.5rem 1rem', 
                     background: 'white', 
@@ -135,7 +135,7 @@ export const ConsumerAppManager: React.FC<ConsumerAppManagerProps> = ({
             <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
               <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', width: '25%' }}>App Name (Use Case)</th>
               <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', width: '20%' }}>Submitter</th>
-              <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', width: '30%' }}>Requested Products</th>
+              <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', width: '30%' }}>Requested Bundles</th>
               <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', textAlign: 'center', width: '10%' }}>Status</th>
               <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', textAlign: 'right', width: '15%' }}>Review</th>
             </tr>
@@ -157,8 +157,8 @@ export const ConsumerAppManager: React.FC<ConsumerAppManagerProps> = ({
                 <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>{app.submitterName}</td>
                 <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
-                    {app.productIds.map(pid => {
-                      const p = products.find(prod => prod.id === pid);
+                    {app.bundleIds.map(pid => {
+                      const p = bundles.find(prod => prod.id === pid);
                       return (
                         <span key={pid} style={{ 
                           fontSize: '0.75rem', 

@@ -6,7 +6,7 @@
 import {createElement, Fragment, useState} from 'react';
 import * as React from 'react';
 import {GovernanceAdmin} from './views/GovernanceAdmin';
-import {ProductOwner} from './views/ProductOwner';
+import {BundleOwner} from './views/BundleOwner';
 import {CSuiteExecutive} from './views/CSuiteExecutive';
 import {AdminState} from './views/AdminState';
 import {EndConsumer} from './views/EndConsumer';
@@ -16,10 +16,10 @@ import {AgentManager} from './views/AgentManager';
 import {ToolManager, Tool} from './views/ToolManager';
 import {ConsumerAppManager} from './views/ConsumerAppManager';
 import {AgentProfileManager, ToolProfileManager, AgentProfile, ToolProfile} from './views/ProfileManager';
-import {ProductManager, Product} from './views/ProductManager';
+import {BundleManager, Bundle} from './views/BundleManager';
 import {ChannelManager, Channel} from './views/ChannelManager';
 import {TestBench} from './views/TestBench';
-import {GuidedExperienceOverlay, TutorialStep, getAirportOpsTutorial, getProductsAndChannelsTutorial, getPublishAndConsumeTutorial} from './views/GuidedExperience';
+import {GuidedExperienceOverlay, TutorialStep, getAirportOpsTutorial, getBundlesAndChannelsTutorial, getPublishAndConsumeTutorial, getGoldmanTutorial, getLorealTutorial} from './views/GuidedExperience';
 import {Modal} from './components/Modal';
 
 import {setAnchorHref} from 'safevalues/dom';
@@ -27,7 +27,7 @@ import {objectUrlFromSafeSource, unwrapUrl} from 'safevalues';
 
 export interface ConsumerApp {
   id: string;
-  productIds: string[];
+  bundleIds: string[];
   name: string;
   description: string;
   submitterName: string;
@@ -37,11 +37,11 @@ export interface ConsumerApp {
   semanticPolicy?: string;
 }
 
-export type {Tool, AgentProfile, ToolProfile, Product, Channel};
+export type {Tool, AgentProfile, ToolProfile, Bundle, Channel};
 
 export interface StorefrontConfig {
   channelUrl: string;
-  hiddenProductIds: string[];
+  hiddenBundleIds: string[];
   portalName: string;
 }
 
@@ -70,7 +70,7 @@ export interface AdminData {
   tools: Tool[];
   agentProfiles: AgentProfile[];
   toolProfiles: ToolProfile[];
-  products: Product[];
+  bundles: Bundle[];
   channels: Channel[];
   storefrontConfig: StorefrontConfig;
   consumerApps: ConsumerApp[];
@@ -79,21 +79,24 @@ export interface AdminData {
 export interface GuidedExperienceState {
   isActive: boolean;
   currentStep: number;
-  type?: 'ops' | 'products' | 'publish';
+  type?: 'ops' | 'bundles' | 'publish' | 'goldman' | 'loreal';
   backupState: AdminData | null;
 }
 
 export interface PersonaViewState {
   activeTab: 'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance' | 'TechnicalGovernance';
-  distributionSubTab: 'Home' | 'Product' | 'Channels' | 'Consumer App Approval';
-  governanceSubTab: 'Agent' | 'Tool';
+  distributionSubTab: 'Home' | 'Bundle' | 'Channels' | 'Consumer App Approval' | 'Agent' | 'Tool';
+  governanceSubTab: 'BusinessPolicies' | 'AgentAnomalyDetection' | 'PrivacyControls' | 'AgentProfiles';
+  technicalGovernanceSubTab?: 'IAMPolicies';
 }
 
 export interface GlobalPolicy {
   id: string;
+  title: string;
   content: string;
   agentId: string;
-  status: 'Active' | 'Draft';
+  mcpTool?: string;
+  status: 'Active' | 'Draft' | 'Inactive';
 }
 
 export type PersonaViewStates = Record<string, PersonaViewState>;
@@ -101,7 +104,7 @@ export type PersonaViewStates = Record<string, PersonaViewState>;
 const DEFAULT_VIEW_STATE: PersonaViewState = { 
   activeTab: 'Dashboard', 
   distributionSubTab: 'Home', 
-  governanceSubTab: 'Agent' 
+  governanceSubTab: 'BusinessPolicies' 
 };
 
 const INITIAL_CONSUMER_APPS: ConsumerApp[] = [
@@ -109,7 +112,7 @@ const INITIAL_CONSUMER_APPS: ConsumerApp[] = [
     id: 'ca1',
     name: 'Cymbal SkyLink Premium',
     description: 'A dedicated mobile application for premium frequent flyers to manage travel documents and baggage status via autonomous agents.',
-    productIds: ['pr4'],
+    bundleIds: ['pr4'],
     status: 'Approved',
     submitterName: 'John Doe',
     submitterEmail: 'john.doe@cymbal.com',
@@ -119,7 +122,7 @@ const INITIAL_CONSUMER_APPS: ConsumerApp[] = [
     id: 'ca2',
     name: 'EuroTravel Logistics Hub',
     description: 'Enterprise dashboard for corporate travel managers to optimize European flight schedules and crew re-accommodation during delays.',
-    productIds: ['pr1', 'pr5'],
+    bundleIds: ['pr1', 'pr5'],
     status: 'Pending',
     submitterName: 'John Doe',
     submitterEmail: 'john.doe@cymbal.com',
@@ -360,7 +363,7 @@ interface ControlPanelProps {
   persona: Persona;
   handlePersonaChange: (p: Persona) => void;
   isGuidedExperienceActive: boolean;
-  startGuidedExperience: (type: 'ops' | 'products' | 'publish') => void;
+  startGuidedExperience: (type: 'ops' | 'bundles' | 'publish' | 'goldman' | 'loreal') => void;
   handleExport: () => void;
   handleImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
@@ -432,42 +435,30 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
           </svg>
         }
       >
-        <div style={{ display: 'grid', gap: '1.25rem' }}>
+        <div style={{ display: 'grid', gap: '1.25rem', maxHeight: '70vh', overflowY: 'auto', paddingRight: '0.5rem' }}>
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>L'Oreal - Regional Agent Distribution</h4>
               <span style={{ fontSize: '0.75rem', background: '#38bdf820', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 1</span>
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
-              L'Oreal needs to deploy the same functional agent to different geographical regions with specific governance in each region to ensure compliance with local laws and regulations.
+              L'Oreal needs to deploy the same functional agent to different geographical regions with specific governance in each region to ensure compliance with local laws and regulations.<br/>
+              <strong>Solved by Profiles and Privacy Controls</strong>
             </p>
-            <button style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', opacity: 0.5 }}>
-              Coming Soon
-            </button>
-          </div>
-
-          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Profile Governance Syncing</h4>
-              <span style={{ fontSize: '0.75rem', background: '#38bdf820', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 2</span>
-            </div>
-            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
-              Master balancing localized Agent Profiles with Governance Policies semantic rules updates. Set up region sync loops securely.
-            </p>
-            <button onClick={() => { startGuidedExperience('ops'); setShowLearningModal(false); }} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <button onClick={() => { startGuidedExperience('loreal'); setShowLearningModal(false); }} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               Launch Tutorial
             </button>
           </div>
 
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Product Distribution Strategy</h4>
-              <span style={{ fontSize: '0.75rem', background: '#10b98120', color: '#10b981', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 3</span>
+              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Bundle Distribution Strategy</h4>
+              <span style={{ fontSize: '0.75rem', background: '#10b98120', color: '#10b981', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 2</span>
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
               Coordinate bundle publications across multiple global branches (SEA, JFK, DXB). Manage release targeting into Channels smoothly.
             </p>
-            <button onClick={() => { startGuidedExperience('products'); setShowLearningModal(false); }} style={{ background: '#10b981', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <button onClick={() => { startGuidedExperience('bundles'); setShowLearningModal(false); }} style={{ background: '#10b981', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               Launch Tutorial
             </button>
           </div>
@@ -475,13 +466,27 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Publishing & Consumption</h4>
-              <span style={{ fontSize: '0.75rem', background: '#f59e0b20', color: '#f59e0b', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 4</span>
+              <span style={{ fontSize: '0.75rem', background: '#f59e0b20', color: '#f59e0b', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 3</span>
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
               Complete the lifecycle: publish a channel, subscribe via storefront, manage visibility, and submit/approve consumer apps.
             </p>
             <button onClick={() => { startGuidedExperience('publish'); setShowLearningModal(false); }} style={{ background: '#f59e0b', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               Launch Tutorial
+            </button>
+          </div>
+
+          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #334155' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Goldman Sachs - Ethical Wall</h4>
+              <span style={{ fontSize: '0.75rem', background: '#38bdf820', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 4</span>
+            </div>
+            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
+              Goldman Sachs needs to ensure no sensitive data is passed between its Commodities teams (and their agentic system) and its Futures teams (and their agentic system).<br/>
+              <strong>Solved by Privacy Controls</strong>
+            </p>
+            <button onClick={() => { startGuidedExperience('goldman'); setShowLearningModal(false); }} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              Start Experience
             </button>
           </div>
 
@@ -513,13 +518,13 @@ const App = () => {
   const [tools, setTools] = React.useState<Tool[]>([]);
   const [agentProfiles, setAgentProfiles] = React.useState<AgentProfile[]>([]);
   const [toolProfiles, setToolProfiles] = React.useState<ToolProfile[]>([]);
-  const [products, setProducts] = React.useState<Product[]>([]);
+  const [bundles, setBundles] = React.useState<Bundle[]>([]);
 
   const [channels, setChannels] = React.useState<Channel[]>([]);
 
   const [storefrontConfig, setStorefrontConfig] = React.useState<StorefrontConfig>({
     channelUrl: 'https://api.cymbal.com/v1/channels/na-direct',
-    hiddenProductIds: [],
+    hiddenBundleIds: [],
     portalName: 'Cymbal Airlines Agentic Portal'
   });
 
@@ -533,14 +538,21 @@ const App = () => {
   });
 
   const [activeTab, setActiveTab] = React.useState<'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance' | 'TechnicalGovernance'>('Dashboard');
-  const [distributionSubTab, setDistributionSubTab] = React.useState<'Home' | 'Product' | 'Channels' | 'Consumer App Approval'>('Home');
-  const [governanceSubTab, setGovernanceSubTab] = React.useState<'Agent' | 'Tool'>('Agent');
-  const [technicalGovernanceSubTab, setTechnicalGovernanceSubTab] = React.useState<'BusinessPolicies' | 'AgentAnomalyDetection' | 'PrivacyControls'>('BusinessPolicies');
+  const [distributionSubTab, setDistributionSubTab] = React.useState<'Home' | 'Bundle' | 'Channels' | 'Consumer App Approval' | 'Agent' | 'Tool'>('Home');
+  const [governanceSubTab, setGovernanceSubTab] = React.useState<'BusinessPolicies' | 'AgentAnomalyDetection' | 'PrivacyControls' | 'AgentProfiles'>('BusinessPolicies');
+  const [technicalGovernanceSubTab, setTechnicalGovernanceSubTab] = React.useState<'IAMPolicies'>('IAMPolicies');
 
   const [globalPolicies, setGlobalPolicies] = React.useState<GlobalPolicy[]>([]);
   const [newPolicyContent, setNewPolicyContent] = React.useState('');
   const [selectedAgentId, setSelectedAgentId] = React.useState('');
+  const [newPolicyTitle, setNewPolicyTitle] = React.useState('');
+  const [newPolicyMcpTool, setNewPolicyMcpTool] = React.useState('');
   const [showAnomalyModal, setShowAnomalyModal] = React.useState(false);
+  const [playgroundSourceAgent, setPlaygroundSourceAgent] = React.useState('Commodities Trading Agent');
+  const [playgroundDestAgent, setPlaygroundDestAgent] = React.useState('Futures Trading Agent');
+  const [playgroundPayload, setPlaygroundPayload] = React.useState('');
+  const [playgroundResult, setPlaygroundResult] = React.useState('');
+  const [showMoreInfo, setShowMoreInfo] = React.useState(false);
 
   const [personaViewStates, setPersonaViewStates] = React.useState<PersonaViewStates>({
     'Governance Administrator': { ...DEFAULT_VIEW_STATE },
@@ -572,7 +584,7 @@ const App = () => {
 
   const handleExport = () => {
     const dataStr = JSON.stringify({
-      agents, tools, agentProfiles, toolProfiles, products, channels, storefrontConfig, consumerApps
+      agents, tools, agentProfiles, toolProfiles, bundles, channels, storefrontConfig, consumerApps
     }, null, 2);
     const blob = new Blob([dataStr], { type: 'application/octet-stream' });
     const safeUrl = objectUrlFromSafeSource(blob);
@@ -593,7 +605,7 @@ const App = () => {
       isArrayType(data.agents, ['id', 'name']) &&
       isArrayType(data.tools, ['id', 'name']) &&
       isArrayType(data.agentProfiles, ['id', 'name']) &&
-      isArrayType(data.products, ['id', 'name'])
+      isArrayType(data.bundles, ['id', 'name'])
     );
   };
 
@@ -613,7 +625,7 @@ const App = () => {
         if (data.tools) setTools(data.tools);
         if (data.agentProfiles) setAgentProfiles(data.agentProfiles);
         if (data.toolProfiles) setToolProfiles(data.toolProfiles);
-        if (data.products) setProducts(data.products);
+        if (data.bundles) setBundles(data.bundles);
         if (data.channels) setChannels(data.channels);
         if (data.storefrontConfig) setStorefrontConfig(data.storefrontConfig);
         if (data.consumerApps) setConsumerApps(data.consumerApps);
@@ -625,14 +637,14 @@ const App = () => {
     reader.readAsText(file);
   };
 
-  const startGuidedExperience = (type: 'ops' | 'products' | 'publish' = 'ops') => {
+  const startGuidedExperience = (type: 'ops' | 'bundles' | 'publish' | 'goldman' | 'loreal' = 'ops') => {
     // Backup current state
     const backup: AdminData = {
       agents,
       tools,
       agentProfiles,
       toolProfiles,
-      products,
+      bundles,
       channels,
       storefrontConfig,
       consumerApps
@@ -680,11 +692,11 @@ const App = () => {
       ]);
       setAgentProfiles([]);
       setToolProfiles([]);
-      setProducts([]);
+      setBundles([]);
       setChannels([]);
       setConsumerApps([]);
       setActiveTab('Agents');
-    } else if (type === 'products') {
+    } else if (type === 'bundles') {
       handlePersonaChange('IT Team');
       setAgents([
         {
@@ -709,7 +721,7 @@ const App = () => {
       setTools([]);
       setAgentProfiles([]);
       setToolProfiles([]);
-      setProducts([]);
+      setBundles([]);
       setChannels([]);
       setConsumerApps([]);
       setActiveTab('Agents');
@@ -719,7 +731,7 @@ const App = () => {
       setTools([]);
       setAgentProfiles([]);
       setToolProfiles([]);
-      setProducts([
+      setBundles([
         {
           id: 'tut-p1',
           name: 'North America Customer Support Package',
@@ -753,7 +765,7 @@ const App = () => {
           name: 'Cymbal Partner Rewards Network',
           description: 'Channel for distributing Cymbal Airlines partner rewards and offers to storefronts.',
           status: 'Draft',
-          products: ['tut-p1', 'tut-p2'],
+          bundles: ['tut-p1', 'tut-p2'],
           createdDate: new Date().toISOString().split('T')[0],
           modifiedDate: new Date().toISOString().split('T')[0],
           gtmInfo: 'Tutorial GTM info'
@@ -761,12 +773,47 @@ const App = () => {
       ]);
       setStorefrontConfig({
         channelUrl: '',
-        hiddenProductIds: [],
+        hiddenBundleIds: [],
         portalName: 'Cymbal Airlines Agentic Portal'
       });
       setConsumerApps([]);
       setActiveTab('Distribution');
       setDistributionSubTab('Home');
+    } else if (type === 'goldman') {
+      handlePersonaChange('IT Team');
+      setActiveTab('Dashboard');
+      setPlaygroundSourceAgent('Commodities Agent A');
+      setPlaygroundDestAgent('Futures Agent X');
+    } else if (type === 'loreal') {
+      handlePersonaChange('IT Team');
+      setAgents([
+        {
+          id: 'loreal-beautyrec',
+          name: 'BeautyRec Agent',
+          description: 'Helps recommend users products based on their customer profile and dermatological data.',
+          instructions: 'Recommend products based on profile and dermatological data. Adhere to regional policies.',
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          status: 'Active'
+        }
+      ]);
+      setTools([
+        {
+          id: 'loreal-dermatology-api',
+          name: 'Dermatology Data API',
+          description: 'Accesses user dermatological data.',
+          endpoint: 'https://api.loreal.com/v1/dermatology',
+          createdDate: new Date().toISOString().split('T')[0],
+          modifiedDate: new Date().toISOString().split('T')[0],
+          status: 'Active'
+        }
+      ]);
+      setAgentProfiles([]);
+      setToolProfiles([]);
+      setBundles([]);
+      setChannels([]);
+      setConsumerApps([]);
+      setActiveTab('Agents');
     }
   };
 
@@ -777,7 +824,7 @@ const App = () => {
       setTools(b.tools);
       setAgentProfiles(b.agentProfiles);
       setToolProfiles(b.toolProfiles);
-      setProducts(b.products);
+      setBundles(b.bundles);
       setChannels(b.channels);
       setStorefrontConfig(b.storefrontConfig);
       setConsumerApps(b.consumerApps);
@@ -788,15 +835,21 @@ const App = () => {
       backupState: null
     });
     setActiveTab('Dashboard');
+    setPlaygroundSourceAgent('General Support Agent A');
+    setPlaygroundDestAgent('General Support Agent B');
   };
 
   const airportOpsTutorial = getAirportOpsTutorial(setAgents, setAgentProfiles, setActiveTab, setGovernanceSubTab);
-  const productsAndChannelsTutorial = getProductsAndChannelsTutorial(setAgentProfiles, setActiveTab, setGovernanceSubTab, setDistributionSubTab);
-  const publishAndConsumeTutorial = getPublishAndConsumeTutorial(handlePersonaChange, setActiveTab, setDistributionSubTab, setStorefrontConfig, setChannels, setConsumerApps, products, channels);
+  const bundlesAndChannelsTutorial = getBundlesAndChannelsTutorial(setAgentProfiles, setActiveTab, setGovernanceSubTab, setDistributionSubTab);
+  const publishAndConsumeTutorial = getPublishAndConsumeTutorial(handlePersonaChange, setActiveTab, setDistributionSubTab, setStorefrontConfig, setChannels, setConsumerApps, bundles, channels);
+  const goldmanTutorial = getGoldmanTutorial(setActiveTab, setGovernanceSubTab);
+  const lorealTutorial = getLorealTutorial(setActiveTab, setDistributionSubTab, setGovernanceSubTab);
 
   const nextTutorialStep = () => {
-    const currentTutorial = guidedExpState.type === 'products' ? productsAndChannelsTutorial 
+    const currentTutorial = guidedExpState.type === 'bundles' ? bundlesAndChannelsTutorial 
                              : guidedExpState.type === 'publish' ? publishAndConsumeTutorial 
+                             : guidedExpState.type === 'goldman' ? goldmanTutorial
+                             : guidedExpState.type === 'loreal' ? lorealTutorial
                              : airportOpsTutorial;
     
     // Execute onNext for the current step if it exists
@@ -853,99 +906,74 @@ const App = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <div style={{ display: 'flex', borderBottom: '1px solid #dadce0', marginBottom: '0.5rem' }}>
             <button 
-              onClick={() => setGovernanceSubTab('Agent')}
+              onClick={() => setGovernanceSubTab('BusinessPolicies')}
               style={{
                 padding: '0.75rem 1.5rem',
                 border: 'none',
                 background: 'none',
-                borderBottom: governanceSubTab === 'Agent' ? '2px solid #1a73e8' : '2px solid transparent',
-                color: governanceSubTab === 'Agent' ? '#1a73e8' : '#5f6368',
-                fontWeight: 400,
-                cursor: 'pointer'
-              }}
-            >Agent Profiles</button>
-            <button 
-              onClick={() => setGovernanceSubTab('Tool')}
-              style={{
-                padding: '0.75rem 1.5rem',
-                border: 'none',
-                background: 'none',
-                borderBottom: governanceSubTab === 'Tool' ? '2px solid #1a73e8' : '2px solid transparent',
-                color: governanceSubTab === 'Tool' ? '#1a73e8' : '#5f6368',
-                fontWeight: 400,
-                cursor: 'pointer'
-              }}
-            >Tool Profiles</button>
-          </div>
-          {governanceSubTab === 'Agent' && (
-            <Fragment>
-              <p style={{ margin: '0.5rem 1rem 1rem', color: '#5f6368', fontSize: '0.9rem' }}>Agent Profiles define global and tool-specific semantic policies, functional guardrails, and business rules for AI agents to ensure safe and effective operations.</p>
-              <AgentProfileManager 
-                profiles={agentProfiles} 
-                setProfiles={setAgentProfiles} 
-                tools={tools} 
-                canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} 
-              />
-            </Fragment>
-          )}
-          {governanceSubTab === 'Tool' && (
-            <Fragment>
-              <p style={{ margin: '0.5rem 1rem 1rem', color: '#5f6368', fontSize: '0.9rem' }}>Tool Profiles define semantic policies, functional constraints, and access controls for individual tools to align with business requirements.</p>
-              <ToolProfileManager profiles={toolProfiles} setProfiles={setToolProfiles} canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} />
-            </Fragment>
-          )}
-        </div>
-      );
-    }
-
-    if (isSaaSPersona && activeTab === 'TechnicalGovernance') {
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ display: 'flex', borderBottom: '1px solid #dadce0', marginBottom: '0.5rem' }}>
-            <button 
-              onClick={() => setTechnicalGovernanceSubTab('BusinessPolicies')}
-              style={{
-                padding: '0.75rem 1.5rem',
-                border: 'none',
-                background: 'none',
-                borderBottom: technicalGovernanceSubTab === 'BusinessPolicies' ? '2px solid #1a73e8' : '2px solid transparent',
-                color: technicalGovernanceSubTab === 'BusinessPolicies' ? '#1a73e8' : '#5f6368',
+                borderBottom: governanceSubTab === 'BusinessPolicies' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: governanceSubTab === 'BusinessPolicies' ? '#1a73e8' : '#5f6368',
                 fontWeight: 400,
                 cursor: 'pointer'
               }}
             >Semantic Governance Policy</button>
             <button 
-              onClick={() => setTechnicalGovernanceSubTab('AgentAnomalyDetection')}
+              onClick={() => setGovernanceSubTab('AgentAnomalyDetection')}
               style={{
                 padding: '0.75rem 1.5rem',
                 border: 'none',
                 background: 'none',
-                borderBottom: technicalGovernanceSubTab === 'AgentAnomalyDetection' ? '2px solid #1a73e8' : '2px solid transparent',
-                color: technicalGovernanceSubTab === 'AgentAnomalyDetection' ? '#1a73e8' : '#5f6368',
+                borderBottom: governanceSubTab === 'AgentAnomalyDetection' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: governanceSubTab === 'AgentAnomalyDetection' ? '#1a73e8' : '#5f6368',
                 fontWeight: 400,
                 cursor: 'pointer'
               }}
             >Agent Anomaly Detection</button>
             <button 
-              onClick={() => setTechnicalGovernanceSubTab('PrivacyControls')}
+              onClick={() => setGovernanceSubTab('PrivacyControls')}
               style={{
                 padding: '0.75rem 1.5rem',
                 border: 'none',
                 background: 'none',
-                borderBottom: technicalGovernanceSubTab === 'PrivacyControls' ? '2px solid #1a73e8' : '2px solid transparent',
-                color: technicalGovernanceSubTab === 'PrivacyControls' ? '#1a73e8' : '#5f6368',
+                borderBottom: governanceSubTab === 'PrivacyControls' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: governanceSubTab === 'PrivacyControls' ? '#1a73e8' : '#5f6368',
                 fontWeight: 400,
                 cursor: 'pointer'
               }}
             >Privacy Controls</button>
+            <button 
+              onClick={() => setGovernanceSubTab('AgentProfiles')}
+              style={{
+                padding: '0.75rem 1.5rem',
+                border: 'none',
+                background: 'none',
+                borderBottom: governanceSubTab === 'AgentProfiles' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: governanceSubTab === 'AgentProfiles' ? '#1a73e8' : '#5f6368',
+                fontWeight: 400,
+                cursor: 'pointer'
+              }}
+            >Agent Profiles</button>
           </div>
-          {technicalGovernanceSubTab === 'BusinessPolicies' && (
+          {governanceSubTab === 'BusinessPolicies' && (
             <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
               <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Semantic Governance Policy</h2>
+              <p style={{ fontSize: '0.9rem', color: '#5f6368', marginBottom: '1.5rem' }}>
+                Semantic Governance Policies are the natural language rules you set to securely govern your AI agents and tools at an enterprise scale. They control exactly which tools and data your agents are allowed to access, ensuring strict adherence to your operational standards without needing to embed logic directly into agent code
+              </p>
               
               {/* Form to create/assign policy */}
               <div style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
                 <h3 style={{ fontSize: '1rem', fontWeight: 500, marginTop: 0 }}>Create Global Agent Policy</h3>
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Policy Title</label>
+                  <input 
+                    type="text" 
+                    placeholder="Enter policy title..." 
+                    value={newPolicyTitle}
+                    onChange={e => setNewPolicyTitle(e.target.value)}
+                    style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                  />
+                </div>
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Policy Content</label>
                   <textarea 
@@ -960,7 +988,18 @@ const App = () => {
                   <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Assign to Agent</label>
                   <select 
                     value={selectedAgentId}
-                    onChange={e => setSelectedAgentId(e.target.value)}
+                    onChange={e => {
+                      setSelectedAgentId(e.target.value);
+                      // Mock populating MCP tool field
+                      const agent = agents.find(a => a.id === e.target.value);
+                      if (agent) {
+                        setNewPolicyMcpTool(`${agent.name} MCP Tool 1`);
+                      } else if (e.target.value === 'all') {
+                        setNewPolicyMcpTool('All Tools');
+                      } else {
+                        setNewPolicyMcpTool('Generic Tool');
+                      }
+                    }}
                     style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                   >
                     <option value="" disabled>Select an agent...</option>
@@ -970,20 +1009,58 @@ const App = () => {
                     ))}
                   </select>
                 </div>
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>MCP Tool</label>
+                  <select 
+                    value={newPolicyMcpTool}
+                    onChange={e => setNewPolicyMcpTool(e.target.value)}
+                    style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                  >
+                    <option value="" disabled>Select an MCP tool...</option>
+                    <option value="All Tools">All Tools</option>
+                    <option value="Generic Tool">Generic Tool</option>
+                    {(() => {
+                      const agent = agents.find(a => a.id === selectedAgentId);
+                      if (agent) {
+                        return [1, 2, 3].map(num => {
+                          const toolName = `${agent.name} MCP Tool ${num}`;
+                          return <option key={toolName} value={toolName}>{toolName}</option>;
+                        });
+                      }
+                      return null;
+                    })()}
+                    {tools.map(tool => (
+                      <option key={tool.id} value={tool.name}>{tool.name}</option>
+                    ))}
+                  </select>
+                </div>
                 <button 
                   onClick={() => {
-                    if (!newPolicyContent || !selectedAgentId) return;
                     const newPolicy: GlobalPolicy = {
                       id: Math.random().toString(36).substr(2, 9),
+                      title: newPolicyTitle,
                       content: newPolicyContent,
                       agentId: selectedAgentId,
+                      mcpTool: newPolicyMcpTool,
                       status: 'Active'
                     };
                     setGlobalPolicies([...globalPolicies, newPolicy]);
                     setNewPolicyContent('');
                     setSelectedAgentId('');
+                    setNewPolicyTitle('');
+                    setNewPolicyMcpTool('');
                   }}
-                  style={{ padding: '0.6rem 1.2rem', backgroundColor: '#1a73e8', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 500 }}
+                  disabled={!newPolicyContent || !selectedAgentId || !newPolicyTitle}
+                  style={{ 
+                    padding: '0.6rem 1.2rem', 
+                    backgroundColor: '#1a73e8', 
+                    color: '#fff', 
+                    border: 'none', 
+                    borderRadius: '4px', 
+                    cursor: (!newPolicyContent || !selectedAgentId || !newPolicyTitle) ? 'not-allowed' : 'pointer', 
+                    fontWeight: 500,
+                    opacity: (!newPolicyContent || !selectedAgentId || !newPolicyTitle) ? 0.5 : 1
+                  }}
                 >
                   Create & Assign Policy
                 </button>
@@ -995,8 +1072,9 @@ const App = () => {
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
-                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Policy</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Policy Title</th>
                       <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Assigned Agent</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>MCP Tool</th>
                       <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Status</th>
                     </tr>
                   </thead>
@@ -1006,10 +1084,24 @@ const App = () => {
                       const agentName = policy.agentId === 'all' ? 'All Agents' : (agent ? agent.name : 'Unknown Agent');
                       return (
                         <tr key={policy.id}>
-                          <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>{policy.content}</td>
+                          <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>{policy.title}</td>
                           <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>{agentName}</td>
+                          <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>{policy.mcpTool}</td>
                           <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>
-                            <span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>{policy.status}</span>
+                            <select 
+                              value={policy.status}
+                              onChange={e => {
+                                const updatedPolicies = globalPolicies.map(p => 
+                                  p.id === policy.id ? { ...p, status: e.target.value as 'Active' | 'Draft' | 'Inactive' } : p
+                                );
+                                setGlobalPolicies(updatedPolicies);
+                              }}
+                              style={{ padding: '0.25rem 0.5rem', borderRadius: '4px', border: '1px solid #dadce0', fontSize: '0.8rem' }}
+                            >
+                              <option value="Active">Active</option>
+                              <option value="Draft">Draft</option>
+                              <option value="Inactive">Inactive</option>
+                            </select>
                           </td>
                         </tr>
                       );
@@ -1027,7 +1119,7 @@ const App = () => {
             </div>
           )}
 
-          {technicalGovernanceSubTab === 'AgentAnomalyDetection' && (
+          {governanceSubTab === 'AgentAnomalyDetection' && (
             <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
               <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Agent Anomaly Detection</h2>
               
@@ -1225,92 +1317,232 @@ const App = () => {
             </div>
           )}
 
-          {technicalGovernanceSubTab === 'PrivacyControls' && (
+          {governanceSubTab === 'PrivacyControls' && (
             <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
-              <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Privacy Controls</h2>
+              <h2 style={{ marginTop: 0, marginBottom: '0.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Privacy Controls</h2>
+              <p style={{ fontSize: '0.9rem', color: '#5f6368', marginBottom: '1.5rem' }}>
+                Privacy controls use Apigee MCP tooling as an enforcement point. It inspects the intent and payload, and based on the policy, it will ALLOW or DENY that specific tool call.
+              </p>
               
-              {/* Pre-populated list of policies */}
-              <div style={{ marginBottom: '2rem' }}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 500 }}>Advanced Privacy Policies</h3>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
-                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Policy Name</th>
-                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Description</th>
-                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0', fontWeight: 500 }}>PII Redaction</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Automatically redact PII before sharing payload with external agents.</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Active</span></td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0', fontWeight: 500 }}>Cross-Border Data Restriction</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Prevent communication between EU agents and non-EU agents if payload contains sensitive data.</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Active</span></td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0', fontWeight: 500 }}>Zero-Knowledge Verification</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Enforce ZK proofs for credit score verification between Booking and Finance agents.</td>
-                      <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#f9ab00', backgroundColor: '#fef7e0', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Draft</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Example Inspector */}
-              <div style={{ padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 500, marginTop: 0 }}>Inter-Agent Communication Inspector</h3>
-                <p style={{ fontSize: '0.85rem', color: '#5f6368', marginBottom: '1rem' }}>
-                  Determine if communication is permitted between two agent parties given their privacy classification and payload sensitivity.
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
+                    <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Policy Name</th>
+                    <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Description</th>
+                    <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0', fontWeight: 500 }}>Cross-Border Data Enforcement</td>
+                    <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>ALLOW communication between agents in the same region; DENY cross-border transfers of sensitive data via Apigee MCP payload inspection.</td>
+                    <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Active</span></td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0', fontWeight: 500 }}>Ethical Wall Enforcement</td>
+                    <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>DENY tool calls supporting data transfer between two agents with different privacy classifications separated by an ethical wall.</td>
+                    <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Active</span></td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0', fontWeight: 500 }}>Restricted Data Access</td>
+                    <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>DENY access to financial data tools for non-authenticated agents via Apigee MCP.</td>
+                    <td style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}><span style={{ color: '#1e8e3e', backgroundColor: '#e6f4ea', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem' }}>Active</span></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <div style={{ marginTop: '2rem', padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px', backgroundColor: '#f8f9fa' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 500, marginTop: 0 }}>Example: Inter-Agent Communication Firewall</h3>
+                <div style={{ fontSize: '0.9rem', color: '#1a73e8', fontWeight: 'bold', marginBottom: '0.25rem' }}>POLICY: Ethical Wall Enforcement</div>
+                <div style={{ fontSize: '0.9rem', color: '#1a73e8', fontWeight: 'bold', marginBottom: '0.5rem' }}>TOOL: Market Data Lookup MCP Tool</div>
+                <p style={{ fontSize: '0.9rem', color: '#5f6368', marginTop: 0 }}>
+                  Simulate how Apigee MCP enforces ethical walls between agents with different privacy classifications.
                 </p>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
-                  <div>
+                <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
+                  <div style={{ flex: 1 }}>
                     <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Source Agent</label>
-                    <select style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}>
-                      <option>Customer Support Agent (Public)</option>
-                      <option>Booking Agent (Confidential)</option>
-                      <option>Finance Agent (Secret)</option>
+                    <select 
+                      value={playgroundSourceAgent}
+                      onChange={e => setPlaygroundSourceAgent(e.target.value)}
+                      style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                    >
+                      {guidedExpState.isActive && guidedExpState.type === 'goldman' ? (
+                        <>
+                          <option value="Commodities Agent A">Commodities Agent A</option>
+                          <option value="Commodities Agent B">Commodities Agent B</option>
+                          <option value="Commodities Agent C">Commodities Agent C</option>
+                          <option value="Futures Agent X">Futures Agent X</option>
+                          <option value="Futures Agent Y">Futures Agent Y</option>
+                          <option value="Futures Agent Z">Futures Agent Z</option>
+                        </>
+                      ) : (
+                        <>
+                          <option value="Internal Support Agent">Internal Support Agent</option>
+                          <option value="External 3rd party Agent">External 3rd party Agent</option>
+                          {agents.map(agent => (
+                            <option key={agent.id} value={agent.name}>{agent.name}</option>
+                          ))}
+                        </>
+                      )}
                     </select>
                   </div>
-                  <div>
+                  <div style={{ flex: 1 }}>
                     <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Destination Agent</label>
-                    <select style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}>
-                      <option>Customer Support Agent (Public)</option>
-                      <option>Booking Agent (Confidential)</option>
-                      <option>Finance Agent (Secret)</option>
+                    <select 
+                      value={playgroundDestAgent}
+                      onChange={e => setPlaygroundDestAgent(e.target.value)}
+                      style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
+                    >
+                      {guidedExpState.isActive && guidedExpState.type === 'goldman' ? (
+                        <>
+                          <option value="Commodities Agent A">Commodities Agent A</option>
+                          <option value="Commodities Agent B">Commodities Agent B</option>
+                          <option value="Commodities Agent C">Commodities Agent C</option>
+                          <option value="Futures Agent X">Futures Agent X</option>
+                          <option value="Futures Agent Y">Futures Agent Y</option>
+                          <option value="Futures Agent Z">Futures Agent Z</option>
+                        </>
+                      ) : (
+                        <>
+                          <option value="Internal Support Agent">Internal Support Agent</option>
+                          <option value="External 3rd party Agent">External 3rd party Agent</option>
+                          {agents.map(agent => (
+                            <option key={agent.id} value={agent.name}>{agent.name}</option>
+                          ))}
+                        </>
+                      )}
                     </select>
                   </div>
                 </div>
                 <div style={{ marginBottom: '1rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Payload Content</label>
-                  <textarea 
-                    rows={3} 
-                    placeholder="Enter message payload to inspect..." 
-                    defaultValue="User requested a refund for ticket #12345. Credit card ending in 4321."
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Message Payload</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g., Current commodities position is long on oil" 
+                    value={playgroundPayload}
+                    onChange={e => setPlaygroundPayload(e.target.value)}
                     style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}
                   />
                 </div>
-                <button style={{ padding: '0.6rem 1.2rem', backgroundColor: '#1a73e8', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 500 }}>
-                  Inspect Communication
+                <button 
+                  onClick={() => {
+                    const sensitiveKeywords = ['oil', 'position', 'trading', 'futures', 'commodities', 'price'];
+                    const containsSensitiveInfo = sensitiveKeywords.some(kw => playgroundPayload.toLowerCase().includes(kw));
+                    
+                    if (guidedExpState.isActive && guidedExpState.type === 'goldman') {
+                      const sourceIsCommodities = playgroundSourceAgent.includes('Commodities');
+                      const destIsCommodities = playgroundDestAgent.includes('Commodities');
+                      const sourceIsFutures = playgroundSourceAgent.includes('Futures');
+                      const destIsFutures = playgroundDestAgent.includes('Futures');
+                      
+                      const isCrossTeam = (sourceIsCommodities && destIsFutures) || (sourceIsFutures && destIsCommodities);
+                      
+                      if (isCrossTeam) {
+                        setPlaygroundResult('DENY: Communication blocked by ethical wall policy. Commodities and Futures teams cannot share trading information.');
+                      } else {
+                        setPlaygroundResult('ALLOW: Communication permitted as this does not violate the Ethical Wall Enforcement policy.');
+                      }
+                    } else {
+                      const isSrcInternal = playgroundSourceAgent.includes('Internal Support Agent');
+                      const isDestExternal = playgroundDestAgent.includes('External 3rd party Agent');
+                      const isSrcExternal = playgroundSourceAgent.includes('External 3rd party Agent');
+                      const isDestInternal = playgroundDestAgent.includes('Internal Support Agent');
+
+                      if ((isSrcInternal && isDestExternal) || (isSrcExternal && isDestInternal)) {
+                        setPlaygroundResult('DENY: Communication blocked. Internal Support Agent cannot communicate with External 3rd party Agent.');
+                      } else {
+                        setPlaygroundResult('ALLOW: Communication permitted.');
+                      }
+                    }
+                  }}
+                  style={{ padding: '0.6rem 1.2rem', backgroundColor: '#1a73e8', color: '#fff', border: 'none', borderRadius: '4px', cursor: playgroundPayload.trim() ? 'pointer' : 'not-allowed', fontWeight: 500, opacity: playgroundPayload.trim() ? 1 : 0.5 }}
+                  disabled={!playgroundPayload.trim()}
+                >
+                  Run Policy
                 </button>
-                
-                {/* Mock Result */}
-                <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#fce8e6', borderRadius: '4px', border: '1px solid #f5c6cb' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c5221f" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <line x1="15" y1="9" x2="9" y2="15"></line>
-                      <line x1="9" y1="9" x2="15" y2="15"></line>
-                    </svg>
-                    <span style={{ fontWeight: 500, color: '#c5221f' }}>Communication Denied</span>
+                {playgroundResult && (
+                  <div style={{ marginTop: '1rem', fontSize: '0.9rem' }}>
+                    <div style={{ fontWeight: 500, color: playgroundResult.startsWith('DENY') ? '#d93025' : '#1e8e3e' }}>
+                      {playgroundResult}
+                    </div>
+                    {playgroundResult.startsWith('DENY') && (
+                      <div style={{ marginTop: '0.5rem' }}>
+                        <button 
+                          onClick={() => setShowMoreInfo(!showMoreInfo)}
+                          style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, fontSize: '0.85rem', textDecoration: 'underline' }}
+                        >
+                          {showMoreInfo ? 'Less information' : 'More information'}
+                        </button>
+                        {showMoreInfo && (
+                          <div style={{ marginTop: '0.5rem', padding: '0.75rem', backgroundColor: '#fff', border: '1px solid #dadce0', borderRadius: '4px', color: '#3c4043' }}>
+                            <p style={{ marginTop: 0 }}>The separation of <strong>Commodities</strong> and <strong>Futures</strong> teams in a financial institution is a classic and powerful example of Advanced Privacy and Data Sharing Controls (often referred to as an "Ethical Wall" or "Chinese Wall").</p>
+                            <p><strong>1. Prevention of Conflicts of Interest and Market Manipulation</strong>: A Commodities team might have non-public knowledge of physical trades (e.g., buying oil). If this leaks to the Futures team, they could use it to make unfair profits. A strict policy ensures these teams operate independently.</p>
+                            <p><strong>2. Regulatory Mandate</strong>: This separation is often legally required by regulatory bodies (like the CFTC or SEC) to ensure market integrity.</p>
+                            <p><strong>3. Why it's a great analogy for AI Agents</strong>: By default, LLMs and connected agents want to be helpful and share context. Without explicit controls, a Commodities Agent might share sensitive data with a Futures Agent. Apigee MCP acts as the enforcement point, inspecting the semantic meaning and intent of the payload to block unauthorized communication even if both agents are internal and valid.</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  <p style={{ fontSize: '0.85rem', color: '#c5221f', marginTop: '0.5rem', marginBottom: 0 }}>
-                    Payload contains raw financial data (credit card number). Public agents cannot send Confidential data to Secret agents without redaction.
-                  </p>
-                </div>
+                )}
+              </div>
+            </div>
+          )}
+          {governanceSubTab === 'AgentProfiles' && (
+            <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
+              <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Agent Profiles</h2>
+              <p style={{ margin: '0.5rem 0 1rem 0', color: '#5f6368', fontSize: '0.9rem' }}>Agent Profiles define global and tool-specific semantic policies, functional guardrails, and business rules for AI agents to ensure safe and effective operations.</p>
+              <AgentProfileManager 
+                profiles={agentProfiles} 
+                setProfiles={setAgentProfiles} 
+                tools={tools} 
+                canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} 
+                guidedExpState={guidedExpState}
+              />
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (isSaaSPersona && activeTab === 'TechnicalGovernance') {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', borderBottom: '1px solid #dadce0', marginBottom: '0.5rem' }}>
+            <button 
+              onClick={() => setTechnicalGovernanceSubTab('IAMPolicies')}
+              style={{
+                padding: '0.75rem 1.5rem',
+                border: 'none',
+                background: 'none',
+                borderBottom: technicalGovernanceSubTab === 'IAMPolicies' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: technicalGovernanceSubTab === 'IAMPolicies' ? '#1a73e8' : '#5f6368',
+                fontWeight: 400,
+                cursor: 'pointer'
+              }}
+            >IAM Policies</button>
+          </div>
+          {technicalGovernanceSubTab === 'IAMPolicies' && (
+            <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
+              <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>IAM Policies</h2>
+              <p style={{ fontSize: '0.9rem', color: '#5f6368', marginBottom: '1.5rem' }}>
+                Policies are the rules you set to securely govern your AI agents using IAM allow policies through Identity-Aware Proxy (IAP). Agent gateway uses IAM allow policies, enforced through Identity-Aware Proxy (IAP), to control which agent identities can access specific services, or resources. These resources include specific tools, MCP servers, and endpoints registered in Agent Registry.
+              </p>
+              
+              <div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 500 }}>Active IAM Policies</h3>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Subject</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Resource</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Action</th>
+                      <th style={{ padding: '0.75rem', borderBottom: '1px solid #dadce0' }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
@@ -1335,17 +1567,45 @@ const App = () => {
               }}
             >Home</button>
             <button 
-              onClick={() => setDistributionSubTab('Product')}
+              onClick={() => setDistributionSubTab('Tool')}
               style={{
                 padding: '0.75rem 1.5rem',
                 border: 'none',
                 background: 'none',
-                borderBottom: distributionSubTab === 'Product' ? '2px solid #1a73e8' : '2px solid transparent',
-                color: distributionSubTab === 'Product' ? '#1a73e8' : '#5f6368',
+                borderBottom: distributionSubTab === 'Tool' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: distributionSubTab === 'Tool' ? '#1a73e8' : '#5f6368',
+                fontWeight: 400,
+                cursor: 'pointer',
+                fontSize: '0.9rem',
+                transition: 'all 0.2s'
+              }}
+            >Tool Profiles</button>
+            <button 
+              onClick={() => setDistributionSubTab('Agent')}
+              style={{
+                padding: '0.75rem 1.5rem',
+                border: 'none',
+                background: 'none',
+                borderBottom: distributionSubTab === 'Agent' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: distributionSubTab === 'Agent' ? '#1a73e8' : '#5f6368',
+                fontWeight: 400,
+                cursor: 'pointer',
+                fontSize: '0.9rem',
+                transition: 'all 0.2s'
+              }}
+            >Agent Profiles</button>
+            <button 
+              onClick={() => setDistributionSubTab('Bundle')}
+              style={{
+                padding: '0.75rem 1.5rem',
+                border: 'none',
+                background: 'none',
+                borderBottom: distributionSubTab === 'Bundle' ? '2px solid #1a73e8' : '2px solid transparent',
+                color: distributionSubTab === 'Bundle' ? '#1a73e8' : '#5f6368',
                 fontWeight: 400,
                 cursor: 'pointer'
               }}
-            >Products</button>
+            >Bundles</button>
             <button 
               onClick={() => setDistributionSubTab('Channels')}
               style={{
@@ -1387,18 +1647,18 @@ const App = () => {
                 <div style={{ fontSize: '2rem', fontWeight: 400, color: '#1a73e8' }}>{toolProfiles.length}</div>
               </div>
               <div style={{ background: 'white', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 1px 2px rgba(60,64,67,.3)', flex: 1, minWidth: '200px' }}>
-                <div style={{ fontSize: '0.9rem', color: '#5f6368', marginBottom: '0.5rem' }}>Total Products</div>
-                <div style={{ fontSize: '2rem', fontWeight: 400, color: '#1a73e8' }}>{products.length}</div>
+                <div style={{ fontSize: '0.9rem', color: '#5f6368', marginBottom: '0.5rem' }}>Total Bundles</div>
+                <div style={{ fontSize: '2rem', fontWeight: 400, color: '#1a73e8' }}>{bundles.length}</div>
               </div>
               <div style={{ background: 'white', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 1px 2px rgba(60,64,67,.3)', flex: 1, minWidth: '200px' }}>
                 <div style={{ fontSize: '0.9rem', color: '#5f6368', marginBottom: '0.5rem' }}>Total Managed Assets</div>
-                <div style={{ fontSize: '2rem', fontWeight: 400, color: '#1a73e8' }}>{agentProfiles.length + toolProfiles.length + products.length}</div>
+                <div style={{ fontSize: '2rem', fontWeight: 400, color: '#1a73e8' }}>{agentProfiles.length + toolProfiles.length + bundles.length}</div>
               </div>
             </div>
           )}
-          {distributionSubTab === 'Product' && (
-            <ProductManager 
-              products={products} setProducts={setProducts} 
+          {distributionSubTab === 'Bundle' && (
+            <BundleManager 
+              bundles={bundles} setBundles={setBundles} 
               agents={agents} agentProfiles={agentProfiles}
               tools={tools} toolProfiles={toolProfiles}
               canEdit={persona === 'IT Team'} 
@@ -1407,16 +1667,34 @@ const App = () => {
           {distributionSubTab === 'Channels' && (
             <ChannelManager 
               channels={channels} setChannels={setChannels}
-              products={products}
+              bundles={bundles}
               canEdit={persona === 'IT Team'}
             />
           )}
           {distributionSubTab === 'Consumer App Approval' && (
             <ConsumerAppManager 
               consumerApps={consumerApps}
-              products={products}
+              bundles={bundles}
               onUpdateStatus={updateConsumerAppStatus}
             />
+          )}
+          {distributionSubTab === 'Agent' && (
+            <Fragment>
+              <p style={{ margin: '0.5rem 1rem 1rem', color: '#5f6368', fontSize: '0.9rem' }}>Agent Profiles define global and tool-specific semantic policies, functional guardrails, and business rules for AI agents to ensure safe and effective operations.</p>
+              <AgentProfileManager 
+                profiles={agentProfiles} 
+                setProfiles={setAgentProfiles} 
+                tools={tools} 
+                canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} 
+                guidedExpState={guidedExpState}
+              />
+            </Fragment>
+          )}
+          {distributionSubTab === 'Tool' && (
+            <Fragment>
+              <p style={{ margin: '0.5rem 1rem 1rem', color: '#5f6368', fontSize: '0.9rem' }}>Tool Profiles define semantic policies, functional constraints, and access controls for individual tools to align with business requirements.</p>
+              <ToolProfileManager profiles={toolProfiles} setProfiles={setToolProfiles} canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} />
+            </Fragment>
           )}
 
         </div>
@@ -1428,7 +1706,7 @@ const App = () => {
         return <GovernanceAdmin agents={agents} setAgents={setAgents} />;
       case 'IT Team':
         return (
-          <ProductOwner 
+          <BundleOwner 
             agents={agents} 
             setAgents={setAgents} 
             isGuidedExperienceEnabled={isGuidedExperienceEnabled}
@@ -1443,13 +1721,13 @@ const App = () => {
           config={storefrontConfig} 
           setConfig={setStorefrontConfig} 
           channels={channels}
-          products={products}
+          bundles={bundles}
         />;
       case 'End Consumer':
         return <EndConsumer 
           config={storefrontConfig}
           channels={channels}
-          products={products}
+          bundles={bundles}
           consumerApps={consumerApps}
           setConsumerApps={setConsumerApps}
           isGuidedExperienceActive={guidedExpState.isActive}
@@ -1460,7 +1738,7 @@ const App = () => {
           tools={tools} setTools={setTools} 
           agentProfiles={agentProfiles} setAgentProfiles={setAgentProfiles} 
           toolProfiles={toolProfiles} setToolProfiles={setToolProfiles}
-          products={products} setProducts={setProducts}
+          bundles={bundles} setBundles={setBundles}
           channels={channels} setChannels={setChannels}
           storefrontConfig={storefrontConfig}
           setStorefrontConfig={setStorefrontConfig}
@@ -1499,7 +1777,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.40demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.72demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -1690,7 +1968,7 @@ const App = () => {
 
       {guidedExpState.isActive && (
         <GuidedExperienceOverlay 
-          steps={guidedExpState.type === 'products' ? productsAndChannelsTutorial : guidedExpState.type === 'publish' ? publishAndConsumeTutorial : airportOpsTutorial} 
+          steps={guidedExpState.type === 'bundles' ? bundlesAndChannelsTutorial : guidedExpState.type === 'publish' ? publishAndConsumeTutorial : guidedExpState.type === 'goldman' ? goldmanTutorial : guidedExpState.type === 'loreal' ? lorealTutorial : airportOpsTutorial} 
           currentStep={guidedExpState.currentStep} 
           onClose={endGuidedExperience} 
           onNext={nextTutorialStep} 

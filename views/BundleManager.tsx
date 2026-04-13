@@ -8,7 +8,7 @@ import {Agent} from '../app';
 import {Tool} from './ToolManager';
 import {AgentProfile, ToolProfile} from './ProfileManager';
 
-export interface Product {
+export interface Bundle {
   id: string;
   name: string;
   description: string;
@@ -22,9 +22,9 @@ export interface Product {
   status: 'Draft' | 'Active' | 'Deprecated';
 }
 
-interface ProductManagerProps {
-  products: Product[];
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+interface BundleManagerProps {
+  bundles: Bundle[];
+  setBundles: React.Dispatch<React.SetStateAction<Bundle[]>>;
   agents: Agent[];
   agentProfiles: AgentProfile[];
   tools: Tool[];
@@ -32,13 +32,13 @@ interface ProductManagerProps {
   canEdit: boolean;
 }
 
-export const ProductManager: React.FC<ProductManagerProps> = ({
-  products, setProducts, agents, agentProfiles, tools, toolProfiles, canEdit
+export const BundleManager: React.FC<BundleManagerProps> = ({
+  bundles, setBundles, agents, agentProfiles, tools, toolProfiles, canEdit
 }) => {
   const [view, setView] = React.useState<'list' | 'create' | 'edit'>('list');
-  const [currentProduct, setCurrentProduct] = React.useState<Product | null>(null);
+  const [currentBundle, setCurrentBundle] = React.useState<Bundle | null>(null);
 
-  const [formData, setFormData] = React.useState<Omit<Product, 'id' | 'createdDate' | 'modifiedDate'>>({
+  const [formData, setFormData] = React.useState<Omit<Bundle, 'id' | 'createdDate' | 'modifiedDate'>>({
     name: '',
     description: '',
     agents: [],
@@ -60,24 +60,24 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
     setFormData({name: '', description: '', agents: [], tools: [], gtmCharacteristics: '', technicalSpec: '', useCases: '', status: 'Draft'});
   };
 
-  const handleEdit = (product: Product) => {
-    setCurrentProduct(product);
+  const handleEdit = (bundle: Bundle) => {
+    setCurrentBundle(bundle);
     setFormData({
-      name: product.name,
-      description: product.description,
-      agents: product.agents || [],
-      tools: product.tools || [],
-      gtmCharacteristics: product.gtmCharacteristics || '',
-      technicalSpec: product.technicalSpec || '',
-      useCases: product.useCases || '',
-      status: product.status
+      name: bundle.name,
+      description: bundle.description,
+      agents: bundle.agents || [],
+      tools: bundle.tools || [],
+      gtmCharacteristics: bundle.gtmCharacteristics || '',
+      technicalSpec: bundle.technicalSpec || '',
+      useCases: bundle.useCases || '',
+      status: bundle.status
     });
     setView('edit');
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
-      setProducts(products.filter(p => p.id !== id));
+    if (confirm('Are you sure you want to delete this bundle?')) {
+      setBundles(bundles.filter(p => p.id !== id));
     }
   };
 
@@ -86,15 +86,15 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
     const now = new Date().toISOString().split('T')[0];
 
     if (view === 'create') {
-      const newProduct: Product = {
+      const newBundle: Bundle = {
         id: Math.random().toString(36).substr(2, 9),
         ...formData,
         createdDate: now,
         modifiedDate: now
       };
-      setProducts([...products, newProduct]);
-    } else if (view === 'edit' && currentProduct) {
-      setProducts(products.map(p => p.id === currentProduct.id ? {
+      setBundles([...bundles, newBundle]);
+    } else if (view === 'edit' && currentBundle) {
+      setBundles(bundles.map(p => p.id === currentBundle.id ? {
         ...p,
         ...formData,
         modifiedDate: now
@@ -147,13 +147,13 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
     return (
       <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', overflow: 'hidden' }}>
         <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #dadce0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 500 }}>Products Management</h2>
+          <h2 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 500 }}>Bundles Management</h2>
           {canEdit && (
             <button 
               onClick={handleCreate}
               style={{ padding: '0.6rem 1.2rem', backgroundColor: '#1a73e8', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 500 }}
             >
-              Create Product
+              Create Bundle
             </button>
           )}
         </div>
@@ -161,7 +161,7 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
           <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '1000px' }}>
             <thead>
               <tr style={{ textAlign: 'left', backgroundColor: '#f8f9fa' }}>
-                <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Product Name</th>
+                <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Bundle Name</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0' }}>Description</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', textAlign: 'center' }}>Status</th>
                 <th style={{ padding: '1rem 2rem', fontWeight: 400, borderBottom: '1px solid #dadce0', whiteSpace: 'nowrap' }}>Created</th>
@@ -170,37 +170,37 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
               </tr>
             </thead>
             <tbody>
-              {products.map(product => (
-                <tr key={product.id} style={{ borderBottom: '1px solid #dadce0' }}>
+              {bundles.map(bundle => (
+                <tr key={bundle.id} style={{ borderBottom: '1px solid #dadce0' }}>
                   <td style={{ padding: '1rem 2rem', textAlign: 'center' }}>
                     <button 
-                      onClick={() => handleEdit(product)}
+                      onClick={() => handleEdit(bundle)}
                       style={{ background: 'none', border: 'none', color: '#1a73e8', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 500 }}
                     >
-                      {product.name}
+                      {bundle.name}
                     </button>
                   </td>
-                  <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>{product.description}</td>
+                  <td style={{ padding: '1rem 2rem', color: '#5f6368' }}>{bundle.description}</td>
                   <td style={{ padding: '1rem 2rem', textAlign: 'center' }}>
                     <span style={{ 
                       padding: '0.25rem 0.75rem', 
                       borderRadius: '12px', 
                       fontSize: '0.75rem', 
                       fontWeight: 400,
-                      backgroundColor: product.status === 'Active' ? '#e6f4ea' : (product.status === 'Draft' ? '#fef7e0' : '#fce8e6'),
-                      color: product.status === 'Active' ? '#1e8e3e' : (product.status === 'Draft' ? '#f9ab00' : '#d93025')
+                      backgroundColor: bundle.status === 'Active' ? '#e6f4ea' : (bundle.status === 'Draft' ? '#fef7e0' : '#fce8e6'),
+                      color: bundle.status === 'Active' ? '#1e8e3e' : (bundle.status === 'Draft' ? '#f9ab00' : '#d93025')
                     }}>
-                      {product.status}
+                      {bundle.status}
                     </span>
                   </td>
-                  <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{product.createdDate}</td>
-                  <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{product.modifiedDate}</td>
+                  <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{bundle.createdDate}</td>
+                  <td style={{ padding: '1rem 2rem', color: '#5f6368', whiteSpace: 'nowrap' }}>{bundle.modifiedDate}</td>
                   <td style={{ padding: '1rem 2rem', textAlign: 'center' }}>
                     <select 
                       defaultValue=""
                       onChange={(e) => {
-                        if (e.target.value === 'edit') handleEdit(product);
-                        if (e.target.value === 'delete') handleDelete(product.id);
+                        if (e.target.value === 'edit') handleEdit(bundle);
+                        if (e.target.value === 'delete') handleDelete(bundle.id);
                         e.target.value = '';
                       }}
                       style={{ padding: '0.4rem 0.8rem', borderRadius: '4px', border: '1px solid #dadce0' }}
@@ -221,10 +221,10 @@ export const ProductManager: React.FC<ProductManagerProps> = ({
 
   return (
     <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
-      <h2 style={{ marginTop: 0, marginBottom: '1.5rem' }}>{view === 'create' ? 'Create Product' : (canEdit ? 'Edit Product' : 'View Product')}</h2>
+      <h2 style={{ marginTop: 0, marginBottom: '1.5rem' }}>{view === 'create' ? 'Create Bundle' : (canEdit ? 'Edit Bundle' : 'View Bundle')}</h2>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1.5rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Product Name</label>
+          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Bundle Name</label>
           <input 
             type="text" 
             value={formData.name} 

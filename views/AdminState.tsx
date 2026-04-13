@@ -5,10 +5,9 @@
 import {createElement, Fragment} from 'react';
 import * as React from 'react';
 
-import {Agent, Channel, StorefrontConfig, ConsumerApp} from '../app';
+import {Agent, Channel, StorefrontConfig, ConsumerApp, Bundle} from '../app';
 import {Tool} from './ToolManager';
 import {AgentProfile, ToolProfile} from './ProfileManager';
-import {Product} from './ProductManager';
 import {setAnchorHref} from 'safevalues/dom';
 import {objectUrlFromSafeSource, unwrapUrl} from 'safevalues';
 
@@ -21,8 +20,8 @@ interface AdminProps {
   setAgentProfiles: React.Dispatch<React.SetStateAction<AgentProfile[]>>;
   toolProfiles: ToolProfile[];
   setToolProfiles: React.Dispatch<React.SetStateAction<ToolProfile[]>>;
-  products: Product[];
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  bundles: Bundle[];
+  setBundles: React.Dispatch<React.SetStateAction<Bundle[]>>;
   channels: Channel[];
   setChannels: React.Dispatch<React.SetStateAction<Channel[]>>;
   storefrontConfig: StorefrontConfig;
@@ -38,7 +37,7 @@ export const AdminState: React.FC<AdminProps> = ({
   tools, setTools, 
   agentProfiles, setAgentProfiles,
   toolProfiles, setToolProfiles,
-  products, setProducts,
+  bundles, setBundles,
   channels, setChannels,
   storefrontConfig, setStorefrontConfig,
   consumerApps, setConsumerApps,
@@ -53,7 +52,7 @@ export const AdminState: React.FC<AdminProps> = ({
       tools,
       agentProfiles,
       toolProfiles,
-      products,
+      bundles,
       channels,
       storefrontConfig,
       consumerApps
@@ -91,8 +90,10 @@ export const AdminState: React.FC<AdminProps> = ({
         if (importedData.toolProfiles && Array.isArray(importedData.toolProfiles)) {
           setToolProfiles(importedData.toolProfiles);
         }
-        if (importedData.products && Array.isArray(importedData.products)) {
-          setProducts(importedData.products);
+        if (importedData.bundles && Array.isArray(importedData.bundles)) {
+          setBundles(importedData.bundles);
+        } else if (importedData.products && Array.isArray(importedData.products)) {
+          setBundles(importedData.products);
         }
         if (importedData.channels && Array.isArray(importedData.channels)) {
           setChannels(importedData.channels);

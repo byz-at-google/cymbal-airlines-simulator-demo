@@ -7,15 +7,15 @@ import * as React from 'react';
 import {AgentManager} from './AgentManager';
 import {Agent} from '../app';
 
-interface ProductOwnerProps {
+interface BundleOwnerProps {
   agents: Agent[];
   setAgents: React.Dispatch<React.SetStateAction<Agent[]>>;
   isGuidedExperienceEnabled: boolean;
   isGuidedExperienceActive: boolean;
-  startGuidedExperience: (type?: 'ops' | 'products') => void;
+  startGuidedExperience: (type?: 'ops' | 'bundles') => void;
 }
 
-export const ProductOwner: React.FC<ProductOwnerProps> = ({
+export const BundleOwner: React.FC<BundleOwnerProps> = ({
   agents, 
   setAgents,
   isGuidedExperienceEnabled,
@@ -57,7 +57,7 @@ export const ProductOwner: React.FC<ProductOwnerProps> = ({
               Start Profile Guided Experience
             </button>
             <button 
-              onClick={() => startGuidedExperience('products')}
+              onClick={() => startGuidedExperience('bundles')}
               style={{
                 padding: '0.75rem 1.5rem',
                 backgroundColor: '#111827',
@@ -75,7 +75,7 @@ export const ProductOwner: React.FC<ProductOwnerProps> = ({
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
               </svg>
-              Start Products Guided Experience
+              Start Bundles Guided Experience
             </button>
           </div>
         )}

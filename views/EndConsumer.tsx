@@ -4,23 +4,23 @@
  */
 import {createElement, Fragment, useState} from 'react';
 import * as React from 'react';
-import {StorefrontConfig, Channel, Product, ConsumerApp} from '../app';
+import {StorefrontConfig, Channel, Bundle, ConsumerApp} from '../app';
 
 interface EndConsumerProps {
   config: StorefrontConfig;
   channels: Channel[];
-  products: Product[];
+  bundles: Bundle[];
   consumerApps: ConsumerApp[];
   setConsumerApps: React.Dispatch<React.SetStateAction<ConsumerApp[]>>;
   isGuidedExperienceActive?: boolean;
 }
 
 export const EndConsumer: React.FC<EndConsumerProps> = ({
-  config, channels, products, consumerApps, setConsumerApps, isGuidedExperienceActive
+  config, channels, bundles, consumerApps, setConsumerApps, isGuidedExperienceActive
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [selectedBundleId, setSelectedBundleId] = useState<string | null>(null);
   const [showMyIntegrations, setShowMyIntegrations] = useState(false);
   const [showAppForm, setShowAppForm] = useState(false);
   const [appFormData, setAppFormData] = useState({
@@ -29,7 +29,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
     semanticPolicy: '',
     submitterName: 'John Doe',
     submitterEmail: 'john.doe@cymbal.com',
-    productIds: [] as string[]
+    bundleIds: [] as string[]
   });
   const [userData, setUserData] = useState({ name: 'John Doe', email: 'john.doe@cymbal.com' });
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
@@ -37,8 +37,8 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
   const [editingAppId, setEditingAppId] = useState<string | null>(null);
 
   const activeChannel = channels.find(c => c.publishedUrl === config.channelUrl) || channels[0];
-  const visibleProducts = products.filter(p => 
-    activeChannel?.products.includes(p.id) && !config.hiddenProductIds.includes(p.id)
+  const visibleBundles = bundles.filter(p => 
+    activeChannel?.bundles.includes(p.id) && !config.hiddenBundleIds.includes(p.id)
   );
 
   const handleLogin = (e: React.FormEvent) => {
@@ -63,7 +63,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
       semanticPolicy: app.semanticPolicy || '',
       submitterName: app.submitterName,
       submitterEmail: app.submitterEmail,
-      productIds: app.productIds
+      bundleIds: app.bundleIds
     });
     setSubmissionSuccess(false);
     setShowAppForm(true);
@@ -81,7 +81,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
         </div>
         <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
           <nav style={{ display: 'flex', gap: '1.75rem', fontWeight: 400, fontSize: '0.95rem' }}>
-            <div onClick={() => { setSelectedProductId(null); setShowMyIntegrations(false); }} style={{ cursor: 'pointer', color: (!selectedProductId && !showMyIntegrations) ? themeIndigo : '#64748b' }}>Agentic Products</div>
+            <div onClick={() => { setSelectedBundleId(null); setShowMyIntegrations(false); }} style={{ cursor: 'pointer', color: (!selectedBundleId && !showMyIntegrations) ? themeIndigo : '#64748b' }}>Agentic Bundles</div>
             <div onClick={() => setShowMyIntegrations(true)} style={{ cursor: 'pointer', color: showMyIntegrations ? themeIndigo : '#64748b' }}>My Profile</div>
             <div style={{ cursor: 'default', color: '#94a3b8', textDecoration: 'line-through' }}>Solutions</div>
             <div style={{ cursor: 'default', color: '#94a3b8', textDecoration: 'line-through' }}>Docs</div>
@@ -119,7 +119,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
           <button 
             onClick={() => document.getElementById('product-catalog')?.scrollIntoView({ behavior: 'smooth' })}
             style={{ padding: '1rem 2.5rem', background: '#0f172a', color: 'white', border: 'none', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 400, cursor: 'pointer', boxShadow: '0 10px 20px rgba(15, 23, 42, 0.15)' }}
-          >Explore Agents</button>
+          >Explore Bundles</button>
           <button style={{ padding: '1rem 2.5rem', background: 'white', color: '#0f172a', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 400, cursor: 'pointer' }}>Watch Demo</button>
         </div>
       </section>
@@ -128,7 +128,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
       <section id="product-catalog" style={{ padding: '6rem 5rem', background: '#f8fafc' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem' }}>
           <div>
-            <h2 style={{ fontSize: '2.25rem', fontWeight: 400, color: '#0f172a', marginBottom: '1rem' }}>Agentic Product Catalog</h2>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 400, color: '#0f172a', marginBottom: '1rem' }}>Agentic Bundle Catalog</h2>
             <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Browse our production-ready agents for the aviation industry.</p>
           </div>
           <div style={{ position: 'relative' }}>
@@ -158,15 +158,15 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                     <p style={{ color: '#64748b', margin: '0 0 1rem' }}>{app.description}</p>
                     {app.semanticPolicy && (
                       <div style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 1rem', padding: '1rem', background: '#f1f5f9', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                        <span style={{ font_weight: 700, fontSize: '0.75rem', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem', color: '#475569' }}>Semantic Governance Policy</span>
+                        <span style={{ fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem', color: '#475569' }}>Semantic Governance Policy</span>
                         {app.semanticPolicy}
                       </div>
                     )}
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', fontSize: '0.85rem', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 400 }}>Products:</span>
-                      {app.productIds.map(pid => (
+                      <span style={{ fontWeight: 400 }}>Bundles:</span>
+                      {app.bundleIds.map(pid => (
                         <span key={pid} style={{ color: themeIndigo, background: '#eef2ff', padding: '2px 8px', borderRadius: '6px' }}>
-                          {products.find(p => p.id === pid)?.name || pid}
+                          {bundles.find(p => p.id === pid)?.name || pid}
                         </span>
                       ))}
                     </div>
@@ -200,25 +200,25 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM20 12l2 1-10 5-10-5 2-1"></path><path d="M2 17l10 5 10-5"></path></svg>
                   </div>
                   <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>No Integrations Yet</h3>
-                  <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '2rem' }}>You haven't requested any agentic product integrations. Browse the catalog to get started.</p>
+                  <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '2rem' }}>You haven't requested any agentic bundle integrations. Browse the catalog to get started.</p>
                   <button 
-                    onClick={() => { setShowMyIntegrations(false); setSelectedProductId(null); }}
+                    onClick={() => { setShowMyIntegrations(false); setSelectedBundleId(null); }}
                     style={{ padding: '0.75rem 2rem', background: themeIndigo, color: 'white', border: 'none', borderRadius: '10px', fontWeight: 400, cursor: 'pointer' }}
                   >
-                    Browse Agentic Products
+                    Browse Agentic Bundles
                   </button>
                 </div>
               )}
             </div>
           </div>
-        ) : selectedProductId ? (
+        ) : selectedBundleId ? (
           (() => {
-            const p = products.find(prod => prod.id === selectedProductId);
+            const p = bundles.find(prod => prod.id === selectedBundleId);
             if (!p) return null;
             return (
               <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <button 
-                  onClick={() => setSelectedProductId(null)}
+                  onClick={() => setSelectedBundleId(null)}
                   style={{ background: 'none', border: 'none', color: '#64748b', fontWeight: 400, cursor: 'pointer', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
                   ← Back to Catalog
@@ -231,7 +231,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                     <div style={{ marginBottom: '4rem' }}>
                       <h3 style={{ fontSize: '1.5rem', fontWeight: 400, marginBottom: '1.5rem', color: '#0f172a' }}>Technical Specification</h3>
                       <div style={{ background: 'white', padding: '2rem', borderRadius: '24px', border: '1px solid #e2e8f0', fontSize: '1.05rem', lineHeight: 1.7, color: '#475569', whiteSpace: 'pre-wrap' }}>
-                        {p.technicalSpec || "This advanced agentic product utilizes autonomous reasoning and tool-coordinated workflows to process dynamic airline operational data. It features low-latency response cycles and built-in governance compliance for enterprise-grade deployments."}
+                        {p.technicalSpec || "This advanced agentic bundle utilizes autonomous reasoning and tool-coordinated workflows to process dynamic airline operational data. It features low-latency response cycles and built-in governance compliance for enterprise-grade deployments."}
                       </div>
                     </div>
                   </div>
@@ -243,7 +243,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                         onClick={() => {
                           if (!isLoggedIn) setShowLogin(true);
                           else {
-                            setAppFormData(prev => ({...prev, productIds: [p.id]}));
+                            setAppFormData(prev => ({...prev, bundleIds: [p.id]}));
                             setShowAppForm(true);
                           }
                         }}
@@ -269,10 +269,10 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
           })()
         ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '2.5rem' }}>
-              {visibleProducts.map(p => (
+              {visibleBundles.map(p => (
                 <div 
                   key={p.id} 
-                  onClick={() => setSelectedProductId(p.id)}
+                  onClick={() => setSelectedBundleId(p.id)}
                   style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '24px', padding: '2.5rem', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', cursor: 'pointer', position: 'relative', overflow: 'hidden' }} 
                   onMouseOver={(e) => { e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = themeIndigo; }} 
                   onMouseOut={(e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = '#e2e8f0'; }}
@@ -286,7 +286,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                   </div>
                   <h3 style={{ fontSize: '1.5rem', fontWeight: 400, color: '#0f172a', marginBottom: '1rem' }}>{p.name}</h3>
                   <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: '1.7', marginBottom: '2.5rem', minHeight: '5.1rem' }}>
-                    {p.description || "Sophisticated agentic product designed to optimize airline operations and customer engagement through autonomous reasoning."}
+                    {p.description || "Sophisticated agentic bundle designed to optimize airline operations and customer engagement through autonomous reasoning."}
                   </p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700, fontSize: '0.95rem' }}>
                     <span style={{ color: themeIndigo }}>View Agent Details →</span>
@@ -296,7 +296,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                   </div>
                 </div>
               ))}
-              {visibleProducts.length === 0 && (
+              {visibleBundles.length === 0 && (
                 <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '8rem', color: '#64748b', background: 'white', borderRadius: '32px', border: '2px dashed #e2e8f0' }}>
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '1.5rem' }}>
                     <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
@@ -304,7 +304,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                     <path d="M2 12l10 5 10-5"></path>
                   </svg>
                   <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.5rem' }}>No Agents Available</h3>
-                  <p>This portal is not currently serving any agentic products.</p>
+                  <p>This portal is not currently serving any agentic bundles.</p>
                 </div>
               )}
             </div>
@@ -322,10 +322,10 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                 </div>
                 <h3 style={{ fontSize: '2rem', fontWeight: 400, marginBottom: '1rem' }}>Request Submitted</h3>
                 <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '2.5rem' }}>
-                  Your integration request for <strong>{appFormData.productIds.length > 1 ? `${appFormData.productIds.length} products` : products.find(p => p.id === appFormData.productIds[0])?.name}</strong> has been sent to the Product Owner for approval.
+                  Your integration request for <strong>{appFormData.bundleIds.length > 1 ? `${appFormData.bundleIds.length} bundles` : bundles.find(p => p.id === appFormData.bundleIds[0])?.name}</strong> has been sent to the Product Owner for approval.
                 </p>
                 <button 
-                  onClick={() => { setShowAppForm(false); setSubmissionSuccess(false); setShowMyIntegrations(true); setSelectedProductId(null); setEditingAppId(null); }}
+                  onClick={() => { setShowAppForm(false); setSubmissionSuccess(false); setShowMyIntegrations(true); setSelectedBundleId(null); setEditingAppId(null); }}
                   style={{ width: '100%', padding: '1rem', background: themeIndigo, color: 'white', border: 'none', borderRadius: '12px', fontWeight: 700, fontSize: '1.1rem', cursor: 'pointer' }}
                 >
                   Track My Requests
@@ -339,7 +339,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                 if (editingAppId) {
                   setConsumerApps(prev => prev.map(app => 
                     app.id === editingAppId 
-                      ? { ...app, name: appFormData.name, description: appFormData.description, semanticPolicy: appFormData.semanticPolicy, productIds: appFormData.productIds, status: 'Pending' }
+                      ? { ...app, name: appFormData.name, description: appFormData.description, semanticPolicy: appFormData.semanticPolicy, bundleIds: appFormData.bundleIds, status: 'Pending' }
                       : app
                   ));
                 } else {
@@ -348,7 +348,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                     name: appFormData.name,
                     description: appFormData.description,
                     semanticPolicy: appFormData.semanticPolicy,
-                    productIds: appFormData.productIds,
+                    bundleIds: appFormData.bundleIds,
                     submitterName: appFormData.submitterName,
                     submitterEmail: appFormData.submitterEmail,
                     status: 'Pending',
@@ -364,7 +364,7 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                 {editingAppId ? 'Edit Consumer App' : 'Create Consumer App'}
               </h3>
               <p style={{ color: '#64748b', marginBottom: '2.5rem', fontSize: '1.1rem', lineHeight: 1.6 }}>
-                {editingAppId ? 'Update your application details and requested products.' : 'Define your consumer application to request access to the Agentic Product.'}
+                {editingAppId ? 'Update your application details and requested bundles.' : 'Define your consumer application to request access to the Agentic Bundle.'}
               </p>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.75rem', color: '#1e293b' }}>Application Name</label>
@@ -375,18 +375,18 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                     <textarea required value={appFormData.description} onChange={e => setAppFormData({...appFormData, description: e.target.value})} style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid #e2e8f0', outline: 'none', background: '#f8fafc', fontSize: '1rem', minHeight: '80px', resize: 'vertical' }} placeholder="Explain how you plan to use this agent..." />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.75rem', color: '#1e293b' }}>Requested Agentic Products (Select at least one)</label>
+                    <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 700, marginBottom: '0.75rem', color: '#1e293b' }}>Requested Agentic Bundles (Select at least one)</label>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', padding: '1rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0', maxHeight: '150px', overflowY: 'auto' }}>
-                      {visibleProducts.map(p => (
+                      {visibleBundles.map(p => (
                         <label key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem' }}>
                           <input 
                             type="checkbox" 
-                            checked={appFormData.productIds.includes(p.id)} 
+                            checked={appFormData.bundleIds.includes(p.id)} 
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setAppFormData({...appFormData, productIds: [...appFormData.productIds, p.id]});
+                                setAppFormData({...appFormData, bundleIds: [...appFormData.bundleIds, p.id]});
                               } else {
-                                setAppFormData({...appFormData, productIds: appFormData.productIds.filter(id => id !== p.id)});
+                                setAppFormData({...appFormData, bundleIds: appFormData.bundleIds.filter(id => id !== p.id)});
                               }
                             }}
                           />
@@ -412,8 +412,8 @@ export const EndConsumer: React.FC<EndConsumerProps> = ({
                   <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                     <button 
                       type="submit"
-                      disabled={appFormData.productIds.length === 0}
-                      style={{ width: '100%', padding: '1.25rem', background: appFormData.productIds.length > 0 ? themeIndigo : '#94a3b8', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 700, fontSize: '1.1rem', cursor: appFormData.productIds.length > 0 ? 'pointer' : 'not-allowed', transition: 'all 0.2s' }}
+                      disabled={appFormData.bundleIds.length === 0}
+                      style={{ width: '100%', padding: '1.25rem', background: appFormData.bundleIds.length > 0 ? themeIndigo : '#94a3b8', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 700, fontSize: '1.1rem', cursor: appFormData.bundleIds.length > 0 ? 'pointer' : 'not-allowed', transition: 'all 0.2s' }}
                     >
                       {editingAppId ? 'Save and Resubmit' : 'Submit Request'}
                     </button>

@@ -315,7 +315,7 @@ export const getAirportOpsTutorial = (
     }
 ];
 
-export const getProductsAndChannelsTutorial = (
+export const getBundlesAndChannelsTutorial = (
   setAgentProfiles: Function,
   setActiveTab: Function,
   setGovernanceSubTab: Function,
@@ -446,19 +446,19 @@ export const getProductsAndChannelsTutorial = (
             <li><strong>JFK, EWR, YVR Profiles</strong> (Airport Specific)</li>
             <li><strong>US & Canada Labor Law</strong> (Country Specific)</li>
           </ul>
-          <p>Products are the way that capabilities like agents are distributed to address a specific use-case. Profiles help tailor governance and functionality for each product to ensure its customized for that exact use case.</p>
+          <p>Bundles are the way that capabilities like agents are distributed to address a specific use-case. Profiles help tailor governance and functionality for each bundle to ensure its customized for that exact use case.</p>
         </div>
       ),
       onNext: () => {
         setActiveTab('Distribution');
-        setDistributionSubTab('Product');
+        setDistributionSubTab('Bundle');
       }
     },
     {
-      title: "Product 1: YVR Pilot Scheduling",
+      title: "Bundle 1: YVR Pilot Scheduling",
       content: (
         <div>
-          <p>Select <strong>Create Product</strong>.</p>
+          <p>Select <strong>Create Bundle</strong>.</p>
           <p>Name: <strong>'YVR Pilot Scheduling Solution'</strong></p>
           <p>Add Agents:</p>
           <ul>
@@ -469,10 +469,10 @@ export const getProductsAndChannelsTutorial = (
       )
     },
     {
-      title: "Product 2: JFK Pilot Scheduling",
+      title: "Bundle 2: JFK Pilot Scheduling",
       content: (
         <div>
-          <p>Select <strong>Create Product</strong>.</p>
+          <p>Select <strong>Create Bundle</strong>.</p>
           <p>Name: <strong>'JFK Pilot Scheduling Solution'</strong></p>
           <p>Add Agents:</p>
           <ul>
@@ -483,10 +483,10 @@ export const getProductsAndChannelsTutorial = (
       )
     },
     {
-      title: "Product 3: EWR Pilot Scheduling",
+      title: "Bundle 3: EWR Pilot Scheduling",
       content: (
         <div>
-          <p>Select <strong>Create Product</strong>.</p>
+          <p>Select <strong>Create Bundle</strong>.</p>
           <p>Name: <strong>'EWR Pilot Scheduling Solution'</strong></p>
           <p>Add Agents:</p>
           <ul>
@@ -500,7 +500,7 @@ export const getProductsAndChannelsTutorial = (
       title: "The Power of Reuse",
       content: (
         <div>
-          <p>Notice how clean that is! The <strong>US Pilot Labor Law Profile</strong> is shared across both JFK and EWR products.</p>
+          <p>Notice how clean that is! The <strong>US Pilot Labor Law Profile</strong> is shared across both JFK and EWR bundles.</p>
         </div>
       )
     },
@@ -509,7 +509,7 @@ export const getProductsAndChannelsTutorial = (
       content: (
         <div>
           <p>If <strong>US Labor Laws change</strong> (e.g., pilots only work 3 days/week), you don't edit every agent.</p>
-          <p>Simply edit the single <strong>US Pilot Labor Law Profile</strong>. All referencing products update instantly.</p>
+          <p>Simply edit the single <strong>US Pilot Labor Law Profile</strong>. All referencing bundles update instantly.</p>
         </div>
       )
     },
@@ -522,7 +522,7 @@ export const getProductsAndChannelsTutorial = (
           <p>Name: <strong>'SEA Profile'</strong></p>
           <p>Global Semantic Policy:</p>
           <code style={{ display: 'block', padding: '0.5rem', backgroundColor: '#f1f3f4', margin: '0.5rem 0' }}>"[SEA_SPECIFIC] Account for Seattle-Tacoma low-visibility approach delays in pilot rest calculations."</code>
-          <p>Then, create a new <strong>Product</strong> for SEA and bundle it up!</p>
+          <p>Then, create a new <strong>Bundle</strong> for SEA and bundle it up!</p>
         </div>
       )
     },
@@ -530,7 +530,7 @@ export const getProductsAndChannelsTutorial = (
       title: "Observability & ROI",
       content: (
         <div>
-          <p>Metrics and ROI are now tied to <strong>Products</strong>. You can easily track usage for the EWR product independently.</p>
+          <p>Metrics and ROI are now tied to <strong>Bundles</strong>. You can easily track usage for the EWR bundle independently.</p>
         </div>
       ),
       onNext: () => {
@@ -541,10 +541,10 @@ export const getProductsAndChannelsTutorial = (
       title: "Publish to Channels",
       content: (
         <div>
-          <p>Products are published to Channels. Let's group our US solutions.</p>
+          <p>Bundles are published to Channels. Let's group our US solutions.</p>
           <p>Go to <strong>Distribution</strong> &rarr; <strong>Channels</strong> and select <strong>Create Channel</strong>.</p>
           <p>Name: <strong>'US Regional Operations Channel'</strong></p>
-          <p>Select available US Products (JFK, EWR, SEA).</p>
+          <p>Select available US Bundles (JFK, EWR, SEA).</p>
         </div>
       )
     },
@@ -567,14 +567,14 @@ export const getPublishAndConsumeTutorial = (
   setStorefrontConfig: Function,
   setChannels: Function,
   setConsumerApps: Function,
-  products: any[],
+  bundles: any[],
   channels: any[]
 ): TutorialStep[] => [
     {
       title: "Goal: Publish and Consume",
       content: (
         <div>
-          <p>This scenario demonstrates the end-to-end workflow of publishing a channel, subscribing to it via a storefront, managing product visibility, and completing the consumer app submission and approval process.</p>
+          <p>This scenario demonstrates the end-to-end workflow of publishing a channel, subscribing to it via a storefront, managing bundle visibility, and completing the consumer app submission and approval process.</p>
           <p>We will switch between multiple personas to complete this workflow.</p>
         </div>
       )
@@ -583,13 +583,13 @@ export const getPublishAndConsumeTutorial = (
       title: "Step 1: Open Edit Channel (Product Owner)",
       content: (
         <div>
-          <p>As a <strong>Product Owner</strong>, you need to publish a channel to make its products available to storefronts.</p>
+          <p>As a <strong>Product Owner</strong>, you need to publish a channel to make its bundles available to storefronts.</p>
           <p>Go to the <strong>Distribution</strong> tab, then the <strong>Channels</strong> sub-tab.</p>
           <p>Find the channel <strong>'Cymbal Partner Rewards Network'</strong> (created for you) and click on its name or select <strong>Edit</strong> from the Actions menu to open the edit form.</p>
         </div>
       ),
       onNext: () => {
-        setPersona('Product Owner');
+        setPersona('IT Team');
         setActiveTab('Distribution');
         setDistributionSubTab('Channels');
         setChannels((prevChannels: any[]) => {
@@ -602,7 +602,7 @@ export const getPublishAndConsumeTutorial = (
                   name: 'Cymbal Partner Rewards Network',
                   description: 'Channel for distributing Cymbal Airlines partner rewards and offers to storefronts.',
                   status: 'Draft',
-                  products: ['tut-p1', 'tut-p2'],
+                  bundles: ['tut-p1', 'tut-p2'],
                   createdDate: new Date().toISOString().split('T')[0],
                   modifiedDate: new Date().toISOString().split('T')[0],
                   gtmInfo: 'Cymbal Partner Rewards GTM info'
@@ -656,10 +656,10 @@ export const getPublishAndConsumeTutorial = (
       }
     },
     {
-      title: "Step 5: Manage Product Visibility (Storefront Owner)",
+      title: "Step 5: Manage Bundle Visibility (Storefront Owner)",
       content: (
         <div>
-          <p>Try unpublishing a product (e.g., 'North America Customer Support Package') by clicking the <strong>Unpublish Agent</strong> button in the table.</p>
+          <p>Try unpublishing a bundle (e.g., 'North America Customer Support Package') by clicking the <strong>Unpublish Agent</strong> button in the table.</p>
           <p>This will hide it from the End Consumer.</p>
         </div>
       )
@@ -680,8 +680,8 @@ export const getPublishAndConsumeTutorial = (
       title: "Step 7: Submit Consumer App (End Consumer)",
       content: (
         <div>
-          <p>Browse the catalog. Notice that any products you unpublished are hidden.</p>
-          <p>Select a visible product and click <strong>Create Consumer App for Access</strong>.</p>
+          <p>Browse the catalog. Notice that any bundles you unpublished are hidden.</p>
+          <p>Select a visible bundle and click <strong>Create Consumer App for Access</strong>.</p>
           <p>Fill out the form and submit.</p>
         </div>
       )
@@ -695,7 +695,7 @@ export const getPublishAndConsumeTutorial = (
         </div>
       ),
       onNext: () => {
-        setPersona('Product Owner');
+        setPersona('IT Team');
       }
     },
     {
@@ -707,7 +707,7 @@ export const getPublishAndConsumeTutorial = (
         </div>
       ),
       onNext: () => {
-          setPersona('Product Owner');
+          setPersona('IT Team');
           setActiveTab('Distribution');
           setDistributionSubTab('Consumer App Approval');
       }
@@ -744,4 +744,181 @@ export const getPublishAndConsumeTutorial = (
     }
 ];
 
+export const getGoldmanTutorial = (
+  setActiveTab: Function,
+  setGovernanceSubTab: Function
+): TutorialStep[] => [
+    {
+      title: "Goldman Sachs Scenario: Ethical Wall",
+      content: (
+        <div>
+          <p>Goldman Sachs needs to ensure no sensitive data is passed between its <strong>Commodities teams</strong> (and their agentic system) and its <strong>Futures teams</strong> (and their agentic system).</p>
+          <p>This requires a strict ethical wall between these two groups of agents.</p>
+        </div>
+      )
+    },
+    {
+      title: "Navigate to Privacy Controls",
+      content: (
+        <div>
+          <p>As this is a business rule, you need to configure this in <strong>Functional Governance</strong>.</p>
+          <p>Click on the <strong>Governance</strong> tab and then the <strong>Privacy Controls</strong> sub-tab.</p>
+        </div>
+      ),
+      onNext: () => {
+        setActiveTab('Governance');
+        setGovernanceSubTab('PrivacyControls');
+      }
+    },
+    {
+      title: "Enforce Ethical Wall",
+      content: (
+        <div>
+          <p>You are now in the Privacy Controls section.</p>
+          <p>Scroll down to the <strong>Example: Inter-Agent Communication Firewall</strong> playground.</p>
+          <p>Notice that the <strong>POLICY: Ethical Wall Enforcement</strong> is active.</p>
+          <p>You can utilize this specific policy to prevent two different agents from two different privacy classifications from talking to each other.</p>
+        </div>
+      )
+    },
+    {
+      title: "Test Policy Enforcement",
+      content: (
+        <div>
+          <p>In the playground dropdowns, you can see 3 Commodities Agents and 3 Futures Agents.</p>
+          <p><strong>Try it out:</strong></p>
+          <ol>
+            <li>Select a <strong>Commodities Trading Agent</strong> as Source and a <strong>Futures Trading Agent</strong> as Destination (or vice versa).</li>
+            <li>Enter a message containing sensitive words like "oil" or "position".</li>
+            <li>Click <strong>Run Policy</strong> and observe the <strong>DENY</strong> response.</li>
+            <li>Now try selecting two agents from the <strong>same team</strong> (e.g., both Commodities) and observe the <strong>ALLOW</strong> response.</li>
+          </ol>
+        </div>
+      ),
+      hideNext: true
+    }
+];
 
+export const getLorealTutorial = (
+  setActiveTab: Function,
+  setDistributionSubTab: Function,
+  setGovernanceSubTab: Function
+): TutorialStep[] => [
+    {
+      title: "L'Oreal Scenario: Regional Agent Distribution",
+      content: (
+        <div>
+          <p>L'Oreal needs to deploy the same functional agent to different geographical regions with specific governance in each region to ensure compliance with local laws and regulations.</p>
+          <p>There is a need to <strong>"decouple rules from agents"</strong> and that <strong>"distribution without governance is not working"</strong>.</p>
+          <p>We will use the example where L'Oreal needs to deploy a <strong>"BeautyRec"</strong> agent in multiple regions, say EU and NA.</p>
+        </div>
+      )
+    },
+    {
+      title: "Explore BeautyRec Agent",
+      content: (
+        <div>
+          <p>We have populated an example <strong>BeautyRec</strong> agent that helps recommend users products based on their customer profile and dermatological data.</p>
+          <p>Please go to the <strong>Agents</strong> tab, open the <strong>BeautyRec</strong> agent, and view the instructions.</p>
+        </div>
+      ),
+      onNext: () => {
+        setActiveTab('Agents');
+      }
+    },
+    {
+      title: "Navigate to Agent Profiles",
+      content: (
+        <div>
+          <p>To deploy the BeautyRec agent to multiple regions with different rules, we need to create region-specific profiles.</p>
+          <p>Under the <strong>PORTFOLIO MANAGEMENT</strong> section, click on the <strong>Functional Governance</strong> tab and then the <strong>Agent Profiles</strong> sub-tab.</p>
+        </div>
+      ),
+      onNext: () => {
+        setActiveTab('Governance');
+        setGovernanceSubTab('AgentProfiles');
+      }
+    },
+    {
+      title: "Create NA Agent Profile",
+      content: (
+        <div>
+          <p>You are now in the Agent Profiles section.</p>
+          <p>Please create an <strong>NA Agent Profile</strong> for the <strong>BeautyRec</strong> agent.</p>
+          <p>Specify an example <strong>NA-only semantic policy constraint</strong> (e.g., "Do not recommend products containing ingredients not approved by FDA") and save the profile.</p>
+        </div>
+      )
+    },
+    {
+      title: "Create EU Agent Profile",
+      content: (
+        <div>
+          <p>Now, create an <strong>EU Agent Profile</strong> for the <strong>BeautyRec</strong> agent.</p>
+          <p>Specify a more-complex <strong>EU-only semantic policy constraint</strong> (e.g., "Strictly adhere to GDPR data minimization principles. Do not process dermatological data without explicit consent for each recommendation.") and save the profile.</p>
+        </div>
+      )
+    },
+    {
+      title: "Decoupled Governance",
+      content: (
+        <div>
+          <p>Great! We can now deploy the same <strong>BeautyRec</strong> agent in two different ways, each governed differently based on the region.</p>
+        </div>
+      )
+    },
+    {
+      title: "Update Agent Functionality",
+      content: (
+        <div>
+          <p>We now need to make an update to the <strong>BeautyRec</strong> agent itself (e.g., to use a new recommendation algorithm concept).</p>
+          <p>We can do this once, to the agent itself, without needing to duplicate the work for each profile.</p>
+          <p>Please navigate to the <strong>Agents</strong> page.</p>
+        </div>
+      ),
+      onNext: () => {
+        setActiveTab('Agents');
+      }
+    },
+    {
+      title: "Update Agent Instructions",
+      content: (
+        <div>
+          <p>Open the <strong>BeautyRec</strong> agent and add an addition to the instruction (e.g., "Prioritize eco-friendly packaging products").</p>
+          <p>Notice that we don't need to do this multiple times for each profile (each business use-case).</p>
+        </div>
+      )
+    },
+    {
+      title: "Update EU Governance",
+      content: (
+        <div>
+          <p>Now we need to update the EU governance due to updated EU laws.</p>
+          <p>Please go back to <strong>Agent Profiles</strong> to update the EU profile.</p>
+        </div>
+      ),
+      onNext: () => {
+        setActiveTab('Governance');
+        setGovernanceSubTab('AgentProfiles');
+      }
+    },
+    {
+      title: "Modify EU Profile",
+      content: (
+        <div>
+          <p>Open the <strong>EU Agent Profile</strong> and add the following constraint to the global semantic policy:</p>
+          <p style={{ background: '#f1f3f4', padding: '0.5rem', borderRadius: '4px', fontFamily: 'monospace', fontSize: '0.9rem', margin: '0.5rem 0' }}>"Ensure all product recommendations explicitly mention if they are vegan or cruelty-free, as per new EU consumer transparency guidelines."</p>
+          <p>This demonstrates how we can update governance independently of the agent's core logic.</p>
+        </div>
+      )
+    },
+    {
+      title: "Scenario Summary",
+      content: (
+        <div>
+          <p>In summary, profiles made it possible to deploy the same agent functionally to different business use-cases and govern each differently.</p>
+          <p>We can update agent functionality or code without needing duplication, maintaining a clean separation of concerns.</p>
+        </div>
+      ),
+      hideNext: true
+    }
+];

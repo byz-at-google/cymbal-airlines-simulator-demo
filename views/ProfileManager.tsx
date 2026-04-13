@@ -4,7 +4,7 @@
  */
 import {createElement, Fragment} from 'react';
 import * as React from 'react';
-import {Tool} from '../app';
+import {Tool, GuidedExperienceState} from '../app';
 
 export interface AgentProfile {
   id: string;
@@ -32,9 +32,10 @@ interface AgentProfileManagerProps {
   setProfiles: React.Dispatch<React.SetStateAction<AgentProfile[]>>;
   tools: Tool[];
   canEdit: boolean;
+  guidedExpState?: GuidedExperienceState;
 }
 
-export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profiles, setProfiles, tools, canEdit}) => {
+export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profiles, setProfiles, tools, canEdit, guidedExpState}) => {
   const [view, setView] = React.useState<'list' | 'create' | 'edit'>('list');
   const [currentProfile, setCurrentProfile] = React.useState<AgentProfile | null>(null);
 
@@ -51,6 +52,27 @@ export const AgentProfileManager: React.FC<AgentProfileManagerProps> = ({profile
 
   const handleCreate = () => {
     setView('create');
+    if (guidedExpState && guidedExpState.isActive && guidedExpState.type === 'loreal') {
+      if (guidedExpState.currentStep === 3) { // Step 4 (0-based index 3) - Create NA Profile
+        setFormData({
+          name: 'NA Agent Profile',
+          description: 'Profile for North America region',
+          globalSemanticPolicy: 'Do not recommend products containing ingredients not approved by FDA.',
+          status: 'Active'
+        });
+        setFormRows([]);
+        return;
+      } else if (guidedExpState.currentStep === 4) { // Step 5 (0-based index 4) - Create EU Profile
+        setFormData({
+          name: 'EU Agent Profile',
+          description: 'Profile for European Union region',
+          globalSemanticPolicy: 'Ensure all data processing complies with GDPR. Do not share dermatological data across borders without explicit consent.',
+          status: 'Active'
+        });
+        setFormRows([]);
+        return;
+      }
+    }
     setFormData({name: '', description: '', globalSemanticPolicy: '', status: 'Draft'});
     setFormRows([]);
   };

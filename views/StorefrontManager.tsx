@@ -4,22 +4,22 @@
  */
 import {createElement, Fragment, useState, useEffect} from 'react';
 import * as React from 'react';
-import {StorefrontConfig, Channel, Product} from '../app';
+import {StorefrontConfig, Channel, Bundle} from '../app';
 
 interface StorefrontManagerProps {
   config: StorefrontConfig;
   setConfig: React.Dispatch<React.SetStateAction<StorefrontConfig>>;
   channels: Channel[];
-  products: Product[];
+  bundles: Bundle[];
 }
 
 export const StorefrontManager: React.FC<StorefrontManagerProps> = ({
-  config, setConfig, channels, products
+  config, setConfig, channels, bundles
 }) => {
   const [showBanner, setShowBanner] = useState(false);
   const [currentTab, setCurrentTab] = useState<'Catalog' | 'Analytics'>('Catalog');
   
-  const mockAnalytics = products.map(p => ({
+  const mockAnalytics = bundles.map(p => ({
     id: p.id,
     name: p.name,
     totalRequests: Math.floor(Math.random() * 100) + 20,
@@ -29,14 +29,14 @@ export const StorefrontManager: React.FC<StorefrontManagerProps> = ({
   }));
   
   const activeChannel = channels.find(c => c.publishedUrl === config.channelUrl) || channels[0];
-  const channelProducts = products.filter(p => activeChannel?.products.includes(p.id));
+  const channelBundles = bundles.filter(p => activeChannel?.bundles.includes(p.id));
 
-  const toggleVisibility = (productId: string) => {
+  const toggleVisibility = (bundleId: string) => {
     setConfig(prev => ({
       ...prev,
-      hiddenProductIds: prev.hiddenProductIds.includes(productId)
-        ? prev.hiddenProductIds.filter(id => id !== productId)
-        : [...prev.hiddenProductIds, productId]
+      hiddenBundleIds: prev.hiddenBundleIds.includes(bundleId)
+        ? prev.hiddenBundleIds.filter(id => id !== bundleId)
+        : [...prev.hiddenBundleIds, bundleId]
     }));
   };
 
@@ -88,7 +88,7 @@ export const StorefrontManager: React.FC<StorefrontManagerProps> = ({
             Analytics
           </div>
           <div style={{ padding: '0.85rem 1.25rem', borderRadius: '10px', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center', gap: '0.75rem', opacity: 0.7 }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             Appearance
             <NotImplementedBadge />
           </div>
@@ -134,10 +134,10 @@ export const StorefrontManager: React.FC<StorefrontManagerProps> = ({
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3rem' }}>
           <div>
             <h2 style={{ fontSize: '2rem', fontWeight: 700, color: '#1e293b', margin: 0 }}>
-              {currentTab === 'Catalog' ? 'Agentic Catalog Management' : 'Product Usage Analytics'}
+              {currentTab === 'Catalog' ? 'Agentic Catalog Management' : 'Bundle Usage Analytics'}
             </h2>
             <p style={{ color: '#64748b', marginTop: '0.5rem', fontSize: '1.1rem' }}>
-              {currentTab === 'Catalog' ? 'Curate and manage AI agent products for your public portal.' : 'Monitor performance and integration metrics across your agentic product portfolio.'}
+              {currentTab === 'Catalog' ? 'Curate and manage AI agent bundles for your public portal.' : 'Monitor performance and integration metrics across your agentic bundle portfolio.'}
             </p>
           </div>
           {currentTab === 'Catalog' && (
@@ -192,21 +192,21 @@ export const StorefrontManager: React.FC<StorefrontManagerProps> = ({
 
             <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e0e6ed', overflow: 'hidden' }}>
               <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #e0e6ed', background: '#ffffff', fontWeight: 700, color: '#1e293b', fontSize: '1.1rem' }}>
-                Available Agentic {channelProducts.length === 1 ? 'Product' : 'Products'} ({channelProducts.length})
+                Available Agentic {channelBundles.length === 1 ? 'Bundle' : 'Bundles'} ({channelBundles.length})
               </div>
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '800px' }}>
                 <thead>
                   <tr style={{ textAlign: 'left', background: '#f8fafc' }}>
-                    <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Agent Product</th>
+                    <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Agent Bundle</th>
                     <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Status</th>
                     <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Catalog Visibility</th>
                     <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'right' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {channelProducts.map(p => {
-                    const isHidden = config.hiddenProductIds.includes(p.id);
+                  {channelBundles.map(p => {
+                    const isHidden = config.hiddenBundleIds.includes(p.id);
                     return (
                       <tr key={p.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
                         <td style={{ padding: '1.5rem 2rem' }}>
@@ -237,7 +237,7 @@ export const StorefrontManager: React.FC<StorefrontManagerProps> = ({
                               transition: 'all 0.2s'
                             }}
                           >
-                            {isHidden ? 'Publish to Catalog' : 'Unpublish Agent'}
+                            {isHidden ? 'Publish to Catalog' : 'Unpublish Bundle'}
                           </button>
                         </td>
                       </tr>
@@ -251,13 +251,13 @@ export const StorefrontManager: React.FC<StorefrontManagerProps> = ({
         ) : (
           <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e0e6ed', overflow: 'hidden' }}>
             <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #e0e6ed', background: '#ffffff', fontWeight: 700, color: '#1e293b', fontSize: '1.1rem' }}>
-              Product Performance Overview
+              Bundle Performance Overview
             </div>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '800px' }}>
                 <thead>
                   <tr style={{ textAlign: 'left', background: '#f8fafc' }}>
-                    <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Agentic Product</th>
+                    <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Agentic Bundle</th>
                     <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total Requests</th>
                     <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Approval Rate</th>
                     <th style={{ padding: '1.25rem 2rem', fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Active Integrations</th>
