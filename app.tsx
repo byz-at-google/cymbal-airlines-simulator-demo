@@ -1033,31 +1033,24 @@ const App = () => {
               {/* Configuration Section */}
               <div style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #dadce0', borderRadius: '4px' }}>
                 <h3 style={{ fontSize: '1rem', fontWeight: 500, marginTop: 0 }}>Detection Configuration</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
                   <div>
                     <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Sensitivity Threshold</label>
-                    <input type="range" min="1" max="100" defaultValue="75" style={{ width: '100%' }} />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#5f6368' }}>
+                    <input type="range" min="1" max="100" defaultValue="75" style={{ width: '50%' }} />
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#5f6368', width: '50%' }}>
                       <span>Low</span>
                       <span>High</span>
                     </div>
                   </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Notification Channel</label>
-                    <select style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #dadce0', boxSizing: 'border-box' }}>
-                      <option>Email Digest</option>
-                      <option>Slack Alert</option>
-                      <option>PagerDuty</option>
-                    </select>
-                  </div>
                 </div>
                 <div style={{ marginTop: '1rem' }}>
                   <label style={{ fontWeight: 500 }}>Active Monitors</label>
-                  <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-                    <label><input type="checkbox" defaultChecked /> Prompt Injection</label>
-                    <label><input type="checkbox" defaultChecked /> Data Exfiltration</label>
-                    <label><input type="checkbox" defaultChecked /> Hallucination Spike</label>
-                    <label><input type="checkbox" defaultChecked /> Token Exhaustion</label>
+                  <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Goal Violation &amp; Semantic Drift</label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Prompt Injection &amp; Jailbreak</label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Anomalous Tool Sequences</label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Sentiment &amp; Tone Deviation</label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><input type="checkbox" defaultChecked /> Data Exfiltration Suspected</label>
                   </div>
                 </div>
               </div>
@@ -1361,7 +1354,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.33demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.34demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
