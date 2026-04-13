@@ -831,12 +831,12 @@ export const getLorealTutorial = (
       content: (
         <div>
           <p>To deploy the BeautyRec agent to multiple regions with different rules, we need to create region-specific profiles.</p>
-          <p>Under the <strong>PORTFOLIO MANAGEMENT</strong> section, click on the <strong>Functional Governance</strong> tab and then the <strong>Agent Profiles</strong> sub-tab.</p>
+          <p>Under the <strong>PORTFOLIO MANAGEMENT</strong> section, click on the <strong>Lifecycle</strong> tab and then the <strong>Agent Profiles</strong> sub-tab.</p>
         </div>
       ),
       onNext: () => {
-        setActiveTab('Governance');
-        setGovernanceSubTab('AgentProfiles');
+        setActiveTab('Distribution');
+        setDistributionSubTab('Agent');
       }
     },
     {
@@ -897,8 +897,8 @@ export const getLorealTutorial = (
         </div>
       ),
       onNext: () => {
-        setActiveTab('Governance');
-        setGovernanceSubTab('AgentProfiles');
+        setActiveTab('Distribution');
+        setDistributionSubTab('Agent');
       }
     },
     {

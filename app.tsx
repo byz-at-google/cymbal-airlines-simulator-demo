@@ -86,7 +86,7 @@ export interface GuidedExperienceState {
 export interface PersonaViewState {
   activeTab: 'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance' | 'TechnicalGovernance';
   distributionSubTab: 'Home' | 'Bundle' | 'Channels' | 'Consumer App Approval' | 'Agent' | 'Tool';
-  governanceSubTab: 'BusinessPolicies' | 'AgentAnomalyDetection' | 'PrivacyControls' | 'AgentProfiles';
+  governanceSubTab: 'BusinessPolicies' | 'AgentAnomalyDetection' | 'PrivacyControls';
   technicalGovernanceSubTab?: 'IAMPolicies';
 }
 
@@ -545,7 +545,7 @@ const App = () => {
 
   const [activeTab, setActiveTab] = React.useState<'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance' | 'TechnicalGovernance'>('Dashboard');
   const [distributionSubTab, setDistributionSubTab] = React.useState<'Home' | 'Bundle' | 'Channels' | 'Consumer App Approval' | 'Agent' | 'Tool'>('Home');
-  const [governanceSubTab, setGovernanceSubTab] = React.useState<'BusinessPolicies' | 'AgentAnomalyDetection' | 'PrivacyControls' | 'AgentProfiles'>('BusinessPolicies');
+  const [governanceSubTab, setGovernanceSubTab] = React.useState<'BusinessPolicies' | 'AgentAnomalyDetection' | 'PrivacyControls'>('BusinessPolicies');
   const [technicalGovernanceSubTab, setTechnicalGovernanceSubTab] = React.useState<'IAMPolicies'>('IAMPolicies');
 
   const [globalPolicies, setGlobalPolicies] = React.useState<GlobalPolicy[]>([]);
@@ -947,18 +947,7 @@ const App = () => {
                 cursor: 'pointer'
               }}
             >Privacy Controls</button>
-            <button 
-              onClick={() => setGovernanceSubTab('AgentProfiles')}
-              style={{
-                padding: '0.75rem 1.5rem',
-                border: 'none',
-                background: 'none',
-                borderBottom: governanceSubTab === 'AgentProfiles' ? '2px solid #1a73e8' : '2px solid transparent',
-                color: governanceSubTab === 'AgentProfiles' ? '#1a73e8' : '#5f6368',
-                fontWeight: 400,
-                cursor: 'pointer'
-              }}
-            >Agent Profiles</button>
+
           </div>
           {governanceSubTab === 'BusinessPolicies' && (
             <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
@@ -1494,19 +1483,7 @@ const App = () => {
               </div>
             </div>
           )}
-          {governanceSubTab === 'AgentProfiles' && (
-            <div style={{ background: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)', padding: '2rem' }}>
-              <h2 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500 }}>Agent Profiles</h2>
-              <p style={{ margin: '0.5rem 0 1rem 0', color: '#5f6368', fontSize: '0.9rem' }}>Agent Profiles define global and tool-specific semantic policies, functional guardrails, and business rules for AI agents to ensure safe and effective operations.</p>
-              <AgentProfileManager 
-                profiles={agentProfiles} 
-                setProfiles={setAgentProfiles} 
-                tools={tools} 
-                canEdit={persona === 'Governance Administrator' || persona === 'IT Team'} 
-                guidedExpState={guidedExpState}
-              />
-            </div>
-          )}
+
         </div>
       );
     }
@@ -1783,7 +1760,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.76demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.77demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
