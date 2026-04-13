@@ -19,7 +19,7 @@ import {AgentProfileManager, ToolProfileManager, AgentProfile, ToolProfile} from
 import {BundleManager, Bundle} from './views/BundleManager';
 import {ChannelManager, Channel} from './views/ChannelManager';
 import {TestBench} from './views/TestBench';
-import {GuidedExperienceOverlay, TutorialStep, getAirportOpsTutorial, getBundlesAndChannelsTutorial, getPublishAndConsumeTutorial, getGoldmanTutorial, getLorealTutorial} from './views/GuidedExperience';
+import {GuidedExperienceOverlay, TutorialStep, getAirportOpsTutorial, getBundlesAndChannelsTutorial, getPublishAndConsumeTutorial, getGoldmanTutorial, getUnicreditTutorial} from './views/GuidedExperience';
 import {Modal} from './components/Modal';
 
 import {setAnchorHref} from 'safevalues/dom';
@@ -79,7 +79,7 @@ export interface AdminData {
 export interface GuidedExperienceState {
   isActive: boolean;
   currentStep: number;
-  type?: 'ops' | 'bundles' | 'publish' | 'goldman' | 'loreal';
+  type?: 'ops' | 'bundles' | 'publish' | 'goldman' | 'unicredit';
   backupState: AdminData | null;
 }
 
@@ -363,7 +363,7 @@ interface ControlPanelProps {
   persona: Persona;
   handlePersonaChange: (p: Persona) => void;
   isGuidedExperienceActive: boolean;
-  startGuidedExperience: (type: 'ops' | 'bundles' | 'publish' | 'goldman' | 'loreal') => void;
+  startGuidedExperience: (type: 'ops' | 'bundles' | 'publish' | 'goldman' | 'unicredit') => void;
   handleExport: () => void;
   handleImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
@@ -436,23 +436,23 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
         }
       >
         <div style={{ display: 'grid', gap: '1.25rem', maxHeight: '70vh', overflowY: 'auto', paddingRight: '0.5rem' }}>
-          {/* Scenario 1: L'Oreal Distribution */}
+          {/* Scenario 1: Unicredit Distribution */}
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.3)', position: 'relative' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>L'Oreal - Regional Agent Distribution</h4>
+                <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Unicredit - Regional Agent Distribution</h4>
               </div>
               <span style={{ fontSize: '0.75rem', background: '#38bdf820', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 1</span>
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6, marginRight: '6rem' }}>
-              L'Oreal needs to deploy the same agent to multiple geographical regions with different governance in each region to ensure compliance with local laws and regulations.<br/>
+              Unicredit needs to deploy the same agent to multiple geographical regions with different governance in each region to ensure compliance with local laws and regulations.<br/>
               <strong style={{ color: '#ffffff' }}>Solved by: Profiles</strong>
             </p>
-            <button onClick={() => { startGuidedExperience('loreal'); setShowLearningModal(false); }} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <button onClick={() => { startGuidedExperience('unicredit'); setShowLearningModal(false); }} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               Launch Tutorial
             </button>
             <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.3 }}>
-              <div style={{ fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '0.2em', color: '#38bdf8', fontFamily: 'sans-serif' }}>L'ORÉAL</div>
+              <div style={{ fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '0.2em', color: '#38bdf8', fontFamily: 'sans-serif' }}>UNICREDIT</div>
             </div>
           </div>
 
@@ -666,7 +666,7 @@ const App = () => {
     reader.readAsText(file);
   };
 
-  const startGuidedExperience = (type: 'ops' | 'bundles' | 'publish' | 'goldman' | 'loreal' = 'ops') => {
+  const startGuidedExperience = (type: 'ops' | 'bundles' | 'publish' | 'goldman' | 'unicredit' = 'ops') => {
     // Backup current state
     const backup: AdminData = {
       agents,
@@ -813,14 +813,14 @@ const App = () => {
       setActiveTab('Dashboard');
       setPlaygroundSourceAgent('Commodities Agent A');
       setPlaygroundDestAgent('Futures Agent X');
-    } else if (type === 'loreal') {
+    } else if (type === 'unicredit') {
       handlePersonaChange('IT Team');
       setAgents([
         {
-          id: 'loreal-beautyrec',
-          name: 'BeautyRec Agent',
-          description: 'Helps recommend users products based on their customer profile and dermatological data.',
-          instructions: 'Recommend products based on profile and dermatological data. Adhere to regional policies.',
+          id: 'unicredit-banking',
+          name: 'Customer Banking Agent',
+          description: 'Helps users manage their accounts, check balances, and get personalized financial advice.',
+          instructions: 'Provide banking assistance based on user profile and transaction history. Adhere to regional banking regulations.',
           createdDate: new Date().toISOString().split('T')[0],
           modifiedDate: new Date().toISOString().split('T')[0],
           status: 'Active'
@@ -828,10 +828,10 @@ const App = () => {
       ]);
       setTools([
         {
-          id: 'loreal-dermatology-api',
-          name: 'Dermatology Data API',
-          description: 'Accesses user dermatological data.',
-          endpoint: 'https://api.loreal.com/v1/dermatology',
+          id: 'unicredit-transaction-api',
+          name: 'Transaction History API',
+          description: 'Accesses user transaction history and account balances.',
+          endpoint: 'https://api.unicredit.eu/v1/transactions',
           createdDate: new Date().toISOString().split('T')[0],
           modifiedDate: new Date().toISOString().split('T')[0],
           status: 'Active'
@@ -872,13 +872,13 @@ const App = () => {
   const bundlesAndChannelsTutorial = getBundlesAndChannelsTutorial(setAgentProfiles, setActiveTab, setGovernanceSubTab, setDistributionSubTab);
   const publishAndConsumeTutorial = getPublishAndConsumeTutorial(handlePersonaChange, setActiveTab, setDistributionSubTab, setStorefrontConfig, setChannels, setConsumerApps, bundles, channels);
   const goldmanTutorial = getGoldmanTutorial(setActiveTab, setGovernanceSubTab);
-  const lorealTutorial = getLorealTutorial(setActiveTab, setDistributionSubTab, setGovernanceSubTab);
+  const unicreditTutorial = getUnicreditTutorial(setActiveTab, setDistributionSubTab, setGovernanceSubTab);
 
   const nextTutorialStep = () => {
     const currentTutorial = guidedExpState.type === 'bundles' ? bundlesAndChannelsTutorial 
                              : guidedExpState.type === 'publish' ? publishAndConsumeTutorial 
                              : guidedExpState.type === 'goldman' ? goldmanTutorial
-                             : guidedExpState.type === 'loreal' ? lorealTutorial
+                             : guidedExpState.type === 'unicredit' ? unicreditTutorial
                              : airportOpsTutorial;
     
     // Execute onNext for the current step if it exists
@@ -1783,7 +1783,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.79demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.80demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -1974,7 +1974,7 @@ const App = () => {
 
       {guidedExpState.isActive && (
         <GuidedExperienceOverlay 
-          steps={guidedExpState.type === 'bundles' ? bundlesAndChannelsTutorial : guidedExpState.type === 'publish' ? publishAndConsumeTutorial : guidedExpState.type === 'goldman' ? goldmanTutorial : guidedExpState.type === 'loreal' ? lorealTutorial : airportOpsTutorial} 
+          steps={guidedExpState.type === 'bundles' ? bundlesAndChannelsTutorial : guidedExpState.type === 'publish' ? publishAndConsumeTutorial : guidedExpState.type === 'goldman' ? goldmanTutorial : guidedExpState.type === 'unicredit' ? unicreditTutorial : airportOpsTutorial} 
           currentStep={guidedExpState.currentStep} 
           onClose={endGuidedExperience} 
           onNext={nextTutorialStep} 

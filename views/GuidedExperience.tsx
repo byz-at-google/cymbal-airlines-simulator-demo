@@ -799,27 +799,27 @@ export const getGoldmanTutorial = (
     }
 ];
 
-export const getLorealTutorial = (
+export const getUnicreditTutorial = (
   setActiveTab: Function,
   setDistributionSubTab: Function,
   setGovernanceSubTab: Function
 ): TutorialStep[] => [
     {
-      title: "L'Oreal Scenario: Regional Agent Distribution",
+      title: "Unicredit Scenario: Regional Agent Distribution",
       content: (
         <div>
-          <p>L'Oreal needs to deploy the same functional agent to different geographical regions with specific governance in each region to ensure compliance with local laws and regulations.</p>
+          <p>Unicredit needs to deploy the same functional agent to different geographical regions with specific governance in each region to ensure compliance with local laws and regulations.</p>
           <p>There is a need to <strong>"decouple rules from agents"</strong> and that <strong>"distribution without governance is not working"</strong>.</p>
-          <p>We will use the example where L'Oreal needs to deploy a <strong>"BeautyRec"</strong> agent in multiple regions, say EU and NA.</p>
+          <p>We will use the example where Unicredit needs to deploy a <strong>"Customer Banking"</strong> agent in multiple regions, say EU and NA.</p>
         </div>
       )
     },
     {
-      title: "Explore BeautyRec Agent",
+      title: "Explore Customer Banking Agent",
       content: (
         <div>
-          <p>We have populated an example <strong>BeautyRec</strong> agent that helps recommend users products based on their customer profile and dermatological data.</p>
-          <p>Please go to the <strong>Agents</strong> tab, open the <strong>BeautyRec</strong> agent, and view the instructions.</p>
+          <p>We have populated an example <strong>Customer Banking</strong> agent that helps users manage their accounts and get financial advice based on their profile and transaction history.</p>
+          <p>Please go to the <strong>Agents</strong> tab, open the <strong>Customer Banking</strong> agent, and view the instructions.</p>
         </div>
       ),
       onNext: () => {
@@ -830,7 +830,7 @@ export const getLorealTutorial = (
       title: "Navigate to Agent Profiles",
       content: (
         <div>
-          <p>To deploy the BeautyRec agent to multiple regions with different rules, we need to create region-specific profiles.</p>
+          <p>To deploy the Customer Banking agent to multiple regions with different rules, we need to create region-specific profiles.</p>
           <p>Under the <strong>PORTFOLIO MANAGEMENT</strong> section, click on the <strong>Lifecycle</strong> tab and then the <strong>Agent Profiles</strong> sub-tab.</p>
         </div>
       ),
@@ -844,8 +844,8 @@ export const getLorealTutorial = (
       content: (
         <div>
           <p>You are now in the Agent Profiles section.</p>
-          <p>Please create an <strong>NA Agent Profile</strong> for the <strong>BeautyRec</strong> agent.</p>
-          <p>Specify an example <strong>NA-only semantic policy constraint</strong> (e.g., "Do not recommend products containing ingredients not approved by FDA") and save the profile.</p>
+          <p>Please create an <strong>NA Agent Profile</strong> for the <strong>Customer Banking</strong> agent.</p>
+          <p>Specify an example <strong>NA-only semantic policy constraint</strong> (e.g., "Do not offer investment advice on products not registered with SEC") and save the profile.</p>
         </div>
       )
     },
@@ -853,8 +853,8 @@ export const getLorealTutorial = (
       title: "Create EU Agent Profile",
       content: (
         <div>
-          <p>Now, create an <strong>EU Agent Profile</strong> for the <strong>BeautyRec</strong> agent.</p>
-          <p>Specify a more-complex <strong>EU-only semantic policy constraint</strong> (e.g., "Strictly adhere to GDPR data minimization principles. Do not process dermatological data without explicit consent for each recommendation.") and save the profile.</p>
+          <p>Now, create an <strong>EU Agent Profile</strong> for the <strong>Customer Banking</strong> agent.</p>
+          <p>Specify a more-complex <strong>EU-only semantic policy constraint</strong> (e.g., "Strictly adhere to GDPR data minimization principles. Do not process transaction data without explicit consent for each recommendation.") and save the profile.</p>
         </div>
       )
     },
@@ -862,7 +862,7 @@ export const getLorealTutorial = (
       title: "Decoupled Governance",
       content: (
         <div>
-          <p>Great! We can now deploy the same <strong>BeautyRec</strong> agent in two different ways, each governed differently based on the region.</p>
+          <p>Great! We can now deploy the same <strong>Customer Banking</strong> agent in two different ways, each governed differently based on the region.</p>
         </div>
       )
     },
@@ -870,7 +870,7 @@ export const getLorealTutorial = (
       title: "Update Agent Functionality",
       content: (
         <div>
-          <p>We now need to make an update to the <strong>BeautyRec</strong> agent itself (e.g., to use a new recommendation algorithm concept).</p>
+          <p>We now need to make an update to the <strong>Customer Banking</strong> agent itself (e.g., to use a new recommendation algorithm concept).</p>
           <p>We can do this once, to the agent itself, without needing to duplicate the work for each profile.</p>
           <p>Please navigate to the <strong>Agents</strong> page.</p>
         </div>
@@ -883,7 +883,7 @@ export const getLorealTutorial = (
       title: "Update Agent Instructions",
       content: (
         <div>
-          <p>Open the <strong>BeautyRec</strong> agent and add an addition to the instruction (e.g., "Prioritize eco-friendly packaging products").</p>
+          <p>Open the <strong>Customer Banking</strong> agent and add an addition to the instruction (e.g., "Prioritize green investment options when appropriate").</p>
           <p>Notice that we don't need to do this multiple times for each profile (each business use-case).</p>
         </div>
       )
@@ -906,7 +906,7 @@ export const getLorealTutorial = (
       content: (
         <div>
           <p>Open the <strong>EU Agent Profile</strong> and add the following constraint to the global semantic policy:</p>
-          <p style={{ background: '#f1f3f4', padding: '0.5rem', borderRadius: '4px', fontFamily: 'monospace', fontSize: '0.9rem', margin: '0.5rem 0' }}>"Ensure all product recommendations explicitly mention if they are vegan or cruelty-free, as per new EU consumer transparency guidelines."</p>
+          <p style={{ background: '#f1f3f4', padding: '0.5rem', borderRadius: '4px', fontFamily: 'monospace', fontSize: '0.9rem', margin: '0.5rem 0' }}>"Ensure all investment recommendations explicitly mention the risk level, as per new EU investor protection guidelines."</p>
           <p>This demonstrates how we can update governance independently of the agent's core logic.</p>
         </div>
       )
@@ -921,4 +921,4 @@ export const getLorealTutorial = (
       ),
       hideNext: true
     }
-];
+];;
