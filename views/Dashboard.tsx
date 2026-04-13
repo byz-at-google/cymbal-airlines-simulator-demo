@@ -413,7 +413,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           <MetricCard title="System Uptime" value="99.995%" mock color={themeColor} />
           <MetricCard title="Active AI Agents" value={totalAgents} color={themeColor} />
-          <MetricCard title="Gateway Success Rate" value="99.99%" mock color={themeColor} />
+          <MetricCard title="MCP Gateway Success Rate" value="98.5%" mock color={themeColor} />
           <MetricCard title="P99 Latency" value="85ms" mock color={themeColor} />
           <MetricCard title="Peak Throughput" value="25k QPS" mock color={themeColor} />
         </div>
@@ -437,7 +437,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </ChartContainer>
         </div>
 
-        <ChartContainer title="API Calls by Region (Thousands)" mock>
+        <ChartContainer title="Agent Token Usage by Region" mock>
           <SimpleBarChart color={themeColor} data={[
             {label: 'North America', value: 1200},
             {label: 'Europe', value: 850},
