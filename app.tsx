@@ -439,10 +439,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" />
-                  <text x="12" y="17" fontSize="14" fontWeight="bold" fill="#38bdf8" textAnchor="middle" fontFamily="serif">L</text>
-                </svg>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/L%27Or%C3%A9al_logo.svg/320px-L%27Or%C3%A9al_logo.svg.png" alt="L'Oreal Logo" style={{ height: '16px', maxWidth: '60px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                 <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>L'Oreal - Regional Agent Distribution</h4>
               </div>
               <span style={{ fontSize: '0.75rem', background: '#38bdf820', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 1</span>
@@ -459,16 +456,13 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2">
-                  <rect x="2" y="2" width="20" height="20" rx="4" />
-                  <text x="12" y="16" fontSize="10" fontWeight="bold" fill="#f59e0b" textAnchor="middle" fontFamily="sans-serif">GS</text>
-                </svg>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Goldman_Sachs.svg/320px-Goldman_Sachs.svg.png" alt="Goldman Sachs Logo" style={{ height: '20px', maxWidth: '40px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                 <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Goldman Sachs - Ethical Wall</h4>
               </div>
               <span style={{ fontSize: '0.75rem', background: '#f59e0b20', color: '#f59e0b', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 2</span>
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
-              Goldman Sachs needs to ensure no sensitive data is passed between its Commodities teams (and their agentic system) and its Futures teams (and their agentic system).<br/>
+              Goldman Sachs needs to ensure no sensitive data is passed between its Commodities teams (and their agentic system) and its Futures teams (and their agentic system)..<br/>
               <strong>Solved by Privacy Controls</strong>
             </p>
             <button onClick={() => { startGuidedExperience('goldman'); setShowLearningModal(false); }} style={{ background: '#f59e0b', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
@@ -479,9 +473,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
           <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2">
-                  <path d="M12 2L20 12L12 22L4 12Z" />
-                </svg>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Renault_logo.svg/320px-Renault_logo.svg.png" alt="Renault Logo" style={{ height: '20px', maxWidth: '20px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                 <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>RENAULT - Serve Multiple Agents Together</h4>
               </div>
               <span style={{ fontSize: '0.75rem', background: '#10b98120', color: '#10b981', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 3</span>
@@ -1782,7 +1774,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.74demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.75demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
