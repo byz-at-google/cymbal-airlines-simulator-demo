@@ -84,7 +84,7 @@ export interface GuidedExperienceState {
 }
 
 export interface PersonaViewState {
-  activeTab: 'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance';
+  activeTab: 'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance' | 'GlobalPolicies';
   distributionSubTab: 'Home' | 'Product' | 'Channels' | 'Consumer App Approval';
   governanceSubTab: 'Agent' | 'Tool';
 }
@@ -525,7 +525,7 @@ const App = () => {
     backupState: null
   });
 
-  const [activeTab, setActiveTab] = React.useState<'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance'>('Dashboard');
+  const [activeTab, setActiveTab] = React.useState<'Dashboard' | 'Agents' | 'Tools' | 'Distribution' | 'Governance' | 'GlobalPolicies'>('Dashboard');
   const [distributionSubTab, setDistributionSubTab] = React.useState<'Home' | 'Product' | 'Channels' | 'Consumer App Approval'>('Home');
   const [governanceSubTab, setGovernanceSubTab] = React.useState<'Agent' | 'Tool'>('Agent');
 
@@ -885,6 +885,18 @@ const App = () => {
       );
     }
 
+    if (isSaaSPersona && activeTab === 'GlobalPolicies') {
+      return (
+        <div style={{ padding: '2rem' }}>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '1rem', color: '#4338ca' }}>Global Policies</h2>
+          <p style={{ color: '#5f6368' }}>Technical governance policies and global rules are managed here.</p>
+          <div style={{ background: '#f8f9fa', padding: '2rem', borderRadius: '8px', border: '1px dashed #dadce0', textAlign: 'center', color: '#5f6368' }}>
+            Global Policies Management Interface (Stub)
+          </div>
+        </div>
+      );
+    }
+
     if (isSaaSPersona && activeTab === 'Distribution') {
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -1066,7 +1078,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.24demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.28demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -1189,7 +1201,7 @@ const App = () => {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 </svg>
-                Governance
+                Functional Governance
               </div>
               <div 
                 onClick={() => setActiveTab('Distribution')}
@@ -1210,6 +1222,34 @@ const App = () => {
                   <line x1="2" y1="10" x2="22" y2="10"></line>
                 </svg>
                 Distribution
+              </div>
+
+              <div style={{ padding: '1.5rem 1.5rem 0.5rem', fontSize: '0.75rem', fontWeight: 400, color: '#5f6368', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Platform Governance
+              </div>
+              <div style={{ padding: '0.5rem 1.5rem', fontSize: '0.85rem', fontWeight: 500, color: '#5f6368' }}>
+                Technical Governance
+              </div>
+              <div 
+                onClick={() => setActiveTab('GlobalPolicies')}
+                style={{ 
+                  padding: '0.75rem 1.5rem 0.75rem 2.5rem', 
+                  background: activeTab === 'GlobalPolicies' ? '#e8f0fe' : 'transparent', 
+                  color: activeTab === 'GlobalPolicies' ? '#1a73e8' : '#5f6368',
+                  fontWeight: 400,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  borderLeft: activeTab === 'GlobalPolicies' ? '4px solid #1a73e8' : '4px solid transparent',
+                  cursor: 'pointer'
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                Global Policies
               </div>
             </nav>
           </aside>
