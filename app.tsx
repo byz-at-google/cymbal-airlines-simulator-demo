@@ -436,55 +436,64 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
         }
       >
         <div style={{ display: 'grid', gap: '1.25rem', maxHeight: '70vh', overflowY: 'auto', paddingRight: '0.5rem' }}>
-          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
+          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.3)', position: 'relative' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/L%27Or%C3%A9al_logo.svg/320px-L%27Or%C3%A9al_logo.svg.png" alt="L'Oreal Logo" style={{ height: '16px', maxWidth: '60px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                 <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>L'Oreal - Regional Agent Distribution</h4>
               </div>
               <span style={{ fontSize: '0.75rem', background: '#38bdf820', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 1</span>
             </div>
-            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
+            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6, marginRight: '6rem' }}>
               L'Oreal needs to deploy the same functional agent to different geographical regions with specific governance in each region to ensure compliance with local laws and regulations.<br/>
               <strong>Solved by Profiles and Privacy Controls</strong>
             </p>
             <button onClick={() => { startGuidedExperience('loreal'); setShowLearningModal(false); }} style={{ background: '#38bdf8', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               Launch Tutorial
             </button>
+            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.3 }}>
+              <div style={{ fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '0.2em', color: '#38bdf8', fontFamily: 'sans-serif' }}>L'ORÉAL</div>
+            </div>
           </div>
 
-          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(245, 158, 11, 0.3)', position: 'relative' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Goldman_Sachs.svg/320px-Goldman_Sachs.svg.png" alt="Goldman Sachs Logo" style={{ height: '20px', maxWidth: '40px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                 <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>Goldman Sachs - Ethical Wall</h4>
               </div>
               <span style={{ fontSize: '0.75rem', background: '#f59e0b20', color: '#f59e0b', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 2</span>
             </div>
-            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
+            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6, marginRight: '6rem' }}>
               Goldman Sachs needs to ensure no sensitive data is passed between its Commodities teams (and their agentic system) and its Futures teams (and their agentic system)..<br/>
               <strong>Solved by Privacy Controls</strong>
             </p>
             <button onClick={() => { startGuidedExperience('goldman'); setShowLearningModal(false); }} style={{ background: '#f59e0b', color: '#0f172a', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               Start Experience
             </button>
+            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.3 }}>
+              <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#f59e0b', fontFamily: 'serif', textAlign: 'right' }}>Goldman<br/>Sachs</div>
+            </div>
           </div>
 
-          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+          <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(16, 185, 129, 0.3)', position: 'relative' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Renault_logo.svg/320px-Renault_logo.svg.png" alt="Renault Logo" style={{ height: '20px', maxWidth: '20px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                 <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>RENAULT - Serve Multiple Agents Together</h4>
               </div>
               <span style={{ fontSize: '0.75rem', background: '#10b98120', color: '#10b981', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 3</span>
             </div>
-            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6 }}>
+            <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6, marginRight: '6rem' }}>
               RENAULT needs to bundle stable, validated versions of agents and tools into a single governance entity.<br/>
               <strong>Solved by Bundles</strong>
             </p>
             <button style={{ background: '#334155', color: '#94a3b8', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '0.4rem' }} disabled>
               Coming Soon
             </button>
+            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', opacity: 0.3 }}>
+              <svg width="30" height="30" viewBox="0 0 40 40" fill="none" stroke="#10b981" strokeWidth="3">
+                <path d="M20 2L38 20L20 38L2 20Z" />
+                <path d="M20 10L30 20L20 30L10 20Z" />
+              </svg>
+            </div>
           </div>
 
         </div>
@@ -1774,7 +1783,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.75demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.76demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
