@@ -809,22 +809,9 @@ export const getUnicreditTutorial = (
       content: (
         <div>
           <p>Unicredit needs to deploy the same functional agent to different geographical regions with specific governance in each region to ensure compliance with local laws and regulations.</p>
-          <p>There is a need to <strong>"decouple rules from agents"</strong> and that <strong>"distribution without governance is not working"</strong>.</p>
-          <p>We will use the example where Unicredit needs to deploy a <strong>"Customer Banking"</strong> agent in multiple regions, say EU and NA.</p>
+          <p>This is a need shared by many customers, who have also said they need to <strong>"decouple rules from agents"</strong> and that <strong>"distribution without governance is not working"</strong>.</p>
         </div>
       )
-    },
-    {
-      title: "Explore Customer Banking Agent",
-      content: (
-        <div>
-          <p>We have populated an example <strong>Customer Banking</strong> agent that helps users manage their accounts and get financial advice based on their profile and transaction history.</p>
-          <p>Please go to the <strong>Agents</strong> tab, open the <strong>Customer Banking</strong> agent, and view the instructions.</p>
-        </div>
-      ),
-      onNext: () => {
-        setActiveTab('Agents');
-      }
     },
     {
       title: "Navigate to Agent Profiles",
@@ -863,28 +850,6 @@ export const getUnicreditTutorial = (
       content: (
         <div>
           <p>Great! We can now deploy the same <strong>Customer Banking</strong> agent in two different ways, each governed differently based on the region.</p>
-        </div>
-      )
-    },
-    {
-      title: "Update Agent Functionality",
-      content: (
-        <div>
-          <p>We now need to make an update to the <strong>Customer Banking</strong> agent itself (e.g., to use a new recommendation algorithm concept).</p>
-          <p>We can do this once, to the agent itself, without needing to duplicate the work for each profile.</p>
-          <p>Please navigate to the <strong>Agents</strong> page.</p>
-        </div>
-      ),
-      onNext: () => {
-        setActiveTab('Agents');
-      }
-    },
-    {
-      title: "Update Agent Instructions",
-      content: (
-        <div>
-          <p>Open the <strong>Customer Banking</strong> agent and add an addition to the instruction (e.g., "Prioritize green investment options when appropriate").</p>
-          <p>Notice that we don't need to do this multiple times for each profile (each business use-case).</p>
         </div>
       )
     },
