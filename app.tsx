@@ -505,7 +505,7 @@ const SimulatorControlPanel: React.FC<ControlPanelProps> = ({
               <span style={{ fontSize: '0.75rem', background: '#f43f5e20', color: '#f43f5e', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 500 }}>Scenario 4</span>
             </div>
             <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.9rem', color: '#94a3b8', lineHeight: 1.6, marginRight: '6rem' }}>
-              L'Oreal needs to ensure its beauty recommendation agent doesn't directly retrieve PII on any users under 18 years old and instead only operates on aggregated data and insights.<br/>
+              L'Oreal needs to ensure its beauty recommendation agent doesn't directly retrieve PII on any users under 16 years old in EU (due to GDPR-K) and 13 years old in US (due to COPPA) and instead only operates on aggregated data and insights.<br/>
               <strong style={{ color: '#ffffff' }}>Solved by: Privacy Controls</strong>
             </p>
             <button style={{ background: '#334155', color: '#94a3b8', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '6px', fontSize: '0.875rem', fontWeight: 600, cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '0.4rem' }} disabled>
@@ -1780,7 +1780,7 @@ const App = () => {
         zIndex: 1000
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.85demo</span>
+          <span style={{ fontSize: '0.8rem', color: '#1a73e8', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>v0.0.86demo</span>
           <a href="http://go/apm-simulator-demo" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.8rem', color: '#1a73e8', textDecoration: 'none', border: '1px solid #1a73e8', padding: '2px 6px', borderRadius: '4px' }}>go/apm-simulator-demo</a>
         </div>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
